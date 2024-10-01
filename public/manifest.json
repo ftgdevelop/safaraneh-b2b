@@ -1,0 +1,10 @@
+{
+    "name": "Safaraneh",
+    "short_name": "Safaraneh",
+    "description": "_",
+    "theme_color": "#F0F0F0",
+    "background_color": "#F1F1F1",
+    "start_url": "/",
+    "display": "standalone",
+    "prefer_related_applications":true
+  }

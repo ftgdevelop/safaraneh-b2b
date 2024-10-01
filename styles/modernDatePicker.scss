@@ -1,0 +1,44 @@
+// TODO   this file should be deleted when mobiscroll is activated
+
+
+@media screen and (max-width:767px) {
+    .modernDatePicker-checkin {
+        .DatePicker{
+            position: relative;
+            .DatePicker__calendarContainer{
+                left:auto !important;
+                right: 0 !important;
+                transform: translate(0 , 0) !important;
+            }
+        }
+    }
+    .modernDatePicker-checkout {
+        .DatePicker{
+            position: relative;
+            .DatePicker__calendarContainer{
+                left: 0 !important;
+                transform: translate(0 , 0) !important;
+            }
+        }
+    }
+}
+.DatePicker{
+    z-index: 0;
+}
+
+.modernCalendar-dates-wrapper{
+    li.Calendar__monthSelectorItem.-active button,
+    li.Calendar__yearSelectorItem.-active button {
+        background-color: #0d5ab9;
+    }
+    .datepicker-selected-date{
+        background-color:  #0d5ab9;
+    }
+    .datepicker-today-date{
+        border: 1px solid #0d5ab9 !important; 
+    }
+}
+
+.Calendar__day.-today:not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween)::after{
+    display: none;
+}

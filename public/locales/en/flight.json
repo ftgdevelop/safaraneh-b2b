@@ -1,0 +1,6 @@
+{
+    "flight-list-description": "Buying cheapest flight ticket from {{origin}} to {{destination}}, system and charter, from {{siteName}}, flight and hotel online reservation system",
+    "flight-list-title": "{{siteName}} | {{origin}} to {{destination}} flights",
+    "flightTimeoutMessage": "Flight prices change often based on the airline's availability. Refresh the page to see the latest rates.",
+    "getting-best-suggestion": "Receive the best offers from more than 450 airlines ..."
+}

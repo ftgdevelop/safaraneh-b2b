@@ -1,0 +1,6 @@
+{
+    "flight-list-description": "احجز رحلات طیران من {{origin}} الي {{destination}}، قارن واعثر على أفضل الرحلات بأرخص الأسعار.",
+    "flight-list-title": "{{siteName}} | احجز رحلات طیران رخیصة من {{origin}} الي {{destination}}",
+    "flightTimeoutMessage": "تتغير أسعار رحلات الطيران غالبًا بناءً على توفر شركة الطيران. قم بتحديث الصفحة لرؤية أحدث الأسعار.",
+    "getting-best-suggestion": "تلقي أفضل العروض من أكثر من 450 شركة طيران ..."
+}

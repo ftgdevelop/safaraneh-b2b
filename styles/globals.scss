@@ -1,0 +1,351 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .clearfix {
+    @apply after:clear-both after:content-[''] after:table before:clear-both before:content-[''] before:table;
+  }
+  
+  .bg-hero {
+    background-image: url("/assets/images/home/hero-right.svg"),url("/assets/images/home/hero-left.svg");
+    background-position: right top, left top;
+    background-repeat: no-repeat;
+    background-size: 110px;
+    @media screen and (min-width: 768px) {
+      background-size: 160px;
+    }
+    @media screen and (min-width: 1200px) {
+      background-size: 220px;
+    }
+  }
+  .breakInsideAvoid{
+    break-inside:avoid;
+  }
+  .columnCount4 {
+    column-count: 4;
+  }
+  .columnCount3 {
+    column-count: 3;
+  }
+  .columnCount2 {
+    column-count: 2;
+  }
+  .mirror {
+    transform: scale(-1,1);
+  }
+  .clipCarret {
+    clip-path: polygon(0 0 , 50% 100% , 100% 0);
+  }
+  .clip-ticket-circle-right{
+    clip-path: polygon(0 0, 10px 0,10px 100%, 0 100%);
+    @apply block absolute right-0 -mr-2 -mt-2 bg-body-background rounded-full top-0 w-4 h-4 border-dashed border-neutral-300 border;
+  }
+  .clip-ticket-circle-left{
+    clip-path: polygon(7px 0, 100% 0, 100% 100%, 7px 100%);
+    @apply block absolute left-0 -ml-2 -mt-2 bg-body-background rounded-full top-0 w-4 h-4 border-dashed border-neutral-300 border;
+  }
+  .gradient-circle-loading{
+    background-image: conic-gradient(
+      from 0.25turn,
+      #1890ff,
+      rgba(255, 255, 255, 0) 0.01turn,
+      rgba(255, 255, 255, 0) 0.16turn,
+      #1890ff
+    );
+  }
+  .hotels-map-sidebar-height{
+    max-height: calc(100vh - 180px);
+  }
+  .bg-blue-gradient{
+    background: linear-gradient(-290deg,#11558b -46%,#3665ac -14%,#5992e8 99%);
+  }
+  .bg-travel-pattern {
+    background-image: url("/images/pattern.png");
+  }
+  
+  .bg-theme3-banner {
+    background-image: url("/images/home/theme3/hero.jpg");
+  }
+  .theme3-transparent-bg {
+    background-color: #112359ed;
+  }
+
+  input.noStyleInputNumber::-webkit-outer-spin-button,
+  input.noStyleInputNumber::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input.noStyleInputNumber {
+    -moz-appearance: textfield;
+  }
+  .ltr{
+    direction: ltr;
+  }
+  .rtl{
+    direction: rtl;
+  }
+  .bordered-table{
+    border-collapse: collapse;
+    &,td,th{
+      border: 1px solid #eee;
+    }
+    &.sharp{
+      &,td,th{
+        border-color: #ccc;
+      } 
+    }
+  }
+    .styled-scrollbar {
+      &::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+      }
+      &::-webkit-scrollbar-track {
+        border-radius: 5px;
+        background: #ddd;
+      }
+  
+      &::-webkit-scrollbar-thumb {
+        background: #999;
+        border-radius: 10px;
+  
+        &:hover {
+          background: #888;
+        }
+      }
+    }
+    .before-checkmark::before{
+      content: "";
+      display: inline-block;
+      width: 17px;
+      height: 9px;
+      border-left: 2px solid;
+      border-bottom: 2px solid;
+      transform: rotate(-50deg) skewX(-11deg) scale(.75);
+      vertical-align: middle;
+      position: relative;
+      top: -2px;
+      margin-left:4px;      
+    }
+    .min-w-400{
+      min-width: 400px;
+    }
+
+}
+
+@font-face {
+  font-family: 'iranyekan';
+  src: url('/assets/fonts/iranyekanregular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'iranyekan';
+  src: url('/assets/fonts/iranyekanbold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'iranyekan';
+  src: url('/assets/fonts/iranyekanextrabold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'samim';
+  src: url('/fonts/samim/Samim-FD.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'samim';
+  src: url('/fonts/samim/Samim-Medium-FD.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'samim';
+  src: url('/fonts/samim/Samim-Bold-FD.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/Vazir-FD.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/Vazir-Medium-FD.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/Vazir-Bold-FD.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-primary-50: theme('colors.blue.50');
+  --color-primary-100: theme('colors.blue.100');
+  --color-primary-200: theme('colors.blue.200');
+  --color-primary-300: theme('colors.blue.300');
+  --color-primary-400: theme('colors.blue.400');
+  --color-primary-500: theme('colors.blue.500');
+  --color-primary-600: theme('colors.blue.600');
+  --color-primary-700: theme('colors.blue.700');
+  --color-primary-800: theme('colors.blue.800');
+  --color-primary-900: theme('colors.blue.900');
+
+  --container-max-width: 1200px;
+  --half-container-max-width: 600px;
+
+  --body-background: #fff;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.direction-root{
+  html[dir='rtl'] &{
+    direction: rtl;
+  }
+  html[dir='ltr'] &{
+    direction: ltr;
+  }
+}
+
+.yarl__slide_description {
+  font-family: 'samim';
+  font-size: 14px;
+}
+
+.inserted-content {
+  li{
+    list-style-position: inside;
+    list-style-type: disc;
+    margin-bottom: 1rem;
+  }
+  p{
+    margin-bottom: 13px;
+  }
+  h3{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+  h4{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+  img {
+    .theme-2 & {
+      border-radius: 10px;
+      display: block;
+      margin: 20px 0;
+    }
+  }
+  hr{
+    .theme-2 & {
+      margin: 15px 0;
+    }
+  }
+}
+
+
+.hotelListMap.leaflet-container .leaflet-marker-icon.leaflet-div-icon {
+  width: auto!important;
+  height: auto!important;
+  border: 0;
+}
+
+footer img[src*=trustseal], footer img[src*='logo.samandehi'] {
+  font-size: 11px;
+  line-height: 15px;
+  color: #bbb;
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+  @media screen and (max-width:639px) {
+    height: 44px;
+  }
+}
+
+.post-link {
+  text-align: center;
+  a {
+    background: #0a468f;
+    color: white;
+    display: inline-block;
+    padding: 7px 30px;
+    border-radius: 8px;
+    border: 1px solid #0a468f;
+    transition: all .1s linear;
+    &:hover{
+      background-color: #fff;
+      color: #0a468f;
+    }
+  }
+}
+
+
+.gap-slider .slick-slide > div{
+  @media screen and (min-width : 641px) {    
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+}
+
+.bg-caret{
+  background-image: url('/images/down-carret.svg');
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.theme-2 {
+  .yarl__slide, .yarl__slide_captions_container, .yarl__carousel_with_slides {
+    background: #191e3b;
+  }
+  .yarl__navigation_next, .yarl__navigation_prev {
+    .yarl__icon {
+      background: #fff;
+      border-radius: 50%;
+      padding: 3px;
+      g{
+        fill: #1890ff;
+      }
+    }
+  }
+}

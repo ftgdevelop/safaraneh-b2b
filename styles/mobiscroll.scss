@@ -1,0 +1,277 @@
+label.mbsc-form-control-wrapper {
+  margin: 0 !important;
+}
+
+label.mbsc-form-control-wrapper .mbsc-textfield {
+  .domestic-hotel-search-form & {
+    border: 1px solid #aaa;
+    border-radius: 8px;
+    padding-top: 15px;
+    height: 48px;
+    font-size: 14px;
+    padding-right: 38px;
+  }
+
+  .persian-datepicker-wrapper & {
+    font-family: 'samim', sans-serif;
+  }
+}
+
+.persian-date-picker .mbsc-font,
+.mobi-date-picker-header {
+  font-family: 'samim', sans-serif;
+}
+
+.red .mbsc-calendar-day-text {
+  color: red;
+}
+
+.mbsc-calendar-marks {
+  display: none;
+}
+
+.mbsc-popup-content {
+  display: flex;
+  flex-direction: column;
+
+  .mobi-date-picker-header {
+    order: 1;
+  }
+
+  .mbsc-datepicker {
+    order: 2;
+  }
+
+  .mobi-date-picker-footer {
+    order: 3;
+  }
+
+}
+
+.mobi-range-picker .mbsc-calendar-slide {
+  padding: 0 15px !important;
+
+  .mbsc-calendar-week-days {
+    margin: 10px 0px 15px;
+    font-size: 26px;
+  }
+}
+
+.mbsc-calendar-cell {
+  padding-bottom: 0 !important;
+}
+
+.mbsc-calendar-title {
+  font-weight: bold;
+  color: #000;
+  font-size: 19px;
+}
+
+.mbsc-calendar-header {
+  padding-top: 15px;
+}
+
+.mbsc-calendar-controls {
+  .mbsc-calendar-button-next {
+    box-shadow: 1px 1px 5px 0 #00000054;
+    font-size: 13px;
+    width: 22px;
+    height: 22px;
+
+    .mobi-date-picker.persian-date-picker & {
+      margin-left: 20px;
+    }
+
+    .mobi-date-picker:not(.persian-date-picker) & {
+      margin-right: 20px;
+    }
+  }
+
+  .mbsc-calendar-button-prev {
+    box-shadow: 1px 1px 5px 0 #00000054;
+    font-size: 13px;
+    width: 22px;
+    height: 22px;
+
+    .mobi-date-picker.persian-date-picker & {
+      margin-right: 20px;
+    }
+
+    .mobi-date-picker:not(.persian-date-picker) & {
+      margin-left: 20px;
+    }
+  }
+}
+
+
+.mobi-date-picker .mbsc-calendar-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  .mbsc-calendar-title-wrapper{
+    order: 2;
+    text-align: center;
+    button{
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  .mbsc-calendar-button-prev{
+    order: 1;
+  }
+  .mbsc-calendar-button-next{
+    order: 3;
+  }
+}
+
+.mobiscroll-datepicker-wrapper .mbsc-textfield-wrapper .mbsc-textfield{
+  font-size: 13px;
+  [dir="rtl"] & {
+    text-align: right;
+  }
+}
+.mobiscroll-datepicker-wrapper.theme1 .mbsc-textfield {
+  border: 1px solid #999;
+  height: 3rem;
+  padding-top: 1.5rem;
+  [dir="rtl"] & {
+    padding-right: 2.5rem;
+  }
+  
+  [dir="ltr"] & {
+    padding-left: 2.5rem;
+  }
+}
+.mobiscroll-datepicker-wrapper.simple .mbsc-textfield {
+  height: 2.5rem;
+  border: 1px solid #d4d4d4;
+}
+
+.moboscroll-time-picker-wrapper {
+  &.hasError {
+    .mbsc-textfield-inner .mbsc-textfield {
+      border: 1px solid #ef4444;
+    }
+  }
+  .mbsc-textfield-inner .mbsc-textfield {
+    border: 1px solid #d4d4d4;
+    border-radius: 6px;
+    height: 40px;
+    body.theme-2 &{
+    border: 1px solid #a3a3a3;
+    height: 3.25rem;
+    }
+  }
+  .mbsc-form-control-wrapper{
+    &:after, &:before{
+      display: none;
+    }
+  }
+}
+
+
+.mbsc-datepicker.price-calendar {
+  body &{
+    margin-top: 0;
+  }
+  .mbsc-calendar-cell-inner{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0;
+  }
+  &.mbsc-datepicker-inline{
+    width: 100%;
+    height: auto;
+  }
+  body &{
+    border: 0 none !important;
+  }
+  .mbsc-calendar-controls .mbsc-icon-button {
+    box-shadow: none;
+  }
+  .mbsc-calendar-cell {
+    width: 45px;
+    padding: 5px 0;
+    @media screen and (min-width:500px) {
+      width: 55px;
+    }
+    @media screen and (min-width:650px) {
+      width: 70px;
+      margin-bottom: 5px;
+    }
+    font-family: 'samim';
+    pointer-events: none;
+    .mbsc-calendar-label-text{
+      text-align: center;
+    }
+  }
+  div.mbsc-range-day {
+    border-top: 1px solid #007aff;
+    border-bottom: 1px solid #007aff;
+    body .relative  & {
+      background-color: #e8f6ff;
+    }
+    &.mbsc-range-day-start{
+      border-right: 1px solid #007aff;
+      border-radius: 0 5px 5px 0;
+    }
+    &.mbsc-range-day-end{
+      border-left: 1px solid #007aff;
+    }
+    &.mbsc-range-day-end.mbsc-range-day-start{
+      border: 1px solid #007aff;
+      border-radius: 5px;
+    }
+  }
+  .mbsc-ios.mbsc-range-day:after{
+    display: none;
+  }
+  .mbsc-calendar-cell-text.mbsc-calendar-day-text{
+    body .relative  & {
+      background-color: transparent;
+      color:#333;
+      font-size: 17px;
+      border: 0 none;
+      margin: 0;
+      line-height: 15px;
+      height: auto;
+    }
+  }
+  .mbsc-calendar-text {
+    padding: 0;
+    margin: 0;
+    font-size: 9px;
+    @media screen and (min-width:650px) {
+      font-size: 12px;
+    }
+  }  
+  .mbsc-calendar-week-days {
+    margin-bottom: 22px;
+    margin-top: 15px;
+    font-size: 23px;
+    font-family: 'samim';
+    color: #ccc;
+  }
+  .mbsc-calendar-title {
+    font-family: 'samim';
+    font-weight: 600;
+  }
+  .mbsc-calendar-button.mbsc-button.mbsc-calendar-button-prev{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .mbsc-calendar-slide{
+    padding: 0;
+  }
+  .mbsc-calendar-title-wrapper .mbsc-calendar-button {
+    pointer-events: none;
+  }
+}
+
+.theme-2 .mobiscroll-datepicker-wrapper.simple .mbsc-textfield {
+  height: 3.25rem;
+  border-color: #a3a3a3;
+}

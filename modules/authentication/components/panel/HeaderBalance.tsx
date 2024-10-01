@@ -5,30 +5,32 @@ import { useEffect } from 'react';
 import { numberWithCommas } from "@/modules/shared/helpers";
 import Skeleton from "@/modules/shared/components/ui/Skeleton";
 import { setReduxBalance } from "@/modules/authentication/store/authenticationSlice";
-import { CreditCard, DownCaret, Plus, TimeUpdate, Wallet2 } from "../ui/icons";
+import { CreditCard, DownCaret, Plus, TimeUpdate, Wallet2 } from "../../../shared/components/ui/icons";
 
 
-const UserWallet = () => {
+const HeaderBalance = () => {
     const dispatch = useAppDispatch();
 
     const balance = useAppSelector(state => state.authentication.balance);
     const balanceLoading = useAppSelector(state => state.authentication.balanceLoading);
 
+    const token = localStorage.getItem('Token');
+    const tenantId = localStorage.getItem('S-TenantId');
+    
     useEffect(() => {
-        const fetchBalance = async () => {
-            const token = localStorage.getItem('Token');
-            if (token) {
-                dispatch(setReduxBalance({ balance: undefined, loading: true }));
-                const response: any = await getUserBalance(token, "IRR");
-                if (response.data?.result?.amount !== null) {
-                    dispatch(setReduxBalance({ balance: response?.data?.result?.amount, loading: false }))
-                } else {
-                    dispatch(setReduxBalance({ balance: undefined, loading: false }));
-                }
+        const fetchBalance = async (userToken:string, tenant: number) => {            
+            dispatch(setReduxBalance({ balance: undefined, loading: true }));
+            const response: any = await getUserBalance(userToken,tenant, "IRR");
+            if (response.data?.result?.amount !== null) {
+                dispatch(setReduxBalance({ balance: response?.data?.result?.amount, loading: false }))
+            } else {
+                dispatch(setReduxBalance({ balance: undefined, loading: false }));
             }
         }
-        fetchBalance();
-    }, []);
+        if (token && tenantId) {
+            fetchBalance(token, +tenantId);
+        }
+    }, [token, tenantId]);
 
 
     return (
@@ -49,7 +51,7 @@ const UserWallet = () => {
                 <DownCaret className="w-5 h-5 fill-current" />
             </Link>
             <div 
-                className="absolute top-full bg-white border rounded-lg text-sm whitespace-nowrap left-0 opacity-0 invisible transition-all origin-top-left scale-75 -mt-5 group-hover:mt-0 group-hover:scale-100 group-hover:opacity-100 group-hover:visible"
+                className="absolute top-full bg-white border rounded-lg text-sm whitespace-nowrap left-0 opacity-0 delay-200 invisible transition-all origin-top-left scale-75 -mt-5 group-hover:mt-0 group-hover:scale-100 group-hover:opacity-100 group-hover:visible group-hover:delay-0"
             >
                 <Link href={"/"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
                     <Plus className="w-5 h-5 fill-current"/>
@@ -68,4 +70,4 @@ const UserWallet = () => {
 
     )
 }
-export default UserWallet;
+export default HeaderBalance;

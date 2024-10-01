@@ -1,6 +1,7 @@
 import { useAppDispatch } from "@/modules/shared/hooks/use-store";
 import { setReduxBalance, setReduxUser } from "../store/authenticationSlice";
 import { useRouter } from "next/router";
+import { Logout as LogoutIcon  } from "@/modules/shared/components/ui/icons";
 
 type Props = {
     closeModal?: () => void;
@@ -41,7 +42,7 @@ const Logout: React.FC<Props> = props => {
             type='button'
             onClick={logout}
         >
-            خروج از حساب کاربری
+            <LogoutIcon className="w-5 h-5 inline-block fill-current" /> خروج 
         </button>
     )
 }

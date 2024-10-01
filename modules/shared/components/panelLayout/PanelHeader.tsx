@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Headset, Bell } from "../ui/icons";
-import UserWallet from "./UserWallet";
+import HeaderBalance from "../../../authentication/components/panel/HeaderBalance";
+import HeaderProfile from "@/modules/authentication/components/panel/HeaderProfile";
 
 const PanelHeader : React.FC = () => {
     return (
@@ -13,7 +14,9 @@ const PanelHeader : React.FC = () => {
             </button>
             
             
-            <UserWallet />
+            <HeaderBalance />
+
+            <HeaderProfile />
 
         </header>
     )

@@ -32,9 +32,9 @@ const CreditPayment: React.FC<Props> = props => {
 
     const [errorMessage, setErrorMessage] = useState<string>("");
 
-    const updateUserBalance = async (token: string) => {
+    const updateUserBalance = async (token: string, tenantId: number) => {
         dispatch(setReduxBalance({ balance: undefined, loading: true }));
-        const response: any = await getUserBalance(token, "IRR");
+        const response: any = await getUserBalance(token, tenantId, "IRR");
         if (response.data?.result?.amount !== null) {
             dispatch(setReduxBalance({ balance: response?.data?.result?.amount, loading: false }))
         } else {
@@ -50,15 +50,16 @@ const CreditPayment: React.FC<Props> = props => {
         const username: string | undefined = pathArray.find(item => item.includes("username="))?.split("username=")[1];
         const reserveId: string | undefined = pathArray.find(item => item.includes("reserveId="))?.split("reserveId=")[1];
 
-        const token = localStorage.getItem('Token');
+        const token = localStorage.getItem('Token');        
+        const tenantId = localStorage.getItem('S-TenantId');
 
-        if (!username || !reserveId || !token) return;
+        if (!username || !reserveId || !token || !tenantId) return;
 
         const response: any = await confirmByDeposit({ username: username, reserveId: +reserveId }, token);
 
         if (response.status === 200 && response.data && response.data.result) {
 
-            await updateUserBalance(token);
+            await updateUserBalance(token, +tenantId);
 
             const callbackUrl = `/callback?reserveId=${reserveId}&username=${username}&status=${response.data.result.isSuccess}`
             router.replace(callbackUrl)

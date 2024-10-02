@@ -1,5 +1,3 @@
-import { getTransactionDeposit } from '@/modules/payment/actions';
-import { GetTransactionParams } from '@/modules/payment/types';
 import { Plus } from '@/modules/shared/components/ui/icons';
 import { dateDiplayFormat, numberWithCommas } from '@/modules/shared/helpers';
 import { useEffect, useState } from 'react';

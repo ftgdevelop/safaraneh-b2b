@@ -12,6 +12,7 @@ import { validateEmail, validateRequied } from "../../helpers/validation";
 import Button from "../ui/Button";
 import { useRouter } from "next/router";
 import { getReserveFromCoordinator } from "../../actions";
+import { setReduxError } from "../../store/errorSlice";
 
 type Props ={
     isInMobileMenu?: boolean;
@@ -76,7 +77,16 @@ const TrackOrder: React.FC<Props> = props => {
         phoneNumber: string;
         email?: undefined;
     }) => {
-
+        
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!localStorageTenant){
+            dispatch(setReduxError({
+                title: "خطا",
+                message: "شناسه کاربری یافت نشد",
+                isVisible: true
+            }));
+            return;
+        }
         setLoading(true);
 
         let userName;
@@ -87,7 +97,7 @@ const TrackOrder: React.FC<Props> = props => {
             userName = values.phoneNumber || "";
         }
 
-        const reserveResponse: any = await getReserveFromCoordinator({username:userName , reserveId: values.reserveId});
+        const reserveResponse: any = await getReserveFromCoordinator({username:userName, tenant: +localStorageTenant , reserveId: values.reserveId});
         setLoading(false);
         if (reserveResponse?.data?.result?.type){
             if (reserveResponse.data.result.type==="HotelDomestic"){

@@ -36,7 +36,8 @@ const EmailActivationForm = () => {
     const submitHandler = async (values: { emailAddress: string }) => {
 
         const token = localStorage.getItem('Token');
-        if (!token) return;
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!token || !localStorageTenant) return;
 
         setSubmitLoading(true);
 
@@ -46,7 +47,7 @@ const EmailActivationForm = () => {
             isVisible: false
         }));
 
-        const updateResponse: any = await updateProfileEmail(values.emailAddress, token);
+        const updateResponse: any = await updateProfileEmail(values.emailAddress, token, +localStorageTenant);
 
         setSubmitLoading(false);
 
@@ -80,7 +81,8 @@ const EmailActivationForm = () => {
     const emailVerificationLink = async (emailAddress: string) => {
 
         const token = localStorage.getItem('Token');
-        if (!token) return;
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!token || !localStorageTenant) return;
 
         setVerificationCodeLoading(true);
 
@@ -90,7 +92,7 @@ const EmailActivationForm = () => {
             isVisible: false
         }));
 
-        const response: any = await sendEmailActivation(emailAddress, token);
+        const response: any = await sendEmailActivation(emailAddress, token, +localStorageTenant);
         setVerificationCodeLoading(false);
 
         if (response.data && response.data.success) {

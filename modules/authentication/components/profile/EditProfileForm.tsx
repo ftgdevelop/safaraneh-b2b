@@ -56,7 +56,8 @@ const EditProfileForm: React.FC<Props> = props => {
     const submitHandler = async (parameters: any) => {
 
         const token = localStorage.getItem('Token');
-        if (!token) return;
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!token || !localStorageTenant) return;
 
         const params = {
             ...parameters,
@@ -70,7 +71,7 @@ const EditProfileForm: React.FC<Props> = props => {
             isVisible: false
         }));
 
-        const updateResponse: any = await updateCurrentUserProfile(params, token);
+        const updateResponse: any = await updateCurrentUserProfile(params, token, +localStorageTenant);
         setSubmitLoading(false);
 
         if (updateResponse.data && updateResponse.data.success) {
@@ -94,7 +95,8 @@ const EditProfileForm: React.FC<Props> = props => {
     const subscribeNewsLetter = async (active: boolean) => {
 
         const token = localStorage.getItem('Token');
-        if (!token) return;
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!token || !localStorageTenant) return;
 
         const params = {
             isNewsLetter: active
@@ -107,7 +109,7 @@ const EditProfileForm: React.FC<Props> = props => {
             isVisible: false
         }));
 
-        const updateResponse: any = await updateNewsletterUserProfile(params, token);
+        const updateResponse: any = await updateNewsletterUserProfile(params, token, +localStorageTenant);
         setSubscriptionLoading(false);
 
         if (updateResponse.data && updateResponse.data.success) {

@@ -9,8 +9,7 @@
 export const Header = {
     "Content-Type": "application/json",
     "Accept-Language": "en-US",
-    "apikey": process.env.PROJECT_SERVER_APIKEY,
-    // "tenantid": process.env.PROJECT_SERVER_TENANTID,
+    "apikey": process.env.PROJECT_SERVER_APIKEY
   };
   //to do: static header parameters!
 

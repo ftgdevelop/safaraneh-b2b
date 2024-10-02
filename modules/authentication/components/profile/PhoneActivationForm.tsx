@@ -49,7 +49,8 @@ const PhoneActivationForm: React.FC<Props> = props => {
     const submitHandler = async (values: {phoneNumber:string}) => {
 
         const token = localStorage.getItem('Token');
-        if (!token) return;
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!token || !localStorageTenant) return;
 
         setSavedPhoneNumber(values.phoneNumber);
 
@@ -61,7 +62,7 @@ const PhoneActivationForm: React.FC<Props> = props => {
             isVisible: false
         }));
 
-        const updateResponse: any = await updateProfilePhoneNumber(values.phoneNumber, token);
+        const updateResponse: any = await updateProfilePhoneNumber(values.phoneNumber, token, +localStorageTenant);
 
         setSubmitLoading(false);
 
@@ -93,7 +94,8 @@ const PhoneActivationForm: React.FC<Props> = props => {
     const sendVerificationCode = async (phoneNumber: string) => {
 
         const token = localStorage.getItem('Token');
-        if (!token) return;
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!token || !localStorageTenant) return;
 
         setSendVerificationCodeLoading(true);
 
@@ -103,7 +105,7 @@ const PhoneActivationForm: React.FC<Props> = props => {
             isVisible: false
         }));
 
-        const response: any = await sendVerificationSms(phoneNumber, token);
+        const response: any = await sendVerificationSms(phoneNumber, token, +localStorageTenant);
         setSendVerificationCodeLoading(false);
         if (response.data && response.data.success) {
 
@@ -122,7 +124,8 @@ const PhoneActivationForm: React.FC<Props> = props => {
     const verificationSubmit = async (code: string) => {
 
         const token = localStorage.getItem('Token');
-        if (!token) return;
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!token || !localStorageTenant) return;
 
         setSubmitVerificationCodeLoading(true);
 
@@ -132,7 +135,7 @@ const PhoneActivationForm: React.FC<Props> = props => {
             isVisible: false
         }));
 
-        const response: any = await verifySmsCode({ code: code, phoneNumber: savedPhoneNumber, token: token });
+        const response: any = await verifySmsCode({ code: code,tenant:+localStorageTenant, phoneNumber: savedPhoneNumber, token: token });
 
         setSubmitVerificationCodeLoading(false);
 

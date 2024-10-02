@@ -7,7 +7,6 @@ import { addSomeDays, dateFormat, getDatesDiff } from '@/modules/shared/helpers'
 import { GetRooms, domesticHotelValidateRoom } from '../../actions';
 import { Close, InfoCircle } from '@/modules/shared/components/ui/icons';
 import RoomsListTheme1 from './RoomsListTheme1';
-import RoomsListTheme2 from './RoomsListTheme2';
 import ModalPortal from '@/modules/shared/components/ui/ModalPortal';
 import RoomDetailFooter from './RoomDetailFooter';
 import Tab from '@/modules/shared/components/ui/Tab';
@@ -77,15 +76,16 @@ const Rooms: React.FC<Props> = props => {
         checkout = asPath.split('checkout-')[1].split("/")[0].split("?")[0];
     }
 
+    const localStorageTenant = localStorage?.getItem('S-TenantId');
 
     useEffect(() => {
-        if (hotelId) {
+        if (hotelId && localStorageTenant) {
 
             const fetchRooms = async () => {
                 setAvailabilities(undefined);
                 setAvailabilitiesLoading(true);
 
-                const response: any = await GetRooms({ id: hotelId, checkin: checkin, checkout: checkout }, i18n?.language === "en" ? "en-US" : i18n?.language === "ar" ? "ar-AE" : "fa-IR");
+                const response: any = await GetRooms({ tenant:+localStorageTenant, id: hotelId, checkin: checkin, checkout: checkout }, i18n?.language === "en" ? "en-US" : i18n?.language === "ar" ? "ar-AE" : "fa-IR");
 
                 setAvailabilitiesLoading(false);
 
@@ -99,7 +99,7 @@ const Rooms: React.FC<Props> = props => {
             fetchRooms();
         }
 
-    }, [hotelId, checkin, checkout, i18n?.language]);
+    }, [hotelId, checkin, checkout, i18n?.language, localStorageTenant]);
 
     const selectRoomHandle = async (token: string, count: number) => {
         setSelectedRoomToken(token);
@@ -112,8 +112,12 @@ const Rooms: React.FC<Props> = props => {
             }
         }
 
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if(!localStorageTenant) return;
+
         const preReserveResponse: any = await domesticHotelValidateRoom({
             bookingToken: token,
+            tenant:+localStorageTenant,
             checkin: checkin,
             checkout: checkout,
             count: count,
@@ -239,15 +243,6 @@ const Rooms: React.FC<Props> = props => {
                         <h2 className="text-lg lg:text-3xl font-semibold mb-3 md:mb-7"> {tHotel('choose-room')}  </h2>
 
                         {!!theme1 && <RoomsListTheme1
-                            availabilites={availabilites}
-                            selectRoomHandle={selectRoomHandle}
-                            selectedRoomToken={selectedRoomToken}
-                            roomsHasImage={roomsHasImage || false}
-                            nights={nights}
-                            onOpenRoom={setOpenedRoom}
-                        />}
-
-                        {!!theme2 && <RoomsListTheme2
                             availabilites={availabilites}
                             selectRoomHandle={selectRoomHandle}
                             selectedRoomToken={selectedRoomToken}

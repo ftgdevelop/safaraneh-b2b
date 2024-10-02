@@ -47,7 +47,7 @@ export const registerOrLogin = async (param: { emailOrPhoneNumber: string, code:
 }
 
 
-export const getCurrentUserProfile = async (token:string) => {
+export const getCurrentUserProfile = async (token:string, tenant:number) => {
 
     try {
         let response = await axios.get(
@@ -57,7 +57,7 @@ export const getCurrentUserProfile = async (token:string) => {
                     Accept: 'application/json;charset=UTF-8',
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     Authorization: `Bearer ${token}`,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: tenant
                 },
             },
         )
@@ -68,7 +68,7 @@ export const getCurrentUserProfile = async (token:string) => {
 }
 
 
-export const updateCurrentUserProfile = async (params :UpdateUserParams , token:string) => {
+export const updateCurrentUserProfile = async (params :UpdateUserParams , token:string, tenant: number) => {
 
     try {
         let response = await axios.put(
@@ -79,7 +79,7 @@ export const updateCurrentUserProfile = async (params :UpdateUserParams , token:
                     Accept: 'application/json;charset=UTF-8',
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     Authorization: `Bearer ${token}`,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: tenant
                 },
             },
         )
@@ -90,7 +90,7 @@ export const updateCurrentUserProfile = async (params :UpdateUserParams , token:
 }
 
 
-export const updateNewsletterUserProfile = async (params :UpdateUserParams , token:string) => {
+export const updateNewsletterUserProfile = async (params :UpdateUserParams , token:string, tenant: number) => {
 
     try {
         let response = await axios.put(
@@ -101,7 +101,7 @@ export const updateNewsletterUserProfile = async (params :UpdateUserParams , tok
                     Accept: 'application/json;charset=UTF-8',
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     Authorization: `Bearer ${token}`,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: tenant
                 },
             },
         )
@@ -111,7 +111,7 @@ export const updateNewsletterUserProfile = async (params :UpdateUserParams , tok
     }
 }
 
-export const updateProfileEmail = async (emailAddress :string , token:string, acceptLanguage: string = 'fa-IR') => {
+export const updateProfileEmail = async (emailAddress :string , token:string, tenant:number, acceptLanguage: string = "fa-IR") => {
 
     try {
         let response = await axios.put(
@@ -123,7 +123,7 @@ export const updateProfileEmail = async (emailAddress :string , token:string, ac
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
                     Authorization: `Bearer ${token}`,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: tenant
                 },
             },
         )
@@ -135,7 +135,7 @@ export const updateProfileEmail = async (emailAddress :string , token:string, ac
 
 
 
-export const updateProfilePhoneNumber = async (phoneNumber :string , token:string, acceptLanguage: string = 'fa-IR') => {
+export const updateProfilePhoneNumber = async (phoneNumber :string , token:string, tenant:number, acceptLanguage: string = "fa-IR") => {
 
     try {
         let response = await axios.put(
@@ -147,7 +147,7 @@ export const updateProfilePhoneNumber = async (phoneNumber :string , token:strin
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
                     Authorization: `Bearer ${token}`,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: tenant
                 },
             },
         )
@@ -158,7 +158,7 @@ export const updateProfilePhoneNumber = async (phoneNumber :string , token:strin
 }
 
 
-export const sendVerificationSms = async (phoneNumber :string , token:string, acceptLanguage: string = 'fa-IR') => {
+export const sendVerificationSms = async (phoneNumber :string , token:string,tenant:number, acceptLanguage: string = "fa-IR") => {
 
     try {
         let response = await axios.post(
@@ -170,7 +170,7 @@ export const sendVerificationSms = async (phoneNumber :string , token:string, ac
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
                     Authorization: `Bearer ${token}`,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: tenant
                 },
             },
         )
@@ -181,7 +181,7 @@ export const sendVerificationSms = async (phoneNumber :string , token:string, ac
 }
 
 
-export const verifySmsCode = async (params: {phoneNumber :string , token:string, code: string} , acceptLanguage: string = 'fa-IR') => {
+export const verifySmsCode = async (params: {phoneNumber :string , token:string,tenant:number, code: string} , acceptLanguage: string = 'fa-IR') => {
 
     try {
         let response = await axios.post(
@@ -193,7 +193,7 @@ export const verifySmsCode = async (params: {phoneNumber :string , token:string,
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
                     Authorization: `Bearer ${params.token}`,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: params.tenant
                 },
             },
         )
@@ -246,7 +246,7 @@ export const loginWithPassword = async (params: {emailOrPhoneNumber :string , pa
 
 
 
-export const forgotPasswordByPhoneNumber = async (phoneNumber: string , acceptLanguage: string = 'fa-IR') => {
+export const forgotPasswordByPhoneNumber = async (phoneNumber: string ,tenant:number , acceptLanguage: string = "fa-IR") => {
 
     try {
         let response = await axios.post(
@@ -257,7 +257,7 @@ export const forgotPasswordByPhoneNumber = async (phoneNumber: string , acceptLa
                     Accept: 'application/json;charset=UTF-8',
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: tenant
                 },
             },
         )
@@ -269,7 +269,7 @@ export const forgotPasswordByPhoneNumber = async (phoneNumber: string , acceptLa
 
 
 
-export const forgotPasswordVerification =  async (params:{userId: string; code:string;} , acceptLanguage: string = 'fa-IR') => {
+export const forgotPasswordVerification =  async (params:{userId: string; code:string;tenant:number;} , acceptLanguage: string = 'fa-IR') => {
 
     try {
         let response = await axios.post(
@@ -280,7 +280,7 @@ export const forgotPasswordVerification =  async (params:{userId: string; code:s
                     Accept: 'application/json;charset=UTF-8',
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: params.tenant
                 },
             },
         )
@@ -290,7 +290,7 @@ export const forgotPasswordVerification =  async (params:{userId: string; code:s
     }
 }
 
-export const resetPassword =  async (params:{userId: string; code:string; password:string;} , acceptLanguage: string = 'fa-IR') => {
+export const resetPassword =  async (params:{userId: string; code:string; password:string;tenant:number} , acceptLanguage: string = 'fa-IR') => {
 
     try {
         let response = await axios.post(
@@ -301,7 +301,7 @@ export const resetPassword =  async (params:{userId: string; code:string; passwo
                     Accept: 'application/json;charset=UTF-8',
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: params.tenant
                 },
             },
         )
@@ -311,7 +311,7 @@ export const resetPassword =  async (params:{userId: string; code:string; passwo
     }
 }
 
-export const forgotPasswordByEmail = async (emailAddress: string, acceptLanguage: string = 'fa-IR') => {
+export const forgotPasswordByEmail = async (emailAddress: string, tenant:number, acceptLanguage: string="fa-IR") => {
 
     try {
         let response = await axios.post(
@@ -322,7 +322,7 @@ export const forgotPasswordByEmail = async (emailAddress: string, acceptLanguage
                     Accept: 'application/json;charset=UTF-8',
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: tenant
                 },
             },
         )
@@ -332,7 +332,7 @@ export const forgotPasswordByEmail = async (emailAddress: string, acceptLanguage
     }
 }
 
-export const register = async (params: { emailOrPhoneNumber: string, password: string }, acceptLanguage: string = 'fa-IR') => {
+export const register = async (params: { emailOrPhoneNumber: string, password: string, tenant:number }, acceptLanguage: string = 'fa-IR') => {
 
     try {
         let response = await axios.post(
@@ -343,7 +343,7 @@ export const register = async (params: { emailOrPhoneNumber: string, password: s
                     Accept: 'application/json;charset=UTF-8',
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: params.tenant
                 },
             },
         )
@@ -354,7 +354,7 @@ export const register = async (params: { emailOrPhoneNumber: string, password: s
 }
 
 
-export const changePassword = async (params: { currentPassword: string; newPassword: string; token: string }, acceptLanguage: string = 'fa-IR') => {
+export const changePassword = async (params: { tenant:number, currentPassword: string; newPassword: string; token: string }, acceptLanguage: string = 'fa-IR') => {
 
     try {
         let response = await axios.post(
@@ -369,7 +369,7 @@ export const changePassword = async (params: { currentPassword: string; newPassw
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
                     Authorization: `Bearer ${params.token}`,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: params.tenant
                 },
             },
         )
@@ -379,7 +379,7 @@ export const changePassword = async (params: { currentPassword: string; newPassw
     }
 }
 
-export const sendEmailActivation = async (emailAddress: string, token: string, acceptLanguage: string = 'fa-IR') => {
+export const sendEmailActivation = async (emailAddress: string, token: string, tenant:number, acceptLanguage: string = "fa-IR") => {
 
     try {
         let response = await axios.post(
@@ -393,7 +393,7 @@ export const sendEmailActivation = async (emailAddress: string, token: string, a
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
                     Authorization: `Bearer ${token}`,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: tenant
                 },
             },
         )
@@ -403,7 +403,7 @@ export const sendEmailActivation = async (emailAddress: string, token: string, a
     }
 }
 
-export const activateEmail = async (params: { code: string, userId: string }, acceptLanguage: string = 'fa-IR') => {
+export const activateEmail = async (params: { code: string, userId: string,tenant:number }, acceptLanguage: string = 'fa-IR') => {
     try {
         let response = await axios.post(
             `${ServerAddress.Type}${ServerAddress.Identity}${Identity.ActivateEmail}`,
@@ -413,7 +413,7 @@ export const activateEmail = async (params: { code: string, userId: string }, ac
                     Accept: 'application/json;charset=UTF-8',
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: params.tenant
                 }
             }
         )

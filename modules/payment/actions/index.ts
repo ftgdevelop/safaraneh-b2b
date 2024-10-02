@@ -4,7 +4,7 @@ import { GetTransactionParams } from '../types';
 
 type DiscountType = "Undefined"| "HotelDomestic"| "FlightDomestic"| "Bus"| "Package"| "Flight"| "Hotel"| "PnrOutside"| "Cip"| "Activity";
 
-export const validateDiscountCode = async (params:{prereserveKey:string, type:DiscountType, discountPromoCode:string}, acceptLanguage: string = 'fa-IR') => {
+export const validateDiscountCode = async (params:{tenant:number,prereserveKey:string, type:DiscountType, discountPromoCode:string}, acceptLanguage: string = 'fa-IR') => {
     try {
         const response = await axios({
             method: "post",
@@ -18,7 +18,7 @@ export const validateDiscountCode = async (params:{prereserveKey:string, type:Di
                 ...Header,
                 "Accept-Language": acceptLanguage,
                 //Currency: "IRR",
-                TenantId: process.env.PROJECT_SERVER_TENANTID,
+                TenantId: params.tenant
             }
         });
         return (response)
@@ -27,7 +27,7 @@ export const validateDiscountCode = async (params:{prereserveKey:string, type:Di
     }
 }
 
-export const registerDiscountCode = async (params:{reserveId:string, username:unknown, discountPromoCode:string}, acceptLanguage: string = 'fa-IR') => {
+export const registerDiscountCode = async (params:{tenant:number,reserveId:string, username:unknown, discountPromoCode:string}, acceptLanguage: string = 'fa-IR') => {
     try {
         const response = await axios({
             method: "post",
@@ -41,7 +41,7 @@ export const registerDiscountCode = async (params:{reserveId:string, username:un
                 ...Header,
                 "Accept-Language": acceptLanguage,
                 //Currency: "IRR",
-                TenantId: process.env.PROJECT_SERVER_TENANTID,
+                TenantId: params.tenant
             }
         });
         return (response)
@@ -50,7 +50,7 @@ export const registerDiscountCode = async (params:{reserveId:string, username:un
     }
 }
 
-export const getReserveBankGateway = async (id:string, acceptLanguage: string = 'fa-IR') => {
+export const getReserveBankGateway = async (tenant:number,id:string, acceptLanguage: string = 'fa-IR') => {
     try {
       const res = await axios.get(
         `${ServerAddress.Type}${ServerAddress.Payment}${Payment.GetBankGateway}?ReserveId=${id}`,
@@ -58,7 +58,7 @@ export const getReserveBankGateway = async (id:string, acceptLanguage: string = 
           headers: {
             ...Header,
             "Accept-Language": acceptLanguage,
-            TenantId: process.env.PROJECT_SERVER_TENANTID,
+            TenantId: tenant
           },
         },
       )
@@ -68,7 +68,7 @@ export const getReserveBankGateway = async (id:string, acceptLanguage: string = 
     }
   }
 
-  export const makeToken = async (params:{gatewayId: number, callBackUrl: string, reserveId: string}) => {
+  export const makeToken = async (params:{tenant:number,gatewayId: number, callBackUrl: string, reserveId: string}) => {
     try {
       const res = await axios.post(
         `${ServerAddress.Type}${ServerAddress.Payment}${Payment.MakeToken}`,
@@ -78,7 +78,7 @@ export const getReserveBankGateway = async (id:string, acceptLanguage: string = 
             'Content-Type': 'application/json',
             accept: 'text/plain',
             'Accept-Language': 'fa-IR',
-            TenantId: process.env.PROJECT_SERVER_TENANTID,
+            TenantId: params.tenant
           },
         },
       )
@@ -112,7 +112,7 @@ export const getReserveBankGateway = async (id:string, acceptLanguage: string = 
 }
 
 
-export const getTransactionDeposit = async (params:GetTransactionParams, token:string, acceptLanguage: string = 'fa-IR') => {
+export const getTransactionDeposit = async (params:GetTransactionParams,tenant:number, token:string, acceptLanguage: string = 'fa-IR') => {
   try {
     const response = await axios.get(
       `${ServerAddress.Type}${ServerAddress.Payment}${Payment.GetTransactionDeposit}`,
@@ -123,7 +123,7 @@ export const getTransactionDeposit = async (params:GetTransactionParams, token:s
           Accept: 'application/json;charset=UTF-8',
           apikey: process.env.PROJECT_SERVER_APIKEY,
           Authorization: `Bearer ${token}`,
-          Tenantid: process.env.PROJECT_SERVER_TENANTID,
+          Tenantid: tenant,
           Currency: params.CurrencyType
         },
       },
@@ -135,7 +135,7 @@ export const getTransactionDeposit = async (params:GetTransactionParams, token:s
 
 }
 
-export const getDepositBankGateway = async (CurrencyType:"IRR" | "USD", token:string, acceptLanguage: string = 'fa-IR') => {
+export const getDepositBankGateway = async (CurrencyType:"IRR" | "USD",tenant:number, token:string, acceptLanguage: string = 'fa-IR') => {
   try {
     const response = await axios.get(
       `${ServerAddress.Type}${ServerAddress.Payment}${Payment.GetDepositBankGateway}?CurrencyType=${CurrencyType}`,
@@ -145,7 +145,7 @@ export const getDepositBankGateway = async (CurrencyType:"IRR" | "USD", token:st
           Accept: 'application/json;charset=UTF-8',
           apikey: process.env.PROJECT_SERVER_APIKEY,
           Authorization: `Bearer ${token}`,
-          Tenantid: process.env.PROJECT_SERVER_TENANTID,
+          Tenantid: tenant,
           Currency: CurrencyType
         },
       },

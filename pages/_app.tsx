@@ -18,11 +18,9 @@ import { GetPageByUrlDataType, WebSiteDataType } from '@/modules/shared/types/co
 import Layout from '@/modules/shared/components/layout';
 import { getPageByUrl } from '@/modules/shared/actions';
 
-type TProps = Pick<AppProps, "Component" | "pageProps"> & {
-  pageData?: GetPageByUrlDataType
-};
+type TProps = Pick<AppProps, "Component" | "pageProps">;
 
-function MyApp({ Component, pageProps, pageData }: TProps) {
+function MyApp({ Component, pageProps }: TProps) {
   const router = useRouter();
 
   const { locale } = router;
@@ -115,23 +113,8 @@ MyApp.getInitialProps = async (
   context: AppContext
 ): Promise<any> => {
   const ctx = await App.getInitialProps(context);
-
-  let url = context.router?.asPath || "/";
-  
-  const locale = context.router?.locale || "";
-  
-  if(locale && process.env.LocaleInUrl !== "off"){
-    url = "/" + locale + url;
-  }
-
-  const acceptLanguage = locale === "en" ? "en-US" : locale === "ar" ? "ar-AE" : "fa-IR";
-
-  
-  const pageResponse:any = await getPageByUrl(url, acceptLanguage)
-
   return {
-    ...ctx,
-    pageData: pageResponse?.data?.result || null
+    ...ctx
   };
 };
 

@@ -29,7 +29,8 @@ const ProfileContentTheme2: React.FC<Props> = props => {
     const subscribeNewsLetter = async (active: boolean) => {
 
         const token = localStorage.getItem('Token');
-        if (!token) return;
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!token || !localStorageTenant) return;
 
         const params = {
             isNewsLetter: active
@@ -41,7 +42,7 @@ const ProfileContentTheme2: React.FC<Props> = props => {
             isVisible: false
         }));
 
-        const updateResponse: any = await updateNewsletterUserProfile(params, token);
+        const updateResponse: any = await updateNewsletterUserProfile(params, token, +localStorageTenant);
 
         if (updateResponse.data && updateResponse.data.success) {
 

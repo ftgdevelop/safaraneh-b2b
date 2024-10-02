@@ -14,13 +14,14 @@ const Callback: NextPage = () => {
   const username: string | undefined = pathArray.find(item => item.includes("username="))?.split("username=")[1];
   const reserveId: string | undefined = pathArray.find(item => item.includes("reserveId="))?.split("reserveId=")[1];
   const status: string | undefined = pathArray.find(item => item.includes("status="))?.split("status=")[1];
-
+  
+  const localStorageTenant = localStorage?.getItem('S-TenantId');
 
   useEffect(() => {
-    const fetchType = async () => {
+    const fetchType = async (tenant:number) => {
 
       if (username && reserveId) {
-        const response: any = await getReserveFromCoordinator({ reserveId: reserveId, username: username });
+        const response: any = await getReserveFromCoordinator({ reserveId: reserveId, username: username, tenant:tenant });
         if (response.status == 200) {
           if (!status || status === "0" || status === "false") {
             router.push(`/payment?username=${username}&reserveId=${reserveId}&status=0`);
@@ -50,9 +51,11 @@ const Callback: NextPage = () => {
       }
     }
 
-    fetchType();
+    if(localStorageTenant){
+      fetchType(+localStorageTenant);
+    }
 
-  }, [reserveId, username, status]);
+  }, [reserveId, username, status, localStorageTenant]);
 
 
   return (

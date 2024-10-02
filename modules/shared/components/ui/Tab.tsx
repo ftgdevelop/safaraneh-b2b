@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 type Props = {
     items: TabItem[];
+    noBorder?:boolean;
     wrapperClassName?: string;
 }
 
@@ -41,7 +42,7 @@ const Tab: React.FC<Props> = props => {
 
                     </button>)}
                 </div>
-                <div className='border border-slate-200 rounded-xl'>
+                <div className={props.noBorder?"":'border border-slate-200 rounded-xl'}>
                     {items.map(item => <Fragment key={item.key}>
                             {activetabKey === item.key ? item.children : null}
                         </Fragment>

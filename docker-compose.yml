@@ -1,9 +1,0 @@
-version: '3'
-services:
-  server_asli_safaraneh:
-    image: asli_safaraneh
-    restart: always
-    build: ./
-    command: 'yarn start -p 2091'
-    ports:
-      - '2091:2091'

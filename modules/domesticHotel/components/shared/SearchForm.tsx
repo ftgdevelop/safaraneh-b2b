@@ -29,7 +29,6 @@ const SearchForm: React.FC<Props> = props => {
 
     const { t } = useTranslation('common');
   
-    const theme3 = process.env.THEME === "THEME3";
 
     const router = useRouter();
     const routerPath = router.asPath;
@@ -232,128 +231,35 @@ const SearchForm: React.FC<Props> = props => {
 
     }
 
-
-
-    //start sholud be removed when modern datepicker replaced with mobiscroll:
-    // const [locale, setLocale] = useState<"fa" | "en">("fa");
-    // const onChangeCheckin = (d: string) => {
-    //     setDates(prevState => {
-    //         if (!d) { return prevState; }
-    //         const prevCheckout = prevState?.length ? prevState[1] : "";
-    //         if (prevCheckout) {
-    //             const isAfter = checkDateIsAfterDate(new Date(d), new Date(prevCheckout));
-    //             if (isAfter) {
-    //                 const firstAvailableCheckout = dateFormat(addSomeDays(new Date(d)));
-    //                 return ([d, firstAvailableCheckout]);
-    //             }
-    //         }
-    //         return ([d, prevCheckout])
-    //     })
-    // }
-    // const onChangeCheckout = (d: string) => {
-    //     setDates(prevState => {
-    //         if (!d) { return prevState; }
-    //         const prevCheckin = prevState?.length ? prevState[0] : "";
-    //         return ([prevCheckin, d])
-    //     })
-    // }
-    //end sholud be removed when modern datepicker replaced with mobiscroll:
-
-
-
-    const theme2 = process.env.THEME === "THEME2";
-
     return (
-        <div className={`domestic-hotel-search-form grid grid-cols-1 ${theme3 ? "md:grid-cols-8" : "md:grid-cols-7"} gap-2 ${props.wrapperClassName || ""}`}>
+        <div className={`domestic-hotel-search-form grid grid-cols-1 md:grid-cols-7 gap-2 ${props.wrapperClassName || ""}`}>
 
 
-            {theme2 ? (
-                <div className="relative z-20 col-span-1 md:col-span-3">
-                <AutoCompleteZoom
-                    defaultListLabel="محبوب ترین ها"
-                    label={theme2 ? t('search-hotel-or-city') : "نام شهر، هتل یا منطقه"}
+            <div className="relative z-20 col-span-1 md:col-span-3">
+                <label htmlFor="destination" className="text-sm block mb-2">
+                    جستجوی نام هتل / شهر مقصد
+                </label>
+                <AutoComplete
                     type="hotel"
                     defaultList={defaultDestinations}
                     inputId="destination"
-                    //checkTypingLanguage
                     noResultMessage={t('NoResultsFound')}
                     createTextFromOptionsObject={(item: EntitySearchResultItemType) => item.displayName || item.name || ""}
                     acceptLanguage="fa-IR"
                     renderOption={renderOption}
                     icon="location"
-                    inputClassName="w-full bg-white leading-5 border rounded-lg border-neutral-400 py-0.5 text-md h-12 flex flex-col justify-center"
+                    inputClassName={`w-full outline-none border rounded-lg border-slate-300 h-12 text-sm text-neutral-500 placeholder:text-neutral-300 focus:border-slate-400`}
                     placeholder={t('search-hotel-or-city')}
                     min={2}
                     value={selectedDestination}
                     onChangeHandle={setSelectedDestination}
                     url={autoCompleteUrl}
                 />
-                </div>
-            ) : (
-                <div className="relative z-20 col-span-1 md:col-span-3">
-                    {!theme3 && <label htmlFor="destination" className="absolute top-1 rtl:right-10 ltr:left-10 text-4xs z-10 leading-5">
-                        {t('searchHotelDestination')}
-                    </label>}
-                    <AutoComplete
-                        type="hotel"
-                        defaultList={defaultDestinations}
-                        inputId="destination"
-                        //checkTypingLanguage
-                        noResultMessage={t('NoResultsFound')}
-                        createTextFromOptionsObject={(item: EntitySearchResultItemType) => item.displayName || item.name || ""}
-                        acceptLanguage="fa-IR"
-                        renderOption={renderOption}
-                        icon="location"
-                        inputClassName={`w-full outline-none border rounded-lg border-neutral-400 ${theme3?"":"pt-4"} h-12 text-sm text-neutral-500 placeholder:text-neutral-500 focus:border-neutral-900`}
-                        placeholder={t('search-hotel-or-city')}
-                        min={2}
-                        value={selectedDestination}
-                        onChangeHandle={setSelectedDestination}
-                        url={autoCompleteUrl}
-                    />
-                </div>
-            )}
+            </div>
+            
 
 
             <div className={`col-span-1 md:col-span-3 relative z-10`}>
-
-                {/* TODO: delete when mobiscroll is activated */}
-                {/* <div className="modernCalendar-dates-wrapper grid grid-cols-2 gap-2">
-                    <div className="relative modernDatePicker-checkin">
-                        <DatePickerModern
-                            wrapperClassName="block"
-                            minimumDate={dateDiplayFormat({ date: new Date().toISOString(), locale: 'en', format: "YYYY-MM-DD" })}
-                            inputPlaceholder="ورود"
-                            inputClassName="border border-neutral-400 h-12 rounded-lg focus:border-neutral-900 outline-none pt-7 text-xs w-full pr-10"
-                            inputName="checkin"
-                            toggleLocale={() => { setLocale(prevState => prevState === 'fa' ? "en" : "fa") }}
-                            locale={locale}
-                            onChange={(v: string) => { onChangeCheckin(v) }}
-                            value={dates ? dates[0] : undefined}
-                        />
-                        <Calendar className="w-5 h-5 fill-neutral-600 top-1/2 -mt-2.5 right-3 absolute z-[100] select-none pointer-events-none" />
-                        <label className="absolute top-1.5 leading-5 rtl:right-10 text-4xs z-[100] select-none pointer-events-none">
-                            تاریخ ورود
-                        </label>
-                    </div>
-                    <div className="relative modernDatePicker-checkout">
-                        <DatePickerModern
-                            wrapperClassName="block"
-                            minimumDate={dateDiplayFormat({ date: dates ? dateFormat(addSomeDays(new Date(dates[0]))) : dateFormat(addSomeDays(new Date())), locale: 'en', format: "YYYY-MM-DD" })}
-                            inputPlaceholder="ورود"
-                            inputClassName="border border-neutral-400 h-12 rounded-lg focus:border-neutral-900 outline-none pt-7 text-xs w-full pr-10"
-                            inputName="checkin"
-                            toggleLocale={() => { setLocale(prevState => prevState === 'fa' ? "en" : "fa") }}
-                            locale={locale}
-                            onChange={(v: string) => { onChangeCheckout(v) }}
-                            value={dates ? dates[1] : undefined}
-                        />
-                        <Calendar className="w-5 h-5 fill-neutral-600 top-1/2 -mt-2.5 right-3 absolute z-[100] select-none pointer-events-none" />
-                        <label className="absolute top-1.5 leading-5 rtl:right-10 text-4xs z-[100] select-none pointer-events-none">
-                            تاریخ خروج
-                        </label>
-                    </div>
-                </div> */}
 
                 <RangePicker
                     value={dates}
@@ -362,14 +268,13 @@ const SearchForm: React.FC<Props> = props => {
                     locale={localeFa}
                 />
 
-
             </div>
 
-            <div className={`col-span-1 pt-5 md:pt-0 ${theme3?"md:col-span-2":"md:col-span-1"}`}>
+            <div className={`col-span-1 pt-5 md:pt-0 md:col-span-1 self-end`}>
                 <Button
                     loading={submitLoading}
                     onClick={submitHandler}
-                    className={`h-12 block w-full mx-auto ${theme3?"font-semibold":"sm:max-w-64"}`}
+                    className={`h-12 block w-full mx-auto sm:max-w-64`}
                 >
                     {t('search')}
                 </Button>

@@ -21,11 +21,12 @@ const Transactions: React.FC = () => {
 
     const fetchTransactions = async (params: GetTransactionParams) => {
         const token = localStorage.getItem('Token');
-        if (!token) return;
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!token || !localStorageTenant) return;
 
         setTransactionLoading(true);
 
-        const response: any = await getTransactionDeposit(params, token, "en-US");
+        const response: any = await getTransactionDeposit(params, +localStorageTenant, token, "en-US");
 
         setTransactionLoading(false);
 

@@ -25,13 +25,15 @@ const PasswordResetForm: React.FC = () => {
 
         const { password, repeatPassword } = values;
         const { userId, code } = router.query;
+        
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
 
-        if (password && repeatPassword && password.length >= 6 && password === repeatPassword && userId && code) {
+        if ( localStorageTenant && password && repeatPassword && password.length >= 6 && password === repeatPassword && userId && code) {
 
             setSubmitLoading(true);
 
             const response: any = await resetPassword({
-                code: code as string, password: password, userId: userId as string
+                code: code as string, password: password, userId: userId as string, tenant: +localStorageTenant
             });
 
             if (response.data?.success) {

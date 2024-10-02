@@ -51,7 +51,8 @@ const Layout: React.FC<PropsWithChildren> = props => {
 
   useEffect(() => {
     const token = localStorage?.getItem('Token');
-    if (token) {
+    const localStorageTenant = localStorage?.getItem('S-TenantId');
+    if (token && localStorageTenant) {
       const getUserData = async () => {
         dispatch(setReduxUser({
           isAuthenticated: false,
@@ -59,7 +60,7 @@ const Layout: React.FC<PropsWithChildren> = props => {
           getUserLoading: true
         }));
 
-        const response: any = await getCurrentUserProfile(token);
+        const response: any = await getCurrentUserProfile(token, +localStorageTenant);
 
         if (response && response.status === 200) {
           dispatch(setReduxUser({

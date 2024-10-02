@@ -71,6 +71,7 @@ export const AvailabilityByHotelId = async (params: {
     ids: number[];
     checkin: string;
     checkout: string;
+    tenant:number;
 
 }, acceptLanguage: string = 'fa-IR') => {
     try {
@@ -86,7 +87,7 @@ export const AvailabilityByHotelId = async (params: {
                 ...Header,
                 "Accept-Language": acceptLanguage,
                 Currency: "IRR",
-                TenantId: process.env.PROJECT_SERVER_TENANTID,
+                TenantId: params.tenant,
                 Apikey: process.env.PROJECT_SERVER_APIKEY
             }
         });
@@ -138,7 +139,7 @@ export const getEntityNameByLocation = async (cityId: number, acceptLanguage: st
 
 }
 
-export const GetRooms = async (params:{id:number,checkin:string,checkout:string} , acceptLanguage: string = 'fa-IR') => {
+export const GetRooms = async (params:{id:number,checkin:string,checkout:string,tenant:number} , acceptLanguage: string = 'fa-IR') => {
     try {
         let response = await axios.get(
             `${ServerAddress.Type}${ServerAddress.Hotel_Availability}${Hotel.GetRooms}?Id=${params.id}&CheckIn=${params.checkin}&CheckOut=${params.checkout}`,
@@ -148,7 +149,7 @@ export const GetRooms = async (params:{id:number,checkin:string,checkout:string}
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     'Accept-Language': acceptLanguage,
                     Currency: "IRR",                  
-                    TenantId: process.env.PROJECT_SERVER_TENANTID
+                    TenantId: params.tenant
                 }
             }
         )
@@ -187,6 +188,7 @@ export const domesticHotelValidateRoom = async (param: {
     count: number;
     MetaSearchName?: string | null;
     MetaSearchKey?: string | null;
+    tenant:number;
 }, acceptLanguage: string = 'fa-IR') => {
 
     // const token = localStorage.getItem('Token');
@@ -199,7 +201,7 @@ export const domesticHotelValidateRoom = async (param: {
                 headers: {
                     accept: 'text/plain',
                     'Content-Type': 'application/json',
-                    TenantId: process.env.PROJECT_SERVER_TENANTID,
+                    TenantId: param.tenant,
                     // Authorization: `Bearer ${token}`,
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     'Accept-Language': acceptLanguage,
@@ -235,29 +237,29 @@ export const domesticHotelGetValidate = async (key: string, acceptLanguage: stri
 }
 
 
-export const domesticHotelPreReserve = async (param: DomesticHotelPrereserveParams,token?:string | null , acceptLanguage: string = 'fa-IR') => {
+// export const domesticHotelPreReserve = async (param: DomesticHotelPrereserveParams,tenant:number, token?:string | null , acceptLanguage: string = 'fa-IR') => {
 
-    try {
-        let response = await axios.post(
-            `${ServerAddress.Type}${ServerAddress.Hotel_Availability}${Hotel.PreReserve}`,
-            param,
-            {
-                headers: {
-                    accept: 'text/plain',
-                    'Content-Type': 'application/json',
-                    apikey: process.env.PROJECT_SERVER_APIKEY,
-                    'Accept-Language': acceptLanguage,
-                    TenantId: process.env.PROJECT_SERVER_TENANTID,
-                    Authorization: `Bearer ${token}`,
-                    Currency: 'IRR'
-                },
-            },
-        )
-        return response
-    } catch (error) {
-        return error
-    }
-}
+//     try {
+//         let response = await axios.post(
+//             `${ServerAddress.Type}${ServerAddress.Hotel_Availability}${Hotel.PreReserve}`,
+//             param,
+//             {
+//                 headers: {
+//                     accept: 'text/plain',
+//                     'Content-Type': 'application/json',
+//                     apikey: process.env.PROJECT_SERVER_APIKEY,
+//                     'Accept-Language': acceptLanguage,
+//                     TenantId: tenant,
+//                     Authorization: `Bearer ${token}`,
+//                     Currency: 'IRR'
+//                 },
+//             },
+//         )
+//         return response
+//     } catch (error) {
+//         return error
+//     }
+// }
 
 
 export const domesticHotelGetReserveById = async (params: { reserveId: string, userName: string }, acceptLanguage: string = 'fa-IR') => {
@@ -280,7 +282,7 @@ export const domesticHotelGetReserveById = async (params: { reserveId: string, u
     }
 }
 
-export const DomesticHotelConfirm = async (param: { reserveId: string, username: string }, acceptLanguage: string = 'fa-IR') => {
+export const DomesticHotelConfirm = async (param: { reserveId: string, username: string,tenant:number }, acceptLanguage: string = 'fa-IR') => {
 
     try {
         let response = await axios.post(
@@ -290,7 +292,7 @@ export const DomesticHotelConfirm = async (param: { reserveId: string, username:
                 headers: {
                     ...Header,
                     'Accept-Language': acceptLanguage,
-                    TenantId: process.env.PROJECT_SERVER_TENANTID,
+                    TenantId: param.tenant,
                     Currency: 'IRR'
                 },
             },

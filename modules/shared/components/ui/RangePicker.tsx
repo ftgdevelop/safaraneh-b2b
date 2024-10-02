@@ -27,17 +27,12 @@ const RangePicker: React.FC<Props> = props => {
 
     const { t } = useTranslation('common');
 
-    const theme2 = process.env.THEME === "THEME2";
-    const theme3 = process.env.THEME === "THEME3";
     const [locale, setLocale] = useState<any>(localeFa);
 
     const [values, setValues] = useState<[string | null, string | null]>(props.value || [null, null]);
 
     const datePickerRef = useRef<any>(null);
     const endInput = useRef<any>(null);
-
-    // const [start, setStart] = useState<any>(null);
-    // const [end, setEnd] = useState<any>(null);
 
     const [instance, setInstance] = useState<any>(null);
 
@@ -75,58 +70,55 @@ const RangePicker: React.FC<Props> = props => {
         instance?.navigate(new Date(2016, 1, 1));
     }
 
-    let start = "";
-    let end = "";
+    let start = "تاریخ ورود";
+    let end = "تاریخ خروج";
     let startFormated = t('checkin-date');
     let endFormated = t('checkout-date');
 
     if (values && values[0]) {
         startFormated = dateDiplayFormat({date:values[0], format:"yyyy/mm/dd", locale:locale === localeFa ? "fa": "en" });
-        start = dateDiplayFormat({date:values[0], format:theme3 ? "yyyy/mm/dd" : "ddd dd mm", locale:locale === localeFa ? "fa": "en" });
+        start = dateDiplayFormat({date:values[0], format:"ddd dd mm", locale:locale === localeFa ? "fa": "en" });
     }
 
     if (values && values[1]) {
         endFormated = dateDiplayFormat({date:values[1], format:"yyyy/mm/dd", locale:locale === localeFa ? "fa": "en" });
-        end = dateDiplayFormat({date:values[1], format:theme3 ? "yyyy/mm/dd" : "ddd dd mm", locale:locale === localeFa ? "fa": "en" });
+        end = dateDiplayFormat({date:values[1], format:"ddd dd mm", locale:locale === localeFa ? "fa": "en" });
     }
 
     return (
         <div className={`mobiscroll-datepicker-wrapper ${locale === localeFa ? 'persian-datepicker-wrapper' : ''} relative text-xs`} >
-
             <div className='grid grid-cols-2'>
+                <label htmlFor='checkin_date' className="text-sm block mb-2 pointer-events-none">
+                    {t('checkin-date')}
+                </label>
+                <label htmlFor='checkout_date' className="text-sm block mb-2 pointer-events-none">
+                    {t('checkout-date')}
+                </label>
 
+            </div>
+            <div className="relative">
+            <div className='grid grid-cols-2'>
                 <div className='relative'>
-                    {!theme3 && <label htmlFor='checkin_date' className="absolute top-1 rtl:right-10 ltr:left-10 text-4xs z-10 leading-5 pointer-events-none">
-                        {t('checkin-date')}
-                    </label>}
                     
-                    {theme2 ?(
-                        <CalendarFill className='w-5 h-5 fill-current absolute  rtl:right-2 ltr:left-2 top-1/2 -mt-2.5 z-10 pointer-events-none' />
-                    ):(
-                        <Calendar className='w-5 h-5 fill-current absolute  rtl:right-2 ltr:left-2 top-1/2 -mt-2.5 z-10 pointer-events-none' />
-                    )}
-                    
+                    <Calendar className='w-5 h-5 fill-current absolute  rtl:right-2 ltr:left-2 top-1/2 -mt-2.5 z-10 pointer-events-none' />                    
                     <input 
                         id="checkin_date" 
-                        className={`border w-full h-12 border-neutral-400 rtl:rounded-r-lg ltr:rounded-l-lg rtl:pr-10 ltr:pl-10 ${theme3?"":"pt-5 leading-4"} rtl:border-l-0 ltr:border-r-0 ${locale === localeEn ? "font-sans" : ""}`} 
+                        className={`${values[0]?"text-neutral-500":"text-neutral-300"} border w-full h-12 border-slate-300 rtl:rounded-r-lg ltr:rounded-l-lg rtl:pr-10 ltr:pl-10 rtl:border-l-0 ltr:border-r-0 ${locale === localeEn ? "font-sans" : ""}`} 
                         value={start} 
                         readOnly 
                     />
                 </div>
                 <div className='relative'>
-                    {!theme3 &&<label htmlFor='checkout_date' className="absolute top-1 rtl:right-10 ltr:left-10 text-4xs z-10 leading-5 pointer-events-none">
-                        {t('checkout-date')}
-                    </label>}
                     
-                    {theme2 ?(
-                        <CalendarFill className='w-5 h-5 fill-current absolute rtl:right-2 ltr:left-2 top-1/2 -mt-2.5 z-10 pointer-events-none' />
-                    ):(
-                        <Calendar className='w-5 h-5 fill-current absolute rtl:right-2 ltr:left-2 top-1/2 -mt-2.5 z-10 pointer-events-none' />
-                    )}
+                    <Calendar className='w-5 h-5 fill-current absolute rtl:right-2 ltr:left-2 top-1/2 -mt-2.5 z-10 pointer-events-none' />
+                    <input 
+                        id="checkout_date" 
+                        className={`${values[1]?"text-neutral-500":"text-neutral-300"} border w-full h-12 border-slate-300 rtl:rounded-l-lg ltr:rounded-r-lg rtl:pr-10 ltr:pl-10`}
+                        value={end} 
+                        readOnly 
+                    />
 
-                    <input id="checkout_date" className={`border w-full h-12 border-neutral-400 rtl:rounded-l-lg ltr:rounded-r-lg rtl:pr-10 ltr:pl-10 ${theme3?"":"pt-5 leading-4"}`} value={end} readOnly />
                 </div>
-
             </div>
             <div className='absolute top-0 left-0 right-0 h-full opacity-0'>
                 <MobiscrollDatepicker
@@ -159,7 +151,7 @@ const RangePicker: React.FC<Props> = props => {
                     value={values}
                 >
 
-                    <header className={`direction-root ${theme2?"font-iranyekan":"font-samim"} mobi-date-picker-header px-5 py-3 border-b border-neutral-300  gap-5 text-sm hidden md:flex h-12 ${locale === localeEn ? "font-sans" : ""}`} >
+                    <header className={`direction-root font-samim mobi-date-picker-header px-5 py-3 border-b border-neutral-300  gap-5 text-sm hidden md:flex h-12 ${locale === localeEn ? "font-sans" : ""}`} >
 
                         <div className={`font-semibold text-sm border-b-2 border-transparent ${values && values[0] && !values[1] ? "border-blue-600" : ""}`}>
                             {startFormated}
@@ -173,11 +165,10 @@ const RangePicker: React.FC<Props> = props => {
 
                     </header>
 
-                    <footer className={`direction-root ${theme2?"font-iranyekan":"font-samim"} mobi-date-picker-footer flex justify-center gap-5 md:justify-between items-center px-5 py-4 border-t border-neutral-300`}>
+                    <footer className={`direction-root font-samim mobi-date-picker-footer flex justify-center gap-5 md:justify-between items-center px-5 py-4 border-t border-neutral-300`}>
                         <button type='button' onClick={goToday} className='text-primary-700 text-sm'>
                             {t('goToToday')}
                         </button>
-
 
                         <button
                             type='button'
@@ -188,10 +179,11 @@ const RangePicker: React.FC<Props> = props => {
                         </button>
                     </footer>
 
-
                 </MobiscrollDatepicker>
             </div>
 
+            </div>
+            
         </div>
     )
 }

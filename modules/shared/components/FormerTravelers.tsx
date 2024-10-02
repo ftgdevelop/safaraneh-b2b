@@ -60,8 +60,11 @@ const FormerTravelers: React.FC<Props> = props => {
 
         const token = localStorage.getItem('Token') || "";
 
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!localStorageTenant) return;
+        
         setDeletingConfirmMode(false);
-        await deleteTraveller(deletingItem?.id, token);
+        await deleteTraveller(deletingItem?.id, token, +localStorageTenant);
 
         props.fetchTravelers();
     }

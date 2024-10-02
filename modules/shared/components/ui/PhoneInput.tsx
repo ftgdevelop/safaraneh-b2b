@@ -38,9 +38,6 @@ const PhoneInput: React.FC<Props> = props => {
 
     const { t } = useTranslation('common');
 
-    const theme1 = process.env.THEME === "THEME1";
-    const theme2 = process.env.THEME === "THEME2";
-
     const codeRef = useRef<HTMLDivElement>(null);
 
     let initialCountry: CountryObject | undefined = undefined;
@@ -167,27 +164,27 @@ const PhoneInput: React.FC<Props> = props => {
         labelClassNames.push("z-10 absolute px-2 bg-white transition-all duration-300 -translate-y-1/2 right-1");
 
         if (labelUp){
-            labelClassNames.push(`${theme2?"top-3.5 text-2xs":"top-0 text-xs"}`);
+            labelClassNames.push(`top-0 text-xs`);
         }else{
             labelClassNames.push("top-1/2 text-sm");
         }
     }
 
 
-    const inputClassNames : string[] = [`bg-caret border ${theme1?"h-10":theme2?"h-13":""} px-22 rounded-l-md ${theme2?"min-w-0 basis-40 grow-0":"col-span-4"} px-2 outline-none`];
+    const inputClassNames : string[] = [`bg-caret border h-10 px-22 rounded-l-md col-span-4 px-2 outline-none`];
 
     if(errorText && isTouched){
-        inputClassNames.push(`border-red-500 ${theme2?"border-2":""}`);
+        inputClassNames.push(`border-red-500`);
     }else{
-        inputClassNames.push(`${theme2?"border-neutral-400 focus:border-2":"border-neutral-300"} focus:border-blue-500`);
+        inputClassNames.push(`border-slate-300 focus:border-slate-500`);
     }
 
-    const inputClassNames2 : string[] = [`border ${theme1?"h-10":theme2?"h-13":""} ${!props.labelIsSimple && theme2 ? "pt-4 leading-4" : ""} px-2 ${theme2?"basis-60 w-full grow":"col-span-5"} border-l-0 rounded-r-md outline-none`];
+    const inputClassNames2 : string[] = [`border h-10 px-2 col-span-5 border-l-0 rounded-r-md outline-none`];
 
     if(errorText && isTouched){
-        inputClassNames2.push(`border-red-500 ${theme2?"border-2":""}`);
+        inputClassNames2.push(`border-red-500`);
     }else{
-        inputClassNames2.push(`${theme2?"border-neutral-400 focus:border-2":"border-neutral-300"} focus:border-blue-500`);
+        inputClassNames2.push(`border-slate-300 focus:border-slate-500`);
     }
     return (
         <div className={props.className || ""}>
@@ -207,7 +204,7 @@ const PhoneInput: React.FC<Props> = props => {
                         </div>
                     )}
                 </div>
-                <div className={`relative text-sm ${theme2?"flex":"grid grid-cols-9"}`} dir='ltr' ref={codeRef}>
+                <div className={`relative text-sm grid grid-cols-9`} dir='ltr' ref={codeRef}>
 
                     {!typedCode && <div className='absolute left-3 top-1/2 -translate-y-1/2 flex gap-2 items-center pointer-events-none'>
                         <Image

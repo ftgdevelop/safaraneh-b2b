@@ -69,8 +69,12 @@ const ForgetPasswordForm: React.FC<Props> = props => {
 
 
     const sendCodeToMobile = async (phoneNumber: string) => {
+
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!localStorageTenant) return;
+
         setSubmitLoading(true);
-        const response: any = await forgotPasswordByPhoneNumber(phoneNumber);
+        const response: any = await forgotPasswordByPhoneNumber(phoneNumber, +localStorageTenant);
 
         if (response?.data?.result?.userId) {
             setUserId(response.data.result.userId);
@@ -100,7 +104,10 @@ const ForgetPasswordForm: React.FC<Props> = props => {
 
             setSubmitLoading(true);
 
-            const response: any = await forgotPasswordByEmail(values.email);
+            const localStorageTenant = localStorage?.getItem('S-TenantId');
+            if(!localStorageTenant) return;
+
+            const response: any = await forgotPasswordByEmail(values.email, +localStorageTenant);
 
             if (response?.data?.success) {
                 setShowEmailSuccessModal(true);
@@ -125,7 +132,11 @@ const ForgetPasswordForm: React.FC<Props> = props => {
         if (code && userId && code.length === 6) {
             setVerificationLoading(true);
 
-            const response: any = await forgotPasswordVerification({ code: code, userId: userId });
+            const localStorageTenant = localStorage?.getItem('S-TenantId');
+            
+            if(!localStorageTenant) return;
+
+            const response: any = await forgotPasswordVerification({ code: code, tenant: +localStorageTenant,userId: userId });
 
             setVerificationLoading(false);
 

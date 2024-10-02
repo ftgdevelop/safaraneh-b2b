@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Header, ServerAddress, Reserve, Traveler, Cms } from "../../../enum/url";
 import { ReserveType } from '../types/common';
 
-export const getPageByUrl = async (url: string, acceptLanguage: string = "fa-IR") => {
+export const getPageByUrl = async (url: string,tenant:number, acceptLanguage: string = "fa-IR") => {
     try {
         let response = await axios.get(
             `${ServerAddress.Type}${ServerAddress.CMS}${Cms.GetByUrl}?Url=${url}`,
@@ -12,7 +12,7 @@ export const getPageByUrl = async (url: string, acceptLanguage: string = "fa-IR"
                     ...Header,
                     "Accept-Language": acceptLanguage,
                     "Apikey": process.env.PROJECT_SERVER_APIKEY,
-                    "Tenantid": process.env.PROJECT_SERVER_TENANTID
+                    "Tenantid": tenant
                 }
             },
         )
@@ -22,7 +22,7 @@ export const getPageByUrl = async (url: string, acceptLanguage: string = "fa-IR"
     }
 }
 
-export const getReserveFromCoordinator = async (params: { reserveId: string, username: string }, acceptLanguage: string = "fa-IR") => {
+export const getReserveFromCoordinator = async (params: { tenant:number,reserveId: string, username: string }, acceptLanguage: string = "fa-IR") => {
     try {
         let response = await axios.get(
             `${ServerAddress.Type}${ServerAddress.Coordinator}${Reserve.GetReserveFromCoordinator}?Id=${params.reserveId}&Username=${params.username}`,
@@ -31,7 +31,7 @@ export const getReserveFromCoordinator = async (params: { reserveId: string, use
                     'Content-Type': 'application/json',
                     accept: 'text/plain',
                     "Accept-Language": acceptLanguage,
-                    "TenantId": process.env.PROJECT_SERVER_TENANTID
+                    "TenantId": params.tenant
                 }
             },
         )
@@ -49,6 +49,7 @@ export const getUserAllReserves = async (params: {
     FromReturnTime?: string;
     ToReturnTime?: string;
     Ids?: number;
+    tenant:number;
 }, token: string, acceptLanguage: string = "fa-IR") => {
     try {
         let response = await axios.get(
@@ -59,7 +60,7 @@ export const getUserAllReserves = async (params: {
                     'Content-Type': 'application/json',
                     accept: 'text/plain',
                     "Accept-Language": acceptLanguage,
-                    "TenantId": process.env.PROJECT_SERVER_TENANTID,
+                    "TenantId": params.tenant,
                     Authorization: `Bearer ${token}`
                 }
             },
@@ -81,7 +82,7 @@ export const getUserAllReserves = async (params: {
 
 
 
-export const getTravelers = async (token: string, acceptLanguage: string = "fa-IR") => {
+export const getTravelers = async (token: string,tenant:number, acceptLanguage: string = "fa-IR") => {
     try {
         let response = await axios.get(
             `${ServerAddress.Type}${ServerAddress.Traveler}${Traveler.GetAll}`,
@@ -91,7 +92,7 @@ export const getTravelers = async (token: string, acceptLanguage: string = "fa-I
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
                     Authorization: `Bearer ${token}`,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: tenant
                 }
             },
         )
@@ -101,7 +102,7 @@ export const getTravelers = async (token: string, acceptLanguage: string = "fa-I
     }
 }
 
-export const deleteTraveller = async (id:number, token: string, acceptLanguage: string = "fa-IR") => {
+export const deleteTraveller = async (id:number, token: string, tenant:number, acceptLanguage: string = "fa-IR") => {
     try {
         let response = await axios.delete(
             `${ServerAddress.Type}${ServerAddress.Traveler}${Traveler.Delete}?Id=${id}`,
@@ -111,7 +112,7 @@ export const deleteTraveller = async (id:number, token: string, acceptLanguage: 
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     "Accept-Language": acceptLanguage,
                     Authorization: `Bearer ${token}`,
-                    Tenantid: process.env.PROJECT_SERVER_TENANTID
+                    Tenantid: tenant
                 }
             },
         )
@@ -121,7 +122,7 @@ export const deleteTraveller = async (id:number, token: string, acceptLanguage: 
     }
 }
 
-// export const addTraveler = async (token: string, acceptLanguage: string = "fa-IR") => {
+// export const addTraveler = async (token: string,tenant:number, acceptLanguage: string = "fa-IR") => {
 //     try {
 
 //         const params = {
@@ -152,7 +153,7 @@ export const deleteTraveller = async (id:number, token: string, acceptLanguage: 
 //                 apikey: process.env.PROJECT_SERVER_APIKEY,
 //                 "Accept-Language": acceptLanguage,
 //                 Authorization: `Bearer ${token}`,
-//                 Tenantid: process.env.PROJECT_SERVER_TENANTID
+//                 Tenantid: tenant
 //             },
 //         })
 //         return response

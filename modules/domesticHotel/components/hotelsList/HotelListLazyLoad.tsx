@@ -1,7 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { PricedHotelItem } from "../../types/hotel";
-import HotelListItemTheme3 from "./HotelListItemTheme3";
-import HotelListItemTheme2 from "./HotelListItemTheme2";
 import HotelListItem from "./HotelListItem";
 import Button from "@/modules/shared/components/ui/Button";
 import PromotionHotels from "./PromotionHotels";
@@ -68,20 +66,6 @@ const HotelListLazyLoad: React.FC<Props> = props => {
     return (
         <div>
             {hotels.slice(0, quantity).map((hotel, index) => {
-                if (theme3) {
-                    return (
-                        <Fragment key={hotel.id}>
-                            <HotelListItemTheme3 index={index} hotel={hotel} />
-                        </Fragment>
-                    )
-                }
-                if (theme2) {
-                    return (
-                        <Fragment key={hotel.id}>
-                            <HotelListItemTheme2 index={index} hotel={hotel} />
-                        </Fragment>
-                    )
-                }
                 return (
                     <Fragment key={hotel.id}>
                         

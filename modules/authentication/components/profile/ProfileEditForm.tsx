@@ -55,7 +55,8 @@ const ProfileEditForm: React.FC<Props> = props => {
 
     const refreshUserData = async () => {
         const token = localStorage?.getItem('Token');
-        if (token) {
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (token && localStorageTenant) {
           const getUserData = async () => {
             dispatch(setReduxUser({
               isAuthenticated: false,
@@ -63,7 +64,7 @@ const ProfileEditForm: React.FC<Props> = props => {
               getUserLoading: true
             }));
     
-            const response: any = await getCurrentUserProfile(token);
+            const response: any = await getCurrentUserProfile(token, +localStorageTenant);
     
             if (response && response.status === 200) {
               dispatch(setReduxUser({
@@ -88,7 +89,8 @@ const ProfileEditForm: React.FC<Props> = props => {
     const submitHandler = async (parameters: any) => {
 
         const token = localStorage.getItem('Token');
-        if (!token) return;
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!token || !localStorageTenant) return;
 
         const params = {
             ...parameters,
@@ -102,7 +104,7 @@ const ProfileEditForm: React.FC<Props> = props => {
             isVisible: false
         }));
 
-        const updateResponse: any = await updateCurrentUserProfile(params, token);
+        const updateResponse: any = await updateCurrentUserProfile(params, token, +localStorageTenant);
         setSubmitLoading(false);
 
         if (updateResponse.data && updateResponse.data.success) {

@@ -28,14 +28,16 @@ const PasswordChangeForm: React.FC = () => {
         if (newPassword && repeatPassword && newPassword.length >= 6 && newPassword === repeatPassword) {
 
             const token = localStorage.getItem('Token');
-            if (!token) return;
+            const localStorageTenant = localStorage?.getItem('S-TenantId');
+            if (!token || !localStorageTenant) return;
 
             setSubmitLoading(true);
 
             const response: any = await changePassword({
                 currentPassword: currentPassword,
                 newPassword: newPassword,
-                token: token
+                token: token,
+                tenant: +localStorageTenant
             });
 
             if (response.data?.success) {

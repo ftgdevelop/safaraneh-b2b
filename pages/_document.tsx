@@ -8,7 +8,7 @@ export default function Document() {
     <Html lang={i18n?.language} dir={(i18n?.language === "fa" || i18n?.language === "ar")  ? "rtl" : "ltr"}>
       <Head>
       </Head>
-      <body className="font-iranyekan theme-1 text-neutral-700 bg-body-background" >
+      <body className="styled-scrollbar font-iranyekan theme-1 text-neutral-700 bg-body-background" >
 
         <Main />
 

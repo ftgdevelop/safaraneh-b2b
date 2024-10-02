@@ -56,13 +56,15 @@ const Payment: NextPage = () => {
   const [goToBankLoading, setGoToBankLoading] = useState<boolean>(false);
 
   const [expireDate, setExpireDate] = useState();
+  
+  const localStorageTenant = localStorage?.getItem('S-TenantId');
 
   useEffect(() => {
 
-    const fetchType = async () => {
+    const fetchType = async (tenant:number) => {
 
       if (username && reserveId) {
-        const response: any = await getReserveFromCoordinator({ reserveId: reserveId, username: username });
+        const response: any = await getReserveFromCoordinator({ tenant:tenant,reserveId: reserveId, username: username });
         if (response?.data?.result) {
           setType(response.data.result.type);
           setCoordinatorPrice(response.data.result.salePrice);
@@ -70,13 +72,16 @@ const Payment: NextPage = () => {
       }
     }
 
-    fetchType();
+    if(localStorageTenant){
+      fetchType(+localStorageTenant);
+    }
 
-    const getBankGatewayList = async () => {
+
+    const getBankGatewayList = async (reserveId:string, tenant: number) => {
 
       if (!reserveId) return;
 
-      const response: any = await getReserveBankGateway(reserveId);
+      const response: any = await getReserveBankGateway(tenant,reserveId);
       if (response?.status == 200 && response.data.result) {
         setBankGatewayList(response.data?.result[0]);
       } else {
@@ -88,9 +93,11 @@ const Payment: NextPage = () => {
       }
     };
 
-    getBankGatewayList();
+    if(localStorageTenant && reserveId){
+      getBankGatewayList(reserveId, +localStorageTenant);
+    }
 
-  }, [username, reserveId]);
+  }, [username, reserveId, localStorageTenant]);
 
 
   const setHotelSafarmarketPixel = ({safarmarketSiteName, smId, reserveData, statusNumber}:{safarmarketSiteName: string , smId:string, reserveData: DomesticHotelGetReserveByIdData , statusNumber: 3|4|5}) => {
@@ -234,6 +241,12 @@ const Payment: NextPage = () => {
 
     if (!reserveId) return;
 
+    const localStorageTenant = localStorage?.getItem('S-TenantId');
+
+    if(!localStorageTenant){
+      return;
+    }
+
     setGoToBankLoading(true);
 
     const callbackUrl = window?.location?.origin + (process.env.LocaleInUrl === "off"?"": i18n?.language === "fa" ? "/fa" : "/en") + "/callback";
@@ -242,6 +255,7 @@ const Payment: NextPage = () => {
       gatewayId: gatewayId,
       callBackUrl: callbackUrl,
       reserveId: reserveId,
+      tenant: +localStorageTenant
     };
 
     const response = await makeToken(params);

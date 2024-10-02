@@ -37,9 +37,9 @@ const ChargeWallet: React.FC = () => {
     }, [firstBankId]);
 
 
-    const fetchbankGateways = async (currency: "IRR" | "USD", token: string) => {
+    const fetchbankGateways = async (currency: "IRR" | "USD", token: string, tenant: number) => {
 
-        const response: any = await getDepositBankGateway(currency, token);
+        const response: any = await getDepositBankGateway(currency,tenant, token);
         if (response?.data?.result[0]) {
             setBankList(response?.data?.result[0]);
         }
@@ -47,9 +47,10 @@ const ChargeWallet: React.FC = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('Token');
-        if (!token) return;
+        const localStorageTenant = localStorage?.getItem('S-TenantId');
+        if (!token || !localStorageTenant) return;
 
-        fetchbankGateways('IRR', token);
+        fetchbankGateways('IRR',token , +localStorageTenant);
 
     }, []);
 

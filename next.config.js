@@ -69,7 +69,6 @@ const nextConfig = {
     PROJECT_SERVER_TRAVELER:"traveller.safaraneh.com",
     PROJECT_SERVER_CIP:"cip.safaraneh.com",
     PROJECT_SERVER_FLIGHT: "flightdomestic.safaraneh.com",
-    //PROJECT_SERVER_TENANTID: "1040",
     PROJECT_SERVER_STRAPI:"",
     PROJECT_SERVER_NATIONALITY: "",
     PORT: '',

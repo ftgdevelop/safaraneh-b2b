@@ -7,6 +7,7 @@ import { LeftCaret, Loading, Phone } from "@/modules/shared/components/ui/icons"
 import { useAppSelector } from "@/modules/shared/hooks/use-store";
 import { TabItem } from "@/modules/shared/types/common";
 import { NextPage } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -93,3 +94,14 @@ const Login : NextPage = () => {
 }
 
 export default Login;
+
+export async function getStaticProps(context: any) {
+    return (
+        {
+            props: {
+                ...await serverSideTranslations(context.locale, ['common']),
+            },
+
+        }
+    )
+}

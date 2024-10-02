@@ -28,9 +28,6 @@ type Props = {
 
 const FormikField: React.FC<Props> = props => {
 
-    const theme1 = process.env.THEME === "THEME1";
-    const theme2 = process.env.THEME === "THEME2";
-
     const [labelUp, setLabelUp] = useState<boolean>(false);
     const [isPassword, setIsPassword] = useState<boolean>(props.isPassword || false);
 
@@ -71,11 +68,11 @@ const FormikField: React.FC<Props> = props => {
         labelClassNames.push ("mb-3 text-sm");
     }else {
         
-        labelClassNames.push(`absolute px-2 transition-all duration-300 -translate-y-1/2 rtl:right-1 ltr:left-1 ${theme1?"bg-white":theme2?"":""}`);
+        labelClassNames.push(`absolute px-2 transition-all duration-300 -translate-y-1/2 rtl:right-1 ltr:left-1 bg-white`);
 
         if(labelUp){
         
-            labelClassNames.push(`${theme2?"top-3.5 text-2xs":"top-0 text-xs"}`);
+            labelClassNames.push("top-0 text-xs");
         
         }else{
         
@@ -88,20 +85,18 @@ const FormikField: React.FC<Props> = props => {
     
     if(props.heightClassName){
         inputClassNames.push(props.heightClassName);
-    } else if(theme2){
-        inputClassNames.push(`h-13`);
     }else{
         inputClassNames.push("h-10");
     }
     
     if(!props.labelIsSimple){
-        inputClassNames.push(`leading-4 ${theme2?"pt-4":"pt-0"}`);
+        inputClassNames.push(`leading-4 pt-0`);
     }
 
     if(props.errorText && props.isTouched){
-        inputClassNames.push(`border-red-500 ${theme2?"border-2":""}`);
+        inputClassNames.push(`border-red-500`);
     }else{
-        inputClassNames.push(`${theme2?"border-neutral-400 focus:border-2":"border-neutral-300"} focus:border-blue-500`);
+        inputClassNames.push(`border-slate-300 focus:border-slate-500`);
     }
 
     if (props.groupStart){

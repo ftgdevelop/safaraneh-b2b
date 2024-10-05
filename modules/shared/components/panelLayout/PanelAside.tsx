@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Dashboard, Headset, Settings, Hotel, Wallet2, Cip2, Bus, Flight2 } from "../ui/icons";
+import { Dashboard, Headset, Settings, Hotel, Wallet2, Cip2, Bus, Flight2, Plus, TimeUpdate, CreditCard } from "../ui/icons";
 import Accordion from "../ui/Accordion";
 import Image from "next/image";
 
@@ -86,9 +86,22 @@ const PanelAside : React.FC = () => {
                         noBorder
                         noBgContent
                         content={<div className="text-sm leading-5 pb-4">
-                            <Link href={"/"} className="block py-2 hover:bg-neutral-100 px-3 rounded">
-                                موجودی
-                            </Link>     
+                            <Link href="/wallet" className="py-3 hover:bg-slate-100 px-3 rounded flex gap-2 items-center">
+                                <Wallet2 className="w-5 h-5" />
+                                موجودی کیف پول
+                            </Link>  
+                            <Link href="/wallet/deposit" className="py-3 hover:bg-slate-100 px-3 rounded flex gap-2 items-center">
+                                <Plus className="w-5 h-5 fill-current"/>
+                                پرداخت و افزایش اعتبار
+                            </Link>
+                            <Link href="/wallet/transactions" className="py-3 hover:bg-slate-100 px-3 rounded flex gap-2 items-center">
+                                <TimeUpdate className="w-5 h-5 fill-current"/>
+                                تراکنش های آنلاین
+                            </Link>
+                            <Link href="/wallet/offline-transactions" className="py-3 hover:bg-slate-100 px-3 rounded flex gap-2 items-center">
+                                <CreditCard className="w-5 h-5 fill-current" />
+                                تراکنش های آفلاین
+                            </Link>                                
                         </div>} 
                         title={(<div className="flex items-center gap-4">
                             <span className="bg-slate-100 rounded-lg p-1.5">

@@ -22,12 +22,7 @@ const Deposit : NextPage = () => {
                 <div className="py-5">
                     <h3 className="text-xl md:text-2xl font-semibold mb-4 md:mb-8">
                         شارژ کیف پول
-                    </h3>  
-<<<<<<< Updated upstream
-                    {/* <ChargeWallet />     */}
-=======
-                    {/* <ChargeWallet />  */}
->>>>>>> Stashed changes
+                    </h3>
                 </div>
             )
 

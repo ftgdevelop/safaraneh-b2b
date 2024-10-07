@@ -119,7 +119,9 @@ export const Flight = {
     GetTransactionDeposit:"/api/services/app/TransactionDeposit/GetAll",
     GetDepositBankGateway:"/api/services/app/UserDepositBankGateway/GetAll",
     MakeDepositToken:"/api/services/app/UserDepositBankGateway/MakeToken",
-    ConfirmByDeposit:"/api/services/app/DepositReserve/ConfirmByDeposit"
+    ConfirmByDeposit:"/api/services/app/DepositReserve/ConfirmByDeposit",
+    GetTenantTransaction:"/api/services/app/TenantTransaction/GetAll",
+    TenantTransactionsToExcel:"/api/services/app/TenantTransaction/GetAllToExcel"
   };
 
   export const Cip = {

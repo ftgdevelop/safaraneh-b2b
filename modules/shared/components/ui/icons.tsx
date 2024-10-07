@@ -62,6 +62,30 @@ export const TimeUpdate: React.FC<Props> = props => {
     )
 }
 
+export const TrendingDown: React.FC<Props> = props => {
+    return (
+        <svg className={props.className || ""} viewBox="0 -960 960 960" ><path d="M640-240v-80h104L536-526 376-366 80-664l56-56 240 240 160-160 264 264v-104h80v240H640Z"/></svg>
+    )
+}
+
+export const TrendingUp: React.FC<Props> = props => {
+    return (
+        <svg className={props.className || ""} viewBox="0 -960 960 960"><path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z"/></svg>
+    )
+}
+
+export const Return: React.FC<Props> = props => {
+    return (
+        <svg className={props.className || ""} viewBox="0 -960 960 960"><path d="M480-100q-70.77 0-132.61-26.77-61.85-26.77-107.85-72.77-46-46-72.77-107.85Q140-369.23 140-440h60q0 117 81.5 198.5T480-160q117 0 198.5-81.5T760-440q0-117-81.5-198.5T480-720h-10.62l63.54 63.54-42.15 43.38-136.92-137.3 137.69-137.31 42.15 43.38L469.38-780H480q70.77 0 132.61 26.77 61.85 26.77 107.85 72.77 46 46 72.77 107.85Q820-510.77 820-440q0 70.77-26.77 132.61-26.77 61.85-72.77 107.85-46 46-107.85 72.77Q550.77-100 480-100Z"/></svg>
+    )
+}
+
+export const TableIcon: React.FC<Props> = props => {
+    return (
+        <svg className={props.className || ""} viewBox="0 -960 960 960"><path d="M120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200Zm80-400h560v-160H200v160Zm213 200h134v-120H413v120Zm0 200h134v-120H413v120ZM200-400h133v-120H200v120Zm427 0h133v-120H627v120ZM200-200h133v-120H200v120Zm427 0h133v-120H627v120Z"/></svg>
+    )
+}
+
 
 
 

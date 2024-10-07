@@ -53,11 +53,11 @@ const HeaderBalance = () => {
             <div 
                 className="absolute top-full bg-white border rounded-lg text-sm whitespace-nowrap left-0 opacity-0 delay-200 invisible transition-all origin-top-left scale-75 -mt-5 group-hover:mt-0 group-hover:scale-100 group-hover:opacity-100 group-hover:visible group-hover:delay-0"
             >
-                <Link href={"/"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
+                <Link href={"/wallet/deposit"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
                     <Plus className="w-5 h-5 fill-current"/>
                     پرداخت و افزایش اعتبار
                 </Link>
-                <Link href={"/"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
+                <Link href={"/wallet/transactions"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
                     <TimeUpdate className="w-5 h-5 fill-current"/>
                     تراکنش های آنلاین
                 </Link>

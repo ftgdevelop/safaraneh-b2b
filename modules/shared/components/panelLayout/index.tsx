@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 import PanelAside from "./PanelAside";
 import PanelHeader from "./PanelHeader";
+import PanelFooter from "./PanelFooter";
 
 type Props ={
 
@@ -17,6 +18,8 @@ const PanelLayout : React.FC<PropsWithChildren<Props>> = props => {
                 <PanelHeader />
 
                 {props.children}
+
+                <PanelFooter />
                 
             </main>
 

@@ -41,6 +41,10 @@ const DatePickerMobiscroll: React.FC<Props> = props => {
         setLocale(props.locale);
     }, [props.locale]);
 
+    useEffect(()=>{
+        setValue(props.value || "")
+    },[props.value]);
+
     const onChange = (args: DatePickerValue, inst: any) => {
         setValue(args.value);
         props.onChange(args, inst);

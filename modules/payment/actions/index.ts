@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Header, ServerAddress, Payment } from "../../../enum/url";
-import { GetTransactionParams } from '../types';
+import { GetTenantTransactionParams, GetTransactionParams } from '../types';
 
 type DiscountType = "Undefined"| "HotelDomestic"| "FlightDomestic"| "Bus"| "Package"| "Flight"| "Hotel"| "PnrOutside"| "Cip"| "Activity";
 
@@ -192,4 +192,53 @@ export const confirmByDeposit = async (params:{username: string,reserveId: numbe
   } catch (error) {
     return error
   }
+}
+
+
+export const getTenantTransactions = async (params:GetTenantTransactionParams,tenant:number, token:string, acceptLanguage: string = 'fa-IR') => {
+  try {
+    const response = await axios.get(
+      `${ServerAddress.Type}${ServerAddress.Payment}${Payment.GetTenantTransaction}`,
+      {
+        params:params,
+        headers: {
+          "Accept-Language": acceptLanguage,
+          Accept: 'application/json;charset=UTF-8',
+          apikey: process.env.PROJECT_SERVER_APIKEY,
+          Authorization: `Bearer ${token}`,
+          Tenantid: tenant,
+          Currency: params.CurrencyType
+        },
+      },
+    )
+    return response
+  } catch (error) {
+    return error
+  }
+
+}
+
+
+
+export const tenantTransactionsToExcel = async (params:GetTenantTransactionParams,tenant:number, token:string, acceptLanguage: string = 'fa-IR') => {
+  try {
+    const response = await axios.get(
+      `${ServerAddress.Type}${ServerAddress.Payment}${Payment.TenantTransactionsToExcel}`,
+      {
+        params:params,
+        headers: {
+          "Accept-Language": acceptLanguage,
+          Accept: 'application/json;charset=UTF-8',
+          apikey: process.env.PROJECT_SERVER_APIKEY,
+          Authorization: `Bearer ${token}`,
+          Tenantid: tenant,
+          Currency: params.CurrencyType
+        },
+      },
+    )
+    return response
+  } catch (error) {
+    return error
+  }
+
 }

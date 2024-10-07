@@ -1,51 +1,42 @@
-import { Plus } from '@/modules/shared/components/ui/icons';
-import { dateDiplayFormat, numberWithCommas } from '@/modules/shared/helpers';
-import { useEffect, useState } from 'react';
+import { TransactionItem as TransactionItemType  } from '@/modules/payment/types';
+import { TrendingDown, TrendingUp } from '@/modules/shared/components/ui/icons';
+import {numberWithCommas, toPersianDigits } from '@/modules/shared/helpers';
 
 type Props = {
-    data: {
-        type: string;
-        amount: number;
-        creationTime: string;
-        initialAmount: number;
-        information?: string;
-    }
+    data: TransactionItemType;
+    index: number;
 }
 
 const TransactionItem: React.FC<Props> = props => {
 
-    const [open, setOpen] = useState<boolean>(false);
+    const { data, index} = props;
 
-    const { amount, creationTime, initialAmount, type, information } = props.data;
+    const tableCellClass = "p-4 leading-5 text-right font-normal border-neutral-200 transition-all"
+
+    let typelabel = "برداشت" ;
+    let textColor = "text-red-500";
+    let typeIcon = <TrendingDown className="w-5 h-5 fill-current" />
+    if(data.amount > 0){
+        textColor= "text-blue-500";
+        typelabel = "واریز" ;
+        typeIcon = <TrendingUp className="w-5 h-5 fill-current" />
+    }
 
     return (
-        <>
-            <tr className={`border-t leading-4 border-neutral-200 transition-all ${open?"bg-gray-100":"bg-white hover:bg-gray-100"}`}>
-                <td className='p-2 md:p-3'>
-                    {!!information && (
-                        <button
-                            type='button'
-                            onClick={() => { setOpen(prevState => !prevState) }}
-                            className='border border-neutral-400 mt-1.5 rounded'
-                        >
-                            <Plus className={`w-4.5 h-4.5 fill-current transition-all ${open ? 'rotate-45' : ""}`} />
-                        </button>
-                    )}
-                </td>
-                <td className='p-2 md:p-3 rtl:text-right ltr:text-left' dir="ltr"> {dateDiplayFormat({ date: creationTime, format: 'yyyy/mm/dd h:m', locale: "fa" })} </td>
-                <td className='p-2 md:p-3 text-2xs'> {type} </td>
-                <td className={`p-2 md:p-3 rtl:text-right ltr:text-left ${amount > 0 ? 'text-green-600' : "text-red-500"}`} dir="ltr" > {numberWithCommas(amount)} </td>
-                <td className='p-2 md:p-3 rtl:text-right ltr:text-left font-semibold' dir="ltr"> {numberWithCommas(initialAmount)} </td>
 
-            </tr>
-            {!!open && (
-                <tr className='bg-gray-100'>
-                    <td colSpan={5} className='p-2 md:p-3 pt-0'>
-                        <span className='mx-2'> توضیحات: </span> {information}
-                    </td>
-                </tr>
-            )}
-        </>
+        <tr className="group text-xs" >
+            <td className={`${tableCellClass} text-muted-foreground border-t group-hover:bg-blue-50/50`}> {index ? toPersianDigits(index.toString()) :""} </td>
+            <td className={`${tableCellClass} border-t group-hover:bg-blue-50/50 text-md`}> {data.reserveId ? toPersianDigits(data.reserveId.toString()) : "--" } </td>
+            <td className={`${tableCellClass} border-t group-hover:bg-blue-50/50 ${textColor}`}> <span className='bg-slate-100 rounded-full inline-flex leading-5 text-2xs items-center gap-2 py-1 px-2'> {typeIcon} {typelabel} </span> </td>
+            <td className={`${tableCellClass} border-t group-hover:bg-blue-50/50`} > 
+                <span  className={`${textColor} ml-2 text-ms tracking-wider`} dir="ltr">
+                    {numberWithCommas(data.amount)} </span>
+                ریال
+            </td>
+            <td className={`${tableCellClass} border-t group-hover:bg-blue-50/50 tracking-wider`}>  {toPersianDigits(data.creationTime)?.split(".")[0]?.replaceAll("T"," ")?.replaceAll("-","/")} </td>
+            <td className={`${tableCellClass} border-t group-hover:bg-blue-50/50 text-2xs`}> {data.description} </td>
+        </tr>
+
     )
 }
 

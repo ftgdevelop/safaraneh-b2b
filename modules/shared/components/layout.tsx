@@ -5,8 +5,8 @@ import { PropsWithChildren, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../hooks/use-store";
 import PageLoadingBar from "./ui/PageLoadingBar";
-import { setAuthenticationDone, setReduxUser } from "@/modules/authentication/store/authenticationSlice";
-import { getCurrentUserProfile } from "@/modules/authentication/actions";
+import { setAuthenticationDone, setReduxUser, setUserPermissions } from "@/modules/authentication/store/authenticationSlice";
+import { getCurrentUserPermissions, getCurrentUserProfile } from "@/modules/authentication/actions";
 import Notification from "./Notification";
 import { setProgressLoading } from "../store/stylesSlice";
 import AuthenticationRedirect from "@/modules/authentication/components/AuthenticationRedirect";
@@ -60,12 +60,16 @@ const Layout: React.FC<PropsWithChildren> = props => {
           getUserLoading: true
         }));
 
-        const response: any = await getCurrentUserProfile(token, +localStorageTenant);
 
-        if (response && response.status === 200) {
+        const [userDataResponse, userPermissionsResponse] = await Promise.all<any>([
+          getCurrentUserProfile(token, +localStorageTenant),
+          getCurrentUserPermissions(token, +localStorageTenant)
+        ]);
+
+        if (userDataResponse && userDataResponse.status === 200) {
           dispatch(setReduxUser({
             isAuthenticated: true,
-            user: response.data?.result,
+            user: userDataResponse.data?.result,
             getUserLoading: false
           }));
         } else {
@@ -76,6 +80,12 @@ const Layout: React.FC<PropsWithChildren> = props => {
           }));
         }
         dispatch(setAuthenticationDone());
+
+        if(userPermissionsResponse?.data?.result){
+          dispatch(setUserPermissions(userPermissionsResponse.data.result));
+        }else{
+          dispatch(setUserPermissions(undefined));
+        }
 
       }
 

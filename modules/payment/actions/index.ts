@@ -242,3 +242,26 @@ export const tenantTransactionsToExcel = async (params:GetTenantTransactionParam
   }
 
 }
+
+export const getManualReceiptTransactions = async (params:GetTenantTransactionParams,tenant:number, token:string, acceptLanguage: string = 'fa-IR') => {
+  try {
+    const response = await axios.get(
+      `${ServerAddress.Type}${ServerAddress.Payment}${Payment.ManualReceiptGetAll}`,
+      {
+        params:params,
+        headers: {
+          "Accept-Language": acceptLanguage,
+          Accept: 'application/json;charset=UTF-8',
+          apikey: process.env.PROJECT_SERVER_APIKEY,
+          Authorization: `Bearer ${token}`,
+          Tenantid: tenant,
+          Currency: params.CurrencyType
+        },
+      },
+    )
+    return response
+  } catch (error) {
+    return error
+  }
+
+}

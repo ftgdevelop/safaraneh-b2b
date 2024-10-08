@@ -61,7 +61,7 @@ const HeaderBalance = () => {
                     <TimeUpdate className="w-5 h-5 fill-current"/>
                     تراکنش های آنلاین
                 </Link>
-                <Link href={"/"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
+                <Link href={"/wallet/offline-transactions"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
                     <CreditCard className="w-5 h-5 fill-current" />
                     تراکنش های آفلاین
                 </Link> 

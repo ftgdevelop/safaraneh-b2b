@@ -68,6 +68,25 @@ export const getCurrentUserProfile = async (token:string, tenant:number) => {
 }
 
 
+export const getCurrentUserPermissions = async (token:string, tenant:number) => {
+
+    try {
+        let response = await axios.get(
+            `${ServerAddress.Type}${ServerAddress.Identity}${Identity.GetPermissions}`,
+            {
+                headers: {
+                    Accept: 'application/json;charset=UTF-8',
+                    Authorization: `Bearer ${token}`,
+                    Tenantid: tenant
+                },
+            },
+        )
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
 export const updateCurrentUserProfile = async (params :UpdateUserParams , token:string, tenant: number) => {
 
     try {

@@ -25,6 +25,29 @@ export interface TransactionItem {
     //tenantName: "Safaraneh";
 }
 
+export interface ManualReceiptItem {
+    amount: number;
+    creationTime:string;
+    currencyType: "IRR" | "USD" | "EUR";
+    "type": "Cash" | "Account" | "Card" | "Credit" |"Transfer";
+    operatorDescription?: string;
+    reserveId?: number;
+    // "accountNumber": "string",
+    // "bankAccountId": 0,
+    // "transferTime": "2024-10-07T13:41:55.662Z",
+    // "transactionNumber": "string",
+    // "reserveStatus": "Undefined",
+    // "tenantId": 0,
+    // "bankBrand": "string",
+    // "holderName": "string",
+    // "operatorFullName": "string",
+    // "userId": 0,
+    // "creatorUserId": 0,
+    // "status": "Register",
+    // "id": 0
+
+}
+
 export type GetTenantTransactionParams = {
     reserveId?: number;
     CreationTimeFrom?: string;

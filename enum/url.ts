@@ -58,7 +58,8 @@ export const Header = {
     ChangePassword:"/api/services/app/Account/ChangePassword",
     SendEmailActivation:"/api/services/app/Account/SendEmailActivation",
     ActivateEmail:"/api/services/app/Account/ActivateEmail",
-    GetSiteAllSettings:"/api/services/app/TenantSettings/GetAllSettings"
+    GetSiteAllSettings:"/api/services/app/TenantSettings/GetAllSettings",
+    GetPermissions:"/api/services/app/Profile/GetPermissions"
   };
 
 export const Flight = {
@@ -121,7 +122,8 @@ export const Flight = {
     MakeDepositToken:"/api/services/app/UserDepositBankGateway/MakeToken",
     ConfirmByDeposit:"/api/services/app/DepositReserve/ConfirmByDeposit",
     GetTenantTransaction:"/api/services/app/TenantTransaction/GetAll",
-    TenantTransactionsToExcel:"/api/services/app/TenantTransaction/GetAllToExcel"
+    TenantTransactionsToExcel:"/api/services/app/TenantTransaction/GetAllToExcel",
+    ManualReceiptGetAll:"/api/services/app/ManualReceipt/GetAll"
   };
 
   export const Cip = {

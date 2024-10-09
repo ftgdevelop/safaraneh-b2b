@@ -59,7 +59,9 @@ export const Header = {
     SendEmailActivation:"/api/services/app/Account/SendEmailActivation",
     ActivateEmail:"/api/services/app/Account/ActivateEmail",
     GetSiteAllSettings:"/api/services/app/TenantSettings/GetAllSettings",
-    GetPermissions:"/api/services/app/Profile/GetPermissions"
+    GetPermissions:"/api/services/app/Profile/GetPermissions",
+    getAllUsers:"/api/services/app/User/GetAll",
+    ResetUsersPassword:"/api/services/app/User/ResetPassword"
   };
 
 export const Flight = {

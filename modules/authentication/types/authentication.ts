@@ -25,3 +25,21 @@ export interface UserInformation {
     nationalityId?: string;
     nationalId?: string;
 }
+
+export interface UserItemType {    
+    userName?: string;
+    emailAddress?: string;
+    displayName?: string;
+    firstName?: string;
+    lastName?: string;
+    isActive: boolean;
+    gender: boolean;
+    birthDay?: string;
+    isNewsLater: boolean;
+    isEmailConfirmed: boolean;
+    phoneNumber?: string;
+    nationalityId?: string;
+    hostAccess: unknown;
+    roleNames: [];
+    id: number;
+}

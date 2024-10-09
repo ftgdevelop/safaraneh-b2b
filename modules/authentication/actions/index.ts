@@ -2,6 +2,55 @@ import { Identity, ServerAddress, Header } from "@/enum/url"
 import axios from "axios"
 import { UpdateUserParams } from "../types/authentication"
 
+export const getUsers = async (params:{
+    token:string;
+    tenant:number;
+    queries: string;
+}) => {
+
+    try {
+        let response = await axios.get(
+            `${ServerAddress.Type}${ServerAddress.Identity}${Identity.getAllUsers}?${params.queries}`,
+            {
+                headers: {
+                    Accept: 'application/json;charset=UTF-8',
+                    apikey: process.env.PROJECT_SERVER_APIKEY,
+                    Authorization: `Bearer ${params.token}`,
+                    Tenantid: params.tenant
+                },
+            },
+        )
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+export const resetUsersPassword = async (param: { password: string, userId: number, token:string, tenantId:number }, acceptLanguage: string = 'fa-IR') => {
+
+    try {
+        let response = await axios.post(
+            `${ServerAddress.Type}${ServerAddress.Identity}${Identity.ResetUsersPassword}`,
+            {
+                id: param.userId,
+                newPassword: param.password
+            },
+            {
+                headers: {
+                    ...Header,
+                    "Accept-Language": acceptLanguage,
+                    Authorization: `Bearer ${param.token}`,
+                    apikey: process.env.PROJECT_SERVER_APIKEY,
+                    Tenantid: param.tenantId
+                },
+            },
+        )
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
 export const sendOtp = async (param: { emailOrPhoneNumber: string, tenantId:number }, acceptLanguage: string = 'fa-IR') => {
 
     try {

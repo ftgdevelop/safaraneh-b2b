@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import { Header, ServerAddress, Reserve, Traveler, Cms } from "../../../enum/url";
+import { Header, ServerAddress, Reserve, Traveler, Cms, Flight } from "../../../enum/url";
 import { ReserveType } from '../types/common';
 
-export const getPageByUrl = async (url: string,tenant:number, acceptLanguage: string = "fa-IR") => {
+export const getPageByUrl = async (url: string, tenant: number, acceptLanguage: string = "fa-IR") => {
     try {
         let response = await axios.get(
             `${ServerAddress.Type}${ServerAddress.CMS}${Cms.GetByUrl}?Url=${url}`,
@@ -22,7 +22,7 @@ export const getPageByUrl = async (url: string,tenant:number, acceptLanguage: st
     }
 }
 
-export const getReserveFromCoordinator = async (params: { tenant:number,reserveId: string, username: string }, acceptLanguage: string = "fa-IR") => {
+export const getReserveFromCoordinator = async (params: { tenant: number, reserveId: string, username: string }, acceptLanguage: string = "fa-IR") => {
     try {
         let response = await axios.get(
             `${ServerAddress.Type}${ServerAddress.Coordinator}${Reserve.GetReserveFromCoordinator}?Id=${params.reserveId}&Username=${params.username}`,
@@ -49,7 +49,7 @@ export const getUserAllReserves = async (params: {
     FromReturnTime?: string;
     ToReturnTime?: string;
     Ids?: number;
-    tenant:number;
+    tenant: number;
 }, token: string, acceptLanguage: string = "fa-IR") => {
     try {
         let response = await axios.get(
@@ -82,7 +82,7 @@ export const getUserAllReserves = async (params: {
 
 
 
-export const getTravelers = async (token: string,tenant:number, acceptLanguage: string = "fa-IR") => {
+export const getTravelers = async (token: string, tenant: number, acceptLanguage: string = "fa-IR") => {
     try {
         let response = await axios.get(
             `${ServerAddress.Type}${ServerAddress.Traveler}${Traveler.GetAll}`,
@@ -102,7 +102,7 @@ export const getTravelers = async (token: string,tenant:number, acceptLanguage: 
     }
 }
 
-export const deleteTraveller = async (id:number, token: string, tenant:number, acceptLanguage: string = "fa-IR") => {
+export const deleteTraveller = async (id: number, token: string, tenant: number, acceptLanguage: string = "fa-IR") => {
     try {
         let response = await axios.delete(
             `${ServerAddress.Type}${ServerAddress.Traveler}${Traveler.Delete}?Id=${id}`,
@@ -113,6 +113,24 @@ export const deleteTraveller = async (id:number, token: string, tenant:number, a
                     "Accept-Language": acceptLanguage,
                     Authorization: `Bearer ${token}`,
                     Tenantid: tenant
+                }
+            },
+        )
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+export const getAllCountries = async (acceptLanguage: string = 'fa-IR') => {
+    try {
+        let response = await axios.get(
+            `${ServerAddress.Type}${ServerAddress.Flight}${Flight.GetAllCountries}?MaxResultCount=300`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    apikey: process.env.PROJECT_SERVER_APIKEY,
+                    'Accept-Language': acceptLanguage
                 }
             },
         )

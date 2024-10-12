@@ -20,13 +20,13 @@ const ChangeUsersPassword: React.FC<Props> = props => {
 
     const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
-    const submitHandler = async (values:{password:string,confirm: string; }) => {
+    const submitHandler = async (values: { password: string, confirm: string; }) => {
         const localStorageToken = localStorage.getItem('Token');
         const localStorageTenantId = localStorage.getItem('S-TenantId');
 
-        if( localStorageToken && localStorageTenantId && values.password && values.password === values.confirm){
+        if (localStorageToken && localStorageTenantId && values.password && values.password === values.confirm) {
             setSubmitLoading(true);
-        
+
             const response: any = await resetUsersPassword({
                 tenantId: +localStorageTenantId,
                 token: localStorageToken,
@@ -36,7 +36,7 @@ const ChangeUsersPassword: React.FC<Props> = props => {
 
             setSubmitLoading(false);
 
-            if(response.data?.result){
+            if (response.data?.result) {
                 dispatch(setReduxNotification({
                     status: 'success',
                     message: "کلمه عبور جدید با موفقیت ذخیره شد",
@@ -45,8 +45,8 @@ const ChangeUsersPassword: React.FC<Props> = props => {
                 props.closeModal();
             }
 
-        }else{
-            
+        } else {
+
             dispatch(setReduxError({
                 title: "خطا",
                 message: "کلمه عبور و تکرار آن مطابقت ندارد",
@@ -99,7 +99,7 @@ const ChangeUsersPassword: React.FC<Props> = props => {
                                 id='confirm'
                                 name='confirm'
                                 isTouched={touched.confirm}
-                                label={"کلمه عبور جدید"}
+                                label={"تکرار کلمه عبور جدید"}
                                 validateFunction={(value: string) => validateRequied(value, "کلمه عبور جدید کاربر را وارد نمایید!")}
                                 value={values.confirm!}
                             />

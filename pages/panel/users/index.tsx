@@ -1,6 +1,7 @@
 import { getUsers } from "@/modules/authentication/actions";
 import UserFilterForm from "@/modules/authentication/components/users/UserFilterForm";
 import UserItem from "@/modules/authentication/components/users/UserItem";
+import UserNavigation from "@/modules/authentication/components/users/UserNavigation";
 import { UserItemType } from "@/modules/authentication/types/authentication";
 import Skeleton from "@/modules/shared/components/ui/Skeleton";
 import { InfoCircle, LeftCaret, Plus, RightCaret, UsersX } from "@/modules/shared/components/ui/icons";
@@ -152,72 +153,81 @@ const Users: NextPage = () => {
     }
 
     return (
-        <>
-            <div
-                className="border-b flex items-center gap-3 px-4 md:px-6 py-3 bg-white text-lg md:text-xl"
-            >
-                <UsersX className="w-8 h-8" />
-                مدیریت کاربران
-            </div>
 
-            <div className="p-4 md:p-6">
+        <div className="grid grid-cols-6 bg-neutral-100">
+            
+            <UserNavigation />
 
-                <div className="bg-white border rounded-xl p-5 flex justify-between gap-5 mb-5 items-end">
+            <div className="relative col-span-5">
 
-                    <UserFilterForm
-                        submitHandler={filterUsers}
-                        resetHandler={resetFilter}
-                    />
-                    <Link
-                        href='/panel/users/create'
-                        className="bg-blue-600 hover:bg-blue-500 py-2 px-4 rounded text-sm text-white block"
+                <div
+                    className="border-b flex items-center gap-3 px-4 md:px-6 py-3 bg-white text-lg md:text-xl"
+                >
+                    <UsersX className="w-8 h-8" />
+                    مدیریت کاربران
+                </div>
+
+                <div className="p-4 md:p-6">
+
+                    <div className="bg-white border rounded-xl p-5 flex justify-between gap-5 mb-5 items-end">
+
+                        <UserFilterForm
+                            submitHandler={filterUsers}
+                            resetHandler={resetFilter}
+                        />
+                        <Link
+                            href='/panel/users/create'
+                            className="bg-blue-600 hover:bg-blue-500 py-2 px-4 rounded text-sm text-white block"
+                        >
+                            <Plus className="inline-block fill-current w-7 h-7" /> ایجاد کاربر جدید
+                        </Link>
+
+                    </div>
+
+                    <div className="bg-white p-5 border rounded-2xl mb-5">
+                        <table className="w-full text-sm text-neutral-700">
+                            <thead>
+
+                                <tr className="text-muted-foreground">
+                                    <th className={`${tableCellClass} w-10 xl:w-1/12`}> # </th>
+                                    <th className={`${tableCellClass} w-12 xl:w-1/5`}> نام </th>
+                                    <th className={`${tableCellClass} w-10 xl:w-1/5`}> نام خانوادگی </th>
+                                    <th className={`${tableCellClass} w-14 xl:w-1/5`}> نام کاربری </th>
+                                    <th className={`${tableCellClass} w-16 xl:w-1/5 `}> وضعیت </th>
+                                    <th className={`${tableCellClass} w-1/3 xl:w-1/5`}> عملیات </th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                {tableItems}
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <button
+                        type="button"
+                        onClick={previousPage}
+                        className={pageBtnClassName}
+                        disabled={page === 1}
                     >
-                        <Plus className="inline-block fill-current w-7 h-7" /> ایجاد کاربر جدید
-                    </Link>
-
+                        <RightCaret className="w-5 h-5 fill-current" />
+                        قبلی
+                    </button>
+                    <button
+                        type="button"
+                        onClick={nextPage}
+                        className={pageBtnClassName}
+                        disabled={page * 10 >= totalItems}
+                    >
+                        بعدی
+                        <LeftCaret className="w-5 h-5 fill-current" />
+                    </button>
                 </div>
 
-                <div className="bg-white p-5 border rounded-2xl mb-5">
-                    <table className="w-full text-sm text-neutral-700">
-                        <thead>
-
-                            <tr className="text-muted-foreground">
-                                <th className={`${tableCellClass} w-10 xl:w-24`}> # </th>
-                                <th className={`${tableCellClass} w-12 xl:w-32`}> نام </th>
-                                <th className={`${tableCellClass} w-10 xl:w-32`}> نام خانوادگی </th>
-                                <th className={`${tableCellClass} w-14 xl:w-40`}> نام کاربری </th>
-                                <th className={`${tableCellClass} w-16 xl:w-40 `}> وضعیت </th>
-                                <th className={`${tableCellClass} w-1/3 xl:w-80`}> عملیات </th>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                            {tableItems}
-                        </tbody>
-                    </table>
-
-                </div>
-                <button
-                    type="button"
-                    onClick={previousPage}
-                    className={pageBtnClassName}
-                    disabled={page === 1}
-                >
-                    <RightCaret className="w-5 h-5 fill-current" />
-                    قبلی
-                </button>
-                <button
-                    type="button"
-                    onClick={nextPage}
-                    className={pageBtnClassName}
-                    disabled={page * 10 >= totalItems}
-                >
-                    بعدی
-                    <LeftCaret className="w-5 h-5 fill-current" />
-                </button>
             </div>
 
-        </>
+        </div>
+
     )
 
 }

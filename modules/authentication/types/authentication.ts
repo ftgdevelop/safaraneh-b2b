@@ -26,7 +26,7 @@ export interface UserInformation {
     nationalId?: string;
 }
 
-export interface UserItemType {    
+export interface UserItemType {
     userName?: string;
     emailAddress?: string;
     displayName?: string;
@@ -42,4 +42,20 @@ export interface UserItemType {
     hostAccess: unknown;
     roleNames: [];
     id: number;
+}
+
+
+export interface NewUserParameters {
+    birthDay?: string;
+    emailAddress?: string;
+    firstName?: string;
+    gender: boolean;
+    isActive: boolean;
+    isEmailConfirmed: boolean;
+    isNewsLater: boolean;
+    lastName?: string;
+    nationalityId?: string;
+    phoneNumber?: string;
+    roleNames: string[];
+    password?: string;
 }

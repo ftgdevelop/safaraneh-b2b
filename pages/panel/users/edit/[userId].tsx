@@ -82,7 +82,7 @@ const EditUser: NextPage = () => {
                 >
                     <UsersX className="w-8 h-8" />
                     ویرایش اطلاعات کاربر
-                    {(userData?.firstName || userData?.displayName) ? <span className="font-semibold text-slate-400"> "{userData?.displayName || (userData?.firstName + " " + userData?.lastName)}" </span> : null}
+                    {(userData?.firstName || userData?.displayName) ? <span className="font-semibold text-slate-400"> &quot;{userData?.displayName || (userData?.firstName + " " + userData?.lastName)}&quot; </span> : null}
                 </div>
 
                 <div className="p-4 md:p-6">

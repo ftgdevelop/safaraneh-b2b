@@ -31,7 +31,7 @@ const HeaderProfile = () => {
             <div 
                 className="absolute min-w-full top-full bg-white border rounded-lg text-sm whitespace-nowrap left-0 opacity-0 delay-200 invisible transition-all origin-top-left scale-75 -mt-5 group-hover:mt-0 group-hover:scale-100 group-hover:opacity-100 group-hover:visible group-hover:delay-0"
             >
-                <Link href={"/"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
+                <Link href={"/panel/profile"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
                     <User2 className="w-5 h-5"/>
                     حساب کاربری
                 </Link>

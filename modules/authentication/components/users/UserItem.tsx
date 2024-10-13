@@ -33,7 +33,7 @@ const UserItem: React.FC<Props> = props => {
             </td>
             <td className={`${tableCellClass} border-t group-hover:bg-blue-50/50`}>
                 <Link
-                    href={`/panel/users/${user.id}`}
+                    href={`/panel/users/edit/${user.id}`}
                     title="ویرایش"
                     className="inline-block align-middle border border-slate-300 bg-slate-100 hover:bg-slate-200 outline-none rounded mx-1 p-1"
                 >

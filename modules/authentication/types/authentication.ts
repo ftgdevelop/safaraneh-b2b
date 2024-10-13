@@ -59,3 +59,25 @@ export interface NewUserParameters {
     roleNames: string[];
     password?: string;
 }
+
+export interface UpdateUserParameters extends NewUserParameters {
+    id: number;
+} 
+
+export interface UserDataType {
+    userName?: string;
+    emailAddress?: string;
+    displayName?: string;
+    firstName?: string;
+    lastName?: string;
+    isActive: boolean;
+    hostAccess?: unknown;
+    gender: boolean;
+    birthDay?: string;
+    isNewsLater:boolean;
+    isEmailConfirmed:boolean;
+    nationalityId?: string;
+    phoneNumber?: string;
+    roleNames: string[];
+    id: number;
+}

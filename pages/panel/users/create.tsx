@@ -2,6 +2,7 @@ import { createUser } from "@/modules/authentication/actions";
 import UserNavigation from "@/modules/authentication/components/users/UserNavigation";
 import { NewUserParameters } from "@/modules/authentication/types/authentication";
 import { getAllCountries } from "@/modules/shared/actions";
+import BreadCrumpt from "@/modules/shared/components/ui/BreadCrumpt";
 import Button from "@/modules/shared/components/ui/Button";
 import DatePickerMobiscroll from "@/modules/shared/components/ui/DatePickerMobiscroll";
 import FormikField from "@/modules/shared/components/ui/FormikField";
@@ -128,6 +129,15 @@ const CreateUser: NextPage = () => {
                 </div>
 
                 <div className="p-4 md:p-6">
+                    
+                    <BreadCrumpt
+                        hideHome
+                        items={[
+                            {label:"پیشخوان", link:"/panel"},
+                            {label:"مدیریت کاربران", link:"/panel/users"},
+                            {label:"کاربرجدید"}
+                        ]}
+                    />
 
                     <div className="bg-white border rounded-xl p-5 md:p-8 mb-5">
 
@@ -248,7 +258,7 @@ const CreateUser: NextPage = () => {
                                             id="nationalityId"
                                             items={countries.map(item => ({ label: item.name || item.nationality || "", value: item.code || "" }))}
                                             validateFunction={(value: string) => validateRequied(value, "ملیت کاربر را انتخاب نمایید!")}
-                                            value=""
+                                            value={values.nationalityId||""}
                                             label="ملیت"
                                         />}
 

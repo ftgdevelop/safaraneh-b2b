@@ -62,7 +62,11 @@ export const Identity = {
   GetPermissions: "/api/services/app/Profile/GetPermissions",
   getAllUsers: "/api/services/app/User/GetAll",
   ResetUsersPassword: "/api/services/app/User/ResetPassword",
-  CreateNewUser: "/api/services/app/User/Create"
+  CreateNewUser: "/api/services/app/User/Create",
+  UpdateUser: "/api/services/app/User/Update",
+  GetUserById:"/api/services/app/User/Get",
+  GetUserPermissionsForEdit : "/api/services/app/User/GetUserPermissionsForEdit",
+  UpdateUserPermissions:"/api/services/app/User/UpdateUserPermissions"
 };
 
 export const Flight = {

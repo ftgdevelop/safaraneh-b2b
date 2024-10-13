@@ -124,12 +124,9 @@ const PanelAside: React.FC = () => {
                         <div className="text-sm">
                             مدیریت کاربران
                             <br />
-                            User management
+                            User Management
                         </div>
                     </Link>
-
-
-
 
                 </nav>
                 <footer>

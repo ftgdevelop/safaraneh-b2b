@@ -3,6 +3,7 @@ import UserFilterForm from "@/modules/authentication/components/users/UserFilter
 import UserItem from "@/modules/authentication/components/users/UserItem";
 import UserNavigation from "@/modules/authentication/components/users/UserNavigation";
 import { UserItemType } from "@/modules/authentication/types/authentication";
+import BreadCrumpt from "@/modules/shared/components/ui/BreadCrumpt";
 import Skeleton from "@/modules/shared/components/ui/Skeleton";
 import { InfoCircle, LeftCaret, Plus, RightCaret, UsersX } from "@/modules/shared/components/ui/icons";
 import { NextPage } from "next";
@@ -168,6 +169,13 @@ const Users: NextPage = () => {
                 </div>
 
                 <div className="p-4 md:p-6">
+                    <BreadCrumpt
+                        hideHome
+                        items={[
+                            {label:"پیشخوان", link:"/panel"},
+                            {label:"مدیریت کاربران"}
+                        ]}
+                    />
 
                     <div className="bg-white border rounded-xl p-5 flex justify-between gap-5 mb-5 items-end">
 

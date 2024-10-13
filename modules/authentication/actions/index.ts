@@ -1,6 +1,79 @@
 import { Identity, ServerAddress, Header } from "@/enum/url"
 import axios from "axios"
-import { NewUserParameters, UpdateUserParams } from "../types/authentication"
+import { NewUserParameters, UpdateUserParameters, UpdateUserParams } from "../types/authentication"
+
+export const getUserById = async (params: {
+    token: string;
+    tenant: number;
+    userId: number;
+}) => {
+
+    try {
+        let response = await axios.get(
+            `${ServerAddress.Type}${ServerAddress.Identity}${Identity.GetUserById}?Id=${params.userId}`,
+            {
+                headers: {
+                    Accept: 'application/json;charset=UTF-8',
+                    apikey: process.env.PROJECT_SERVER_APIKEY,
+                    Authorization: `Bearer ${params.token}`,
+                    Tenantid: params.tenant
+                },
+            },
+        )
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+export const getUserPermissionsForEdit = async (params: {
+    token: string;
+    tenant: number;
+    userId: number;
+}) => {
+
+    try {
+        let response = await axios.get(
+            `${ServerAddress.Type}${ServerAddress.Identity}${Identity.GetUserPermissionsForEdit}?Id=${params.userId}`,
+            {
+                headers: {
+                    Accept: 'application/json;charset=UTF-8',
+                    apikey: process.env.PROJECT_SERVER_APIKEY,
+                    Authorization: `Bearer ${params.token}`,
+                    Tenantid: params.tenant
+                },
+            },
+        )
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+export const updateUserPermissions = async (param: { grantedPermissionNames: string[], userId: number, token: string, tenantId: number }, acceptLanguage: string = 'fa-IR') => {
+
+    try {
+        let response = await axios.put(
+            `${ServerAddress.Type}${ServerAddress.Identity}${Identity.UpdateUserPermissions}`,
+            {
+                id: param.userId,
+                grantedPermissionNames: param.grantedPermissionNames
+            },
+            {
+                headers: {
+                    ...Header,
+                    "Accept-Language": acceptLanguage,
+                    Authorization: `Bearer ${param.token}`,
+                    apikey: process.env.PROJECT_SERVER_APIKEY,
+                    Tenantid: param.tenantId
+                },
+            },
+        )
+        return response
+    } catch (error) {
+        return error
+    }
+}
 
 export const getUsers = async (params: {
     token: string;
@@ -57,6 +130,28 @@ export const createUser = async (param: { userData: NewUserParameters, token: st
     try {
         let response = await axios.post(
             `${ServerAddress.Type}${ServerAddress.Identity}${Identity.CreateNewUser}`,
+            param.userData,
+            {
+                headers: {
+                    ...Header,
+                    "Accept-Language": acceptLanguage,
+                    Authorization: `Bearer ${param.token}`,
+                    apikey: process.env.PROJECT_SERVER_APIKEY,
+                    Tenantid: param.tenantId
+                },
+            },
+        )
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+export const updateUser = async (param: { userData: UpdateUserParameters, token: string, tenantId: number }, acceptLanguage: string = 'fa-IR') => {
+
+    try {
+        let response = await axios.put(
+            `${ServerAddress.Type}${ServerAddress.Identity}${Identity.UpdateUser}`,
             param.userData,
             {
                 headers: {

@@ -27,9 +27,10 @@ const SelectWithSearch: React.FC<Props> = props => {
 
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
-    const [text, setText] = useState<string>(props.value);
+    const initialText = props.value ? props.items?.find(x => x.value === props.value)?.label : "";
+    const [text, setText] = useState<string>(initialText || "");
 
-    const [value, setValue] = useState<{ code: string, label: string }>();
+    const [value, setValue] = useState<string>(props.value || "");
 
     const [open, setOpen] = useState<boolean>(false);
 
@@ -90,8 +91,8 @@ const SelectWithSearch: React.FC<Props> = props => {
     }
 
     useEffect(() => {
-        props.setFieldValue(props.name, value?.code || "")
-    }, [value?.code])
+        props.setFieldValue(props.name, value || "")
+    }, [value])
 
     return (
         <div className={`${props.errorText ? "has-validation-error" : ""} ${props.className || ""}`}>
@@ -119,7 +120,7 @@ const SelectWithSearch: React.FC<Props> = props => {
                         className={`${props.fieldClassName || ""} h-10 px-3 bg-white border ${props.errorText && props.isTouched ? "border-red-500" : "border-neutral-300 focus:border-blue-500"} outline-none rounded-md w-full`}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
                             if (!e.target.value) {
-                                setValue(undefined);
+                                setValue("");
                             }
                             setText(e.target.value);
                         }}
@@ -137,8 +138,8 @@ const SelectWithSearch: React.FC<Props> = props => {
                         {props.items.filter(item => !text || item.label.includes(text) || item.value.toLocaleLowerCase().includes(text.toLocaleLowerCase())).map(item => (
                             <div
                                 key={item.value}
-                                onClick={() => { setValue({ code: item.value, label: item.label }); setText(item.label); setOpen(false); }}
-                                className={`px-3 py-1 transition-all cursor-pointer select-none text-sm ${item.value === value?.code ? "bg-blue-50" : "bg-white hover:bg-neutral-100"}`}
+                                onClick={() => { setValue(item.value); setText(item.label); setOpen(false); }}
+                                className={`px-3 py-1 transition-all cursor-pointer select-none text-sm ${item.value === value ? "bg-blue-50" : "bg-white hover:bg-neutral-100"}`}
                             >
                                 {item.label}
                             </div>

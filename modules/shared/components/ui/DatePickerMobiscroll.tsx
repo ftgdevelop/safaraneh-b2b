@@ -1,20 +1,20 @@
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { Datepicker as MobiscrollDatepicker, setOptions, localeFa, localeEn, Page, CalendarToday, Input, Popup, Select, Button, formatDate, options } from '@mobiscroll/react';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 
-import { ArrowLeft, Calendar, CalendarToggle } from './icons';
-import { dateDiplayFormat } from '../../helpers';
+import { CalendarToggle } from './icons';
 
 type Props = {
     onChange: (args: any, inst: any) => void;
-    onChangeLocale? : (l:any) => void;
+    onChangeLocale?: (l: any) => void;
     rtl?: boolean;
     locale?: any;
     value?: string;
-    placeholder?:string;
+    placeholder?: string;
     minDate?: string;
-    inputStyle:"simple" | "theme1" | "theme2"
+    maxDate?: string;
+    inputStyle: "simple" | "theme1" | "theme2"
 }
 
 type DatePickerValue = {
@@ -41,9 +41,9 @@ const DatePickerMobiscroll: React.FC<Props> = props => {
         setLocale(props.locale);
     }, [props.locale]);
 
-    useEffect(()=>{
+    useEffect(() => {
         setValue(props.value || "")
-    },[props.value]);
+    }, [props.value]);
 
     const onChange = (args: DatePickerValue, inst: any) => {
         setValue(args.value);
@@ -75,7 +75,7 @@ const DatePickerMobiscroll: React.FC<Props> = props => {
     }
 
     const theme2 = process.env.THEME === "THEME2";
-    
+
     return (
         <div className={`mobiscroll-datepicker-wrapper ${props.inputStyle} ${locale === localeFa ? 'persian-datepicker-wrapper' : ''}`} >
 
@@ -103,13 +103,14 @@ const DatePickerMobiscroll: React.FC<Props> = props => {
                 }}
                 inputTyping={false}
                 min={props.minDate ? new Date(props.minDate) : ""}
+                max={props.maxDate ? new Date(props.maxDate) : ""}
                 marked={marked}
                 showRangeLabels={false}
                 onChange={onChange}
-                value = {value}
+                value={value}
             >
 
-                <footer className={`direction-root ${theme2?"font-iranyekan":"font-samim"} mobi-date-picker-footer flex justify-center gap-5 md:justify-between items-center px-5 py-4 border-t border-neutral-300`}>
+                <footer className={`direction-root ${theme2 ? "font-iranyekan" : "font-samim"} mobi-date-picker-footer flex justify-center gap-5 md:justify-between items-center px-5 py-4 border-t border-neutral-300`}>
                     <button type='button' onClick={goToday} className='text-primary-700 text-sm'>
                         {t('goToToday')}
                     </button>
@@ -118,13 +119,13 @@ const DatePickerMobiscroll: React.FC<Props> = props => {
                     <button
                         type='button'
                         className='text-primary-700 text-sm flex gap-2 items-center'
-                        onClick={() => { 
+                        onClick={() => {
                             setLocale((previousLocale: any) => {
                                 const updatedLocale = previousLocale === localeFa ? localeEn : localeFa;
-                                if(props.onChangeLocale){
+                                if (props.onChangeLocale) {
                                     props.onChangeLocale(updatedLocale);
                                 }
-                                return(updatedLocale)
+                                return (updatedLocale)
                             });
                         }}
                     >

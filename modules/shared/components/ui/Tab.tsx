@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 type Props = {
     items: TabItem[];
     noBorder?:boolean;
+    noGrowTabs?:boolean;
     wrapperClassName?: string;
 }
 
@@ -18,7 +19,7 @@ const Tab: React.FC<Props> = props => {
     const [activetabKey, setActiveTabKey] = useState(items[0]?.key);
 
     let tabClassName = (active: boolean) => {
-        return `outline-none select-none text-2xs sm:text-xs px-2 sm:px-5 grow rounded-xl py-1.5 sm:py-2 transition-all ${active ? "text-neutral-900 bg-white shadow-normal" : "text-slate-500"}`;
+        return `outline-none select-none text-2xs sm:text-xs px-2 sm:px-5 ${props.noGrowTabs? "" : " grow"} rounded-xl py-1.5 sm:py-2 transition-all ${active ? "text-neutral-900 bg-white shadow-normal" : "text-slate-500"}`;
     }
 
     return (

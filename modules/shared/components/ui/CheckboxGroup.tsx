@@ -5,6 +5,7 @@ type Props = {
     values: string[];
     items: { value: string, label: React.ReactNode }[];
     onChange: (values: string[]) => void;
+    noMultipleWrappers?: boolean;
 }
 
 const CheckboxGroup: React.FC<Props> = props => {
@@ -34,7 +35,7 @@ const CheckboxGroup: React.FC<Props> = props => {
         setValues(props.values)
     }, [props.values.length]);
 
-    if (props.items.length > 10) {
+    if (!props.noMultipleWrappers && props.items.length > 10) {
         return (
             <>
                 <div>

@@ -18,6 +18,7 @@ type Props = {
     showRequiredStar?: boolean;
     disabled?: boolean;
     items: { label: string, value: string }[];
+    labelIsSmall?: boolean;
 }
 
 const SelectWithSearch: React.FC<Props> = props => {
@@ -26,9 +27,10 @@ const SelectWithSearch: React.FC<Props> = props => {
 
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
-    const [text, setText] = useState<string>(props.value);
+    const initialText = props.value ? props.items?.find(x => x.value === props.value)?.label : "";
+    const [text, setText] = useState<string>(initialText || "");
 
-    const [value, setValue] = useState<{ code: string, label: string }>();
+    const [value, setValue] = useState<string>(props.value || "");
 
     const [open, setOpen] = useState<boolean>(false);
 
@@ -67,9 +69,30 @@ const SelectWithSearch: React.FC<Props> = props => {
         labelIsUp = true;
     }
 
+    const labelClassNames = ["z-10 select-none pointer-events-none block leading-4"];
+
+    if (props.labelIsSmall) {
+        labelClassNames.push("mb-2 text-sm");
+    } else if (props.labelIsSimple) {
+        labelClassNames.push("mb-3 text-sm");
+    } else {
+
+        labelClassNames.push(`absolute px-2 transition-all duration-300 -translate-y-1/2 rtl:right-1 ltr:left-1 bg-white`);
+
+        if (labelIsUp) {
+
+            labelClassNames.push("top-0 text-xs");
+
+        } else {
+
+            labelClassNames.push("top-1/2 text-sm");
+
+        }
+    }
+
     useEffect(() => {
-        props.setFieldValue(props.name, value?.code || "")
-    }, [value?.code])
+        props.setFieldValue(props.name, value || "")
+    }, [value])
 
     return (
         <div className={`${props.errorText ? "has-validation-error" : ""} ${props.className || ""}`}>
@@ -78,7 +101,7 @@ const SelectWithSearch: React.FC<Props> = props => {
                     {!!props.label && (
                         <label
                             htmlFor={props.id}
-                            className={`z-10 select-none pointer-events-none block leading-4 ${props.labelIsSimple ? "mb-3" : "absolute px-2 bg-white transition-all duration-300 -translate-y-1/2 rtl:right-1 ltr:left-1"} ${props.labelIsSimple ? "text-base" : labelIsUp ? "top-0 text-xs" : "top-1/2 text-sm"}`}
+                            className={labelClassNames.join(" ")}
                         >
                             {!!(props.labelIsSimple && props.showRequiredStar) && <span className='text-red-600'>* </span>}
                             {props.label}
@@ -97,7 +120,7 @@ const SelectWithSearch: React.FC<Props> = props => {
                         className={`${props.fieldClassName || ""} h-10 px-3 bg-white border ${props.errorText && props.isTouched ? "border-red-500" : "border-neutral-300 focus:border-blue-500"} outline-none rounded-md w-full`}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
                             if (!e.target.value) {
-                                setValue(undefined);
+                                setValue("");
                             }
                             setText(e.target.value);
                         }}
@@ -115,8 +138,8 @@ const SelectWithSearch: React.FC<Props> = props => {
                         {props.items.filter(item => !text || item.label.includes(text) || item.value.toLocaleLowerCase().includes(text.toLocaleLowerCase())).map(item => (
                             <div
                                 key={item.value}
-                                onClick={() => { setValue({ code: item.value, label: item.label }); setText(item.label); setOpen(false); }}
-                                className={`px-3 py-1 transition-all cursor-pointer select-none text-sm ${item.value === value?.code ? "bg-blue-50" : "bg-white hover:bg-neutral-100"}`}
+                                onClick={() => { setValue(item.value); setText(item.label); setOpen(false); }}
+                                className={`px-3 py-1 transition-all cursor-pointer select-none text-sm ${item.value === value ? "bg-blue-50" : "bg-white hover:bg-neutral-100"}`}
                             >
                                 {item.label}
                             </div>

@@ -23,13 +23,13 @@ type Props = {
 
 const TransactionFilterForm: React.FC<Props> = props => {
 
-    const initialValues:{
+    const initialValues: {
         CreationTimeFrom: string;
         CreationTimeTo: string;
         CurrencyType: "IRR" | "USD" | "EUR";
         PaymentType: string;
         TransferType: string;
-        ReserveId: string;   
+        ReserveId: string;
     } = {
         ReserveId: "",
         PaymentType: "",
@@ -187,7 +187,7 @@ const TransactionFilterForm: React.FC<Props> = props => {
                                     type="button"
                                     className="h-10 px-2  rounded"
                                     color="gray"
-                                    onClick={()=>{
+                                    onClick={() => {
                                         props.resetHandler();
                                         setFieldValue('CreationTimeFrom', "", true);
                                         setFieldValue('CreationTimeTo', "", true);
@@ -207,7 +207,6 @@ const TransactionFilterForm: React.FC<Props> = props => {
                 )
             }}
         </Formik>
-
     )
 }
 

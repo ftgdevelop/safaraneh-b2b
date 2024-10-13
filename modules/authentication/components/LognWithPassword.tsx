@@ -9,6 +9,7 @@ import { setReduxUser,setAuthenticationDone } from '../store/authenticationSlice
 import { getTenant, loginWithPassword } from '../actions';
 import { setReduxNotification } from '@/modules/shared/store/notificationSlice';
 import { useRouter } from 'next/router';
+import { setReduxError } from '@/modules/shared/store/errorSlice';
 
 const LognWithPassword: React.FC = () => {
 
@@ -21,14 +22,29 @@ const LognWithPassword: React.FC = () => {
     const [loading, setLoding] = useState<boolean>(false);
 
     const onSuccessLogin = (response: any) => {
-        const token = response.data?.result?.accessToken
-        localStorage.setItem('Token', token);
 
-        dispatch(setReduxUser({
-            isAuthenticated: true,
-            user: response.data?.result?.user,
-            getUserLoading: false
-        }));       
+        const roleNames : string[] = response.data?.result?.user?.roleNames || [];
+        if(roleNames.includes("Affiliate")){
+            const token = response.data?.result?.accessToken
+            localStorage.setItem('Token', token);
+    
+            dispatch(setReduxUser({
+                isAuthenticated: true,
+                user: response.data?.result?.user,
+                getUserLoading: false
+            }));       
+        }else{
+            dispatch(setReduxUser({
+                isAuthenticated: false,
+                user: {},
+                getUserLoading: false
+            }));
+            dispatch(setReduxError({
+                title: "خطا",
+                message:"شما دسترسی لازم برای ورود به سیستم را ندارد.لطفا برای اطلاعات بیشتر با پشتیبانی تماس بگیرید.",
+                isVisible: true
+            }));
+        }
 
     }
 

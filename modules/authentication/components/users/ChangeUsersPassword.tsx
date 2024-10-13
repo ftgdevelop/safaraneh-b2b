@@ -60,7 +60,7 @@ const ChangeUsersPassword: React.FC<Props> = props => {
 
             <h5 className='text-xl font-semibold mb-4'> تغییر رمز عبور </h5>
 
-            <p className='mb-5 md:mb-8'> کلمه عبور جدید کاربر "{props.userFullName}" را وارد کنید. </p>
+            <p className='mb-5 md:mb-8'> کلمه عبور جدید کاربر &quot;{props.userFullName}&quot; را وارد کنید. </p>
 
             <Formik
                 validate={() => { return {} }}

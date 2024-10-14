@@ -8,6 +8,7 @@ type Props = {
     block?: boolean;
     className?: string;
     checked?: boolean;
+    onTouch?:() => void;
 }
 
 const Checkbox: React.FC<Props> = props => {
@@ -28,7 +29,12 @@ const Checkbox: React.FC<Props> = props => {
         <div className={`relative flex gap-2 items-center py-1 ${props.className || ""}`}>
             <input
                 type="checkbox"
-                onChange={e => { setChecked(e.target.checked) }}
+                onChange={e => { 
+                    setChecked(e.target.checked);
+                    if(props.onTouch){
+                        props.onTouch();
+                    }
+                }}
                 className="peer absolute opacity-0 w-full h-full cursor-pointer"
                 checked={checked}
             />

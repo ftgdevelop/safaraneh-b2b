@@ -1,24 +1,13 @@
 import Link from "next/link";
-import { useTranslation } from "next-i18next";
-
-import TravelServices from "./travelServices";
-import Language from "./Language";
 import Image from "next/image";
-import TrackOrder from "./TrackOrder";
-import { useAppSelector } from "../../hooks/use-store";
 import Navigation from "./Navigation";
 import Button from "../ui/Button";
-import { User, User2, User3 } from "../ui/icons";
+import { User3 } from "../ui/icons";
 
 const Header: React.FC = () => {
-
-    const { t } = useTranslation('common');
-
-    const userIsAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
     
     return (
         <header className="bg-white z-30 relative">
-
 
             <div className="max-w-container mx-auto relative clearfix py-5 px-3 md:px-5">
 

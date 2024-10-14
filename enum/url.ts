@@ -123,7 +123,7 @@ export const Payment = {
   RegisterDiscountCode: "/api/services/app/Discount/Register",
   GetBankGateway: "/api/services/app/ReserveBankGateway/GetAll",
   MakeToken: "/api/services/app/ReserveBankGateway/MakeToken",
-  GetBalance: "/api/services/app/Deposit/GetBalance",
+  GetTenantBalances: "/api/services/app/TenantDeposit/GetBalances",
   GetTransactionDeposit: "/api/services/app/TransactionDeposit/GetAll",
   GetDepositBankGateway: "/api/services/app/UserDepositBankGateway/GetAll",
   MakeDepositToken: "/api/services/app/UserDepositBankGateway/MakeToken",

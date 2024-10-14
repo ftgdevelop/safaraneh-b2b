@@ -6,7 +6,10 @@ type Authentication = {
     isAuthenticated: boolean;
     getUserLoading: boolean;
     user?: UserInformation | undefined;
-    balance?: number;
+    balances: {
+        amount: number;
+        currencyType: string;
+    }[];
     balanceLoading? : boolean;
     loginFormIsOpen?: boolean;
     loginToContinueReserve?: boolean;
@@ -18,7 +21,7 @@ const initialState: Authentication = {
     isAuthenticated: false,
     getUserLoading: false,
     user: undefined,
-    balance: undefined,
+    balances: [],
     balanceLoading: false,
     loginFormIsOpen: false,
     loginToContinueReserve:false,
@@ -35,7 +38,7 @@ export const authenticationSlice = createSlice({
             state.getUserLoading = action.payload.getUserLoading;
         },
         setReduxBalance: (state, action) => {
-            state.balance = action.payload.balance;
+            state.balances = action.payload.balances;
             state.balanceLoading = action.payload.loading;
         },
         openLoginForm : (state) =>{

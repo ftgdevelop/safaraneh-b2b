@@ -1,8 +1,8 @@
-import { getUserBalance } from "@/modules/payment/actions";
+import { getTenantBalances } from "@/modules/payment/actions";
 import { useAppDispatch, useAppSelector } from "@/modules/shared/hooks/use-store";
 import Link from "next/link";
 import { useEffect } from 'react';
-import { numberWithCommas } from "@/modules/shared/helpers";
+import { numberWithCommas, returnCurrency } from "@/modules/shared/helpers";
 import Skeleton from "@/modules/shared/components/ui/Skeleton";
 import { setReduxBalance } from "@/modules/authentication/store/authenticationSlice";
 import { CreditCard, DownCaret, Plus, TimeUpdate, Wallet2 } from "../../../shared/components/ui/icons";
@@ -11,7 +11,7 @@ import { CreditCard, DownCaret, Plus, TimeUpdate, Wallet2 } from "../../../share
 const HeaderBalance = () => {
     const dispatch = useAppDispatch();
 
-    const balance = useAppSelector(state => state.authentication.balance);
+    const balances = useAppSelector(state => state.authentication.balances);
     const balanceLoading = useAppSelector(state => state.authentication.balanceLoading);
 
     const token = localStorage.getItem('Token');
@@ -19,12 +19,23 @@ const HeaderBalance = () => {
     
     useEffect(() => {
         const fetchBalance = async (userToken:string, tenant: number) => {            
-            dispatch(setReduxBalance({ balance: undefined, loading: true }));
-            const response: any = await getUserBalance(userToken,tenant, "IRR");
-            if (response.data?.result?.amount !== null) {
-                dispatch(setReduxBalance({ balance: response?.data?.result?.amount, loading: false }))
+            
+            dispatch(setReduxBalance({ balances: [], loading: true }));
+            
+            const response: any = await getTenantBalances(userToken,tenant);
+
+            const balances : {
+                amount: number;
+                creationTime:string;
+                currencyType:string;
+                lastModificationTime?:string;
+                userId:number;
+            }[] = response?.data?.result || [];
+
+            if (balances.length) {
+                dispatch(setReduxBalance({ balances: balances , loading: false }))
             } else {
-                dispatch(setReduxBalance({ balance: undefined, loading: false }));
+                dispatch(setReduxBalance({ balances: [], loading: false }));
             }
         }
         if (token && tenantId) {
@@ -44,7 +55,7 @@ const HeaderBalance = () => {
                 ) : (
                     <>
                         <Wallet2 className="w-5 h-5 ml-1" />
-                        {numberWithCommas(balance || 0)} ریال
+                        {numberWithCommas(balances[0]?.amount || 0)} {returnCurrency(balances[0]?.currencyType)}
                     </>
                 )}
 

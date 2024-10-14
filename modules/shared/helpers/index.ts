@@ -19,6 +19,15 @@ export const numberWithCommas = (x: number) => {
     }
 }
 
+export const returnCurrency = (currency: string) =>{
+    switch (currency){
+        case "IRR":
+            return "ریال";
+        default:
+            return currency;
+    }
+} 
+
 export const dateDiplayFormat = ({ date, format, locale }: { date: string; format?: "weekDayNumber" | "m" | "d" | "HH:mm"| "dd mm"| "ddd dd mm"| "ddd dd mm yyyy" | "dd mm yyyy" | "yyyy/mm/dd" | "YYYY-MM-DD" | "yyyy/mm/dd h:m" , locale?: string }): string => {
 
     if (!date) return "";

@@ -90,18 +90,17 @@ export const getReserveBankGateway = async (tenant:number,id:string, acceptLangu
   }
 
 
-  export const getUserBalance = async (token:string, tenantid : number, currency:string) => {
+  export const getTenantBalances = async (token:string, tenantid : number) => {
 
     try {
         let response = await axios.get(
-            `${ServerAddress.Type}${ServerAddress.Payment}${Payment.GetBalance}`,
+            `${ServerAddress.Type}${ServerAddress.Payment}${Payment.GetTenantBalances}`,
             {
                 headers: {
                     Accept: 'application/json;charset=UTF-8',
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     Authorization: `Bearer ${token}`,
-                    Tenantid: tenantid,
-                    Currency: currency
+                    Tenantid: tenantid
                 },
             },
         )

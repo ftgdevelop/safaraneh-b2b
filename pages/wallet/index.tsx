@@ -1,7 +1,7 @@
 import BreadCrumpt from "@/modules/shared/components/ui/BreadCrumpt";
 import Skeleton from "@/modules/shared/components/ui/Skeleton";
 import { CreditCard, Plus, TimeUpdate, Wallet2 } from "@/modules/shared/components/ui/icons";
-import { numberWithCommas } from "@/modules/shared/helpers";
+import { numberWithCommas, returnCurrency } from "@/modules/shared/helpers";
 import { useAppSelector } from "@/modules/shared/hooks/use-store";
 import { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -10,7 +10,7 @@ import Link from "next/link";
 
 const Wallet : NextPage = () => {
 
-    const balance = useAppSelector(state => state.authentication.balance);
+    const balances = useAppSelector(state => state.authentication.balances);
     const balanceLoading = useAppSelector(state => state.authentication.balanceLoading);
 
     return(
@@ -37,7 +37,7 @@ const Wallet : NextPage = () => {
                     <h3 className="text-xl md:text-2xl font-semibold mb-8 md:mb-12">
                     کیف پول 
                     </h3>
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between">
                         <span>
                             موجودی
                         </span>
@@ -45,9 +45,11 @@ const Wallet : NextPage = () => {
                         {balanceLoading ? (
                         <Skeleton className="mt-2 w-24" />
                         ) : (
-                            <>
-                                {numberWithCommas(balance || 0)} ریال
-                            </>
+                            <div>
+                            {balances.filter(b=>b.amount)?.map(b => (
+                                <> {numberWithCommas(b.amount)} {returnCurrency(b.currencyType)}  <br/> </>
+                            ))}
+                            </div>
                         )}
                     </div>
 

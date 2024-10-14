@@ -7,7 +7,6 @@ import Head from 'next/head';
 import { getReserveFromCoordinator } from '@/modules/shared/actions';
 import { useRouter } from 'next/router';
 import DomesticHotelAside from '@/modules/domesticHotel/components/shared/Aside';
-import DomesticHotelAside2 from '@/modules/domesticHotel/components/shared/AsideTheme2';
 import { domesticHotelGetReserveById, getDomesticHotelSummaryDetailById } from '@/modules/domesticHotel/actions';
 import { AsideHotelInfoType, AsideReserveInfoType, DomesticHotelGetReserveByIdData, DomesticHotelSummaryDetail } from '@/modules/domesticHotel/types/hotel';
 import { dateFormat, getDatesDiff } from '@/modules/shared/helpers';
@@ -299,7 +298,7 @@ const Payment: NextPage = () => {
     {
       key: '3',
       label: ("اعتباری"),
-      children: (<CreditPayment price={coordinatorPrice} />),
+      children: (<CreditPayment price={coordinatorPrice || 0} currencyType='IRR' />),
     }
   ];
 
@@ -469,17 +468,7 @@ const Payment: NextPage = () => {
           <div className={theme2 ? "md:col-span-5" : ""}>
 
             {type === 'HotelDomestic' ? (<>
-              {theme2? (
-                <DomesticHotelAside2 
-                  hotelInformation={domesticHotelInformation} 
-                  reserveInformation={domesticHotelReserveInformation} 
-                  checkinTime={domesticHotelData?.checkinTime}
-                  checkoutTime={domesticHotelData?.checkoutTime}
-                />
-              ):(
-                <DomesticHotelAside hotelInformation={domesticHotelInformation} reserveInformation={domesticHotelReserveInformation} />
-              )}
-
+              <DomesticHotelAside hotelInformation={domesticHotelInformation} reserveInformation={domesticHotelReserveInformation} />
             </>) : type === 'Cip' ? (
               "something"
               // <CipAside

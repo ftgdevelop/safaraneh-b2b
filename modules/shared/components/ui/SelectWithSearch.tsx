@@ -13,6 +13,7 @@ type Props = {
     validateFunction?: (value: string) => void;
     setFieldValue: any;
     onChange?: (value: string) => void;
+    onTouch?: () => void;
     value: string;
     labelIsSimple?: boolean;
     showRequiredStar?: boolean;
@@ -91,7 +92,7 @@ const SelectWithSearch: React.FC<Props> = props => {
     }
 
     useEffect(() => {
-        props.setFieldValue(props.name, value || "")
+        props.setFieldValue(props.name, value || "");
     }, [value])
 
     return (
@@ -138,7 +139,14 @@ const SelectWithSearch: React.FC<Props> = props => {
                         {props.items.filter(item => !text || item.label.includes(text) || item.value.toLocaleLowerCase().includes(text.toLocaleLowerCase())).map(item => (
                             <div
                                 key={item.value}
-                                onClick={() => { setValue(item.value); setText(item.label); setOpen(false); }}
+                                onClick={() => { 
+                                    setValue(item.value);
+                                    setText(item.label);
+                                    setOpen(false);
+                                    if(props.onTouch){
+                                        props.onTouch()
+                                    }
+                                }}
                                 className={`px-3 py-1 transition-all cursor-pointer select-none text-sm ${item.value === value ? "bg-blue-50" : "bg-white hover:bg-neutral-100"}`}
                             >
                                 {item.label}

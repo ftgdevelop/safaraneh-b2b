@@ -10,8 +10,10 @@ import { getDepositBankGateway, makeDepositToken } from '@/modules/payment/actio
 import Loading from '@/modules/shared/components/ui/Loading';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/modules/shared/hooks/use-store';
-import { setReduxError } from '@/modules/shared/store/errorSlice';
+import { setAlertModal } from '@/modules/shared/store/alertSlice';
 import { ServerAddress } from '@/enum/url';
+import { CurrencyType } from '@/modules/payment/types';
+import { rialsToLettersToman } from '@/modules/shared/helpers';
 
 const ChargeWallet: React.FC = () => {
 
@@ -21,7 +23,9 @@ const ChargeWallet: React.FC = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
 
+    const [activeCurrency, setActiveCurrency] = useState<CurrencyType>('IRR');
     const [bankList, setBankList] = useState<any>();
+    const [getBankListLoading, setGetBankListLoading] = useState<boolean>(false);
     const [gatewayId, setGatewayId] = useState<number>();
     const [goToBankLoading, setGoToBankLoading] = useState<boolean>(false);
 
@@ -37,12 +41,13 @@ const ChargeWallet: React.FC = () => {
     }, [firstBankId]);
 
 
-    const fetchbankGateways = async (currency: "IRR" | "USD", token: string, tenant: number) => {
-
-        const response: any = await getDepositBankGateway(currency,tenant, token);
+    const fetchbankGateways = async (currency: CurrencyType, token: string, tenant: number) => {
+        setGetBankListLoading(true);
+        const response: any = await getDepositBankGateway(currency, tenant, token);
         if (response?.data?.result[0]) {
             setBankList(response?.data?.result[0]);
         }
+        setGetBankListLoading(false);
     }
 
     useEffect(() => {
@@ -50,9 +55,9 @@ const ChargeWallet: React.FC = () => {
         const localStorageTenant = localStorage?.getItem('S-TenantId');
         if (!token || !localStorageTenant) return;
 
-        fetchbankGateways('IRR',token , +localStorageTenant);
+        fetchbankGateways(activeCurrency, token, +localStorageTenant);
 
-    }, []);
+    }, [activeCurrency]);
 
 
     const submitHandler = async (values: {
@@ -62,7 +67,7 @@ const ChargeWallet: React.FC = () => {
         setGoToBankLoading(true);
 
         //const callbackUrl = window?.location.origin + (i18n?.language === "fa" ? "/fa" : "/ar") + "/myaccount/wallet";
-        const callbackUrl = window?.location.origin + "/myaccount/wallet";
+        const callbackUrl = window?.location.origin + "/wallet";
 
         const token = localStorage.getItem('Token');
         if (!token) return;
@@ -71,7 +76,7 @@ const ChargeWallet: React.FC = () => {
             gatewayId: gatewayId || bankList.gateways[0].id,
             callBackUrl: callbackUrl,
             amount: +values.amount,
-            currencyType: "IRR",
+            currencyType: activeCurrency,
             ipAddress: 1,
         };
         const response: any = await makeDepositToken(params, token);
@@ -79,7 +84,7 @@ const ChargeWallet: React.FC = () => {
         if (response.status == 200) {
             router.push(`https://${ServerAddress.Payment}/fa/User/Payment/PaymentRequest?tokenId=${response.data.result.tokenId}`);
         } else {
-            dispatch(setReduxError({
+            dispatch(setAlertModal({
                 title: t('error'),
                 message: response?.response?.data?.error?.message || "خطا در ارسال درخواست!",
                 isVisible: true
@@ -89,8 +94,6 @@ const ChargeWallet: React.FC = () => {
         }
 
     }
-    
-    const theme2 = process.env.THEME === "THEME2";
 
     return (
 
@@ -102,8 +105,8 @@ const ChargeWallet: React.FC = () => {
             {({ errors, touched, setFieldValue, values }) => {
                 return (
 
-                    <Form autoComplete='off' className='p-5' >
-                        <div className='sm:w-1/2'>
+                    <Form autoComplete='off' className='my-5' >
+                        <div className='mb-5'>
                             <label className='text-sm mb-1'>
                                 مبلغ افزایش شارژ (ریال)
                             </label>
@@ -112,7 +115,7 @@ const ChargeWallet: React.FC = () => {
                                     groupStart
                                     labelIsSimple
                                     showRequiredStar
-                                    className="mb-5 w-3/4"
+                                    className="w-full"
                                     //onChange={() => { setError(false); }}
                                     setFieldValue={setFieldValue}
                                     errorText={errors.amount as string}
@@ -122,20 +125,30 @@ const ChargeWallet: React.FC = () => {
                                     validateFunction={(value: string) => validateRequied(value, "لطفا مبلغ را وارد کنید")}
                                     value={values.amount}
                                 />
-                                <select className={`border rtl:rounded-l-md ltr:rounded-r-md border-neutral-300 w-1/4 outline-none ${theme2?"px-3 h-13 border-neutral-400 focus:border-2 focus:border-blue-500":"h-10"}`}>
+                                <select
+                                    className={`border rtl:rounded-l-md ltr:rounded-r-md border-neutral-300 w-16 text-sm bg-neutral-100 px-1 shrink-0 outline-none h-10`}
+                                    onChange={e => { setActiveCurrency(e.target.value as CurrencyType) }}
+                                >
                                     <option value={"IRR"}>
                                         ریال
                                     </option>
+                                    <option value={"USD"}>
+                                        دلار
+                                    </option>
                                 </select>
                             </div>
+
+                            {(activeCurrency === "IRR" && +values.amount > 9) ? (
+                            <p className='text-sm'> {rialsToLettersToman(+values.amount)} </p> 
+                            ): null}
                         </div>
 
-                        {!!bankList && bankList.gateways ? (
+                        {bankList?.gateways?.length ? (
                             <div>
                                 <h5 className='text-xl mb-5'>
-                                    {tPayment('please-choose-pay-panel')}
+                                    درگاه پرداخت
                                 </h5>
-                                <div className={`p-2 rounded flex items-center ${theme2?"text-md gap-5 sm:p-6 bg-neutral-100 border border-neutral-300":"text-xs gap-2 sm:p-4 bg-neutral-50"}`}>
+                                <div className={`p-2 rounded flex items-center text-xs gap-2 sm:p-4 bg-neutral-50`}>
                                     <img
                                         src={bankList.image.path}
                                         alt={bankList.image.altAttribute}
@@ -149,7 +162,7 @@ const ChargeWallet: React.FC = () => {
                                             key={index}
                                             type='button'
                                             onClick={() => { setGatewayId(bank.id) }}
-                                            className={`border px-4 py-3 text-sm ${theme2?"grow-0 min-w-28 rounded-xl":"border-3 grow"} text-center rounded-sm text-blue-700 select-none outline-none border-blue-500 disabled:border-neutral-400 disabled:bg-neutral-200 disabled:grayscale ${gatewayId === bank.id ? "bg-blue-100" : "bg-blue-50"}`}
+                                            className={`border px-10 py-3 text-sm text-center rounded-xl text-blue-700 select-none outline-none disabled:border-neutral-400 disabled:bg-neutral-200 disabled:grayscale ${gatewayId === bank.id ? "border-teal-500" : "grayscale border-neutral-300"}`}
                                         >
                                             <img
                                                 className="block mx-auto mb-1"
@@ -163,22 +176,19 @@ const ChargeWallet: React.FC = () => {
                                 </div>
 
                                 <Button
-                                    className="h-12 px-5 font-semibold w-full sm:w-60"
+                                    className="h-12 px-5 mt-10 mx-auto font-semibold w-full sm:w-60"
                                     type='submit'
                                     loading={goToBankLoading}
                                     disabled={goToBankLoading || !bankList}
                                 >
-                                    <Lock className='fill-current w-5 h-5' />  {tPayment('pay')}
+                                    {tPayment('pay')}
                                 </Button>
 
-                                <p className='my-4 text-neutral-400 text-xs' >
-                                    {tPayment('accept-privacy')}
-                                </p>
                             </div>
-                        ) : (
+                        ) : getBankListLoading ? (
                             <>
                                 <div>
-                                    {tPayment('please-choose-pay-panel')}
+                                    درگاه پرداخت
                                 </div>
 
                                 <div className='flex gap-3 items-center justify-center py-6' >
@@ -187,16 +197,11 @@ const ChargeWallet: React.FC = () => {
                                     در حال بارگذاری
                                 </div>
                             </>
+                        ): (
+                            <div className='text-red-500 text-center p-10 text-sm'>
+                                متاسفانه درگاه پرداختی یافت نشد. واحد پولی دیگری انتخاب کنید.
+                            </div>
                         )}
-
-                        <p className='text-sm mt-5'>
-                            <InfoCircle className='w-5 h-5 full-neutral-500 inline-block align-middle rtl:ml-2 ltr:mr-2' />
-                            <span>{tPayment('second-password')}</span>
-                        </p>
-
-                        <Link href="/other/pouya-password" className='inline-block text-blue-800 hover:text-blue-600 text-sm px-7 mb-8'>
-                            {tPayment('second-password-desc')}
-                        </Link>
 
                         {!!(router.query && router.query.status === "1") && (
                             <div className="border border-neutral-300 rtl:border-r-2 rtl:border-r-blue-800 p-4 text-sm text-blue-800">

@@ -1,8 +1,10 @@
+export type CurrencyType = "IRR" | "USD" | "EUR";
+
 export type GetTransactionParams = {
     reserveId?: number;
     CreationTimeFrom?: string;
     CreationTimeTo?: string;
-    CurrencyType: "IRR" | "USD" | "EUR";
+    CurrencyType: CurrencyType;
     SkipCount: number;
     MaxResultCount: number;
 }
@@ -11,7 +13,7 @@ export type GetTransactionParams = {
 export interface TransactionItem {
     amount: number;
     creationTime:string;
-    currencyType: "IRR" | "USD" | "EUR";
+    currencyType: CurrencyType;
     description?: string;
     isConfirmed?: boolean;
     reserveId?: number;
@@ -28,7 +30,7 @@ export interface TransactionItem {
 export interface ManualReceiptItem {
     amount: number;
     creationTime:string;
-    currencyType: "IRR" | "USD" | "EUR";
+    currencyType:  CurrencyType;
     "type": "Cash" | "Account" | "Card" | "Credit" |"Transfer";
     operatorDescription?: string;
     reserveId?: number;
@@ -52,7 +54,7 @@ export type GetTenantTransactionParams = {
     reserveId?: number;
     CreationTimeFrom?: string;
     CreationTimeTo?: string;
-    CurrencyType: "IRR" | "USD" | "EUR";
+    CurrencyType:  CurrencyType;
     SkipCount: number;
     MaxResultCount: number;
     PaymentType?: string;

@@ -9,7 +9,7 @@ import AutoComplete from "../../../shared/components/ui/AutoComplete";
 import { ApartmentOutline, Calendar, Home2, Location } from "../../../shared/components/ui/icons";
 import { EntitySearchResultItemType, HotelRecentSearchItem } from "@/modules/domesticHotel/types/hotel";
 import { useAppDispatch } from "@/modules/shared/hooks/use-store";
-import { setReduxError } from "@/modules/shared/store/errorSlice";
+import { setAlertModal } from "@/modules/shared/store/alertSlice";
 import RangePicker from "../../../shared/components/ui/RangePicker";
 import { localeFa } from "@mobiscroll/react";
 import Button from "../../../shared/components/ui/Button";
@@ -97,7 +97,7 @@ const SearchForm: React.FC<Props> = props => {
 
                     } catch (error: any) {
                         if (error.message) {
-                            dispatch(setReduxError({
+                            dispatch(setAlertModal({
                                 title: t('error'),
                                 message: error.message,
                                 isVisible: true
@@ -183,7 +183,7 @@ const SearchForm: React.FC<Props> = props => {
                     } else {
                         message = t('oopsSomethingWentWrong2')
                     }
-                    dispatch(setReduxError({
+                    dispatch(setAlertModal({
                         title: t('error'),
                         message,
                         isVisible: true
@@ -199,7 +199,7 @@ const SearchForm: React.FC<Props> = props => {
 
 
         if(!url){
-            dispatch(setReduxError({
+            dispatch(setAlertModal({
                 title: t('error'),
                 message: "متاسفانه برای این مقصد اطلاعاتی یافت نشد!",
                 isVisible: true

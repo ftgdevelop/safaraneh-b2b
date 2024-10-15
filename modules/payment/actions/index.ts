@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Header, ServerAddress, Payment } from "../../../enum/url";
-import { GetTenantTransactionParams, GetTransactionParams } from '../types';
+import { CurrencyType, GetTenantTransactionParams, GetTransactionParams } from '../types';
 
 type DiscountType = "Undefined"| "HotelDomestic"| "FlightDomestic"| "Bus"| "Package"| "Flight"| "Hotel"| "PnrOutside"| "Cip"| "Activity";
 
@@ -90,18 +90,17 @@ export const getReserveBankGateway = async (tenant:number,id:string, acceptLangu
   }
 
 
-  export const getUserBalance = async (token:string, tenantid : number, currency:string) => {
+  export const getTenantBalances = async (token:string, tenantid : number) => {
 
     try {
         let response = await axios.get(
-            `${ServerAddress.Type}${ServerAddress.Payment}${Payment.GetBalance}`,
+            `${ServerAddress.Type}${ServerAddress.Payment}${Payment.GetTenantBalances}`,
             {
                 headers: {
                     Accept: 'application/json;charset=UTF-8',
                     apikey: process.env.PROJECT_SERVER_APIKEY,
                     Authorization: `Bearer ${token}`,
-                    Tenantid: tenantid,
-                    Currency: currency
+                    Tenantid: tenantid
                 },
             },
         )
@@ -135,7 +134,7 @@ export const getTransactionDeposit = async (params:GetTransactionParams,tenant:n
 
 }
 
-export const getDepositBankGateway = async (CurrencyType:"IRR" | "USD",tenant:number, token:string, acceptLanguage: string = 'fa-IR') => {
+export const getDepositBankGateway = async (CurrencyType:CurrencyType,tenant:number, token:string, acceptLanguage: string = 'fa-IR') => {
   try {
     const response = await axios.get(
       `${ServerAddress.Type}${ServerAddress.Payment}${Payment.GetDepositBankGateway}?CurrencyType=${CurrencyType}`,

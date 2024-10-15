@@ -5,7 +5,7 @@ import { Header } from '../../../../enum/url';
 import { Close, Location } from '../ui/icons';
 import Skeleton from './Skeleton';
 import { useAppDispatch } from '../../hooks/use-store';
-import { setReduxError } from '../../store/errorSlice';
+import { setAlertModal } from '../../store/alertSlice';
 import { useTranslation } from 'next-i18next';
 
 type Props<T> = {
@@ -128,7 +128,7 @@ function AutoComplete<T>(props: PropsWithChildren<Props<T>>) {
 
         } catch (error: any) {
             if (error.message && error.message !== "canceled") {
-                dispatch(setReduxError({
+                dispatch(setAlertModal({
                     title: t('error'),
                     message: error.message,
                     isVisible: true

@@ -1,33 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type Error = {
+type Alert = {
+    type?:"success" | "error";
     title?: string;
     message?: string;
     isVisible: boolean;
-    closeErrorLink?: string;
+    closeAlertLink?: string;
     closeButtonText?:string;
 };
 
-const initialState: Error = {
+const initialState: Alert = {
+    type: undefined,
     title:"",
     message:"",
     isVisible: false
 };
 
-export const errorSlice = createSlice({
-    name:"error",
+export const alertSlice = createSlice({
+    name:"alertModal",
     initialState,
     reducers:{
-        setReduxError:(state, action) =>{
+        setAlertModal:(state, action) =>{
             state.title = action.payload.title || "";
+            state.type = action.payload.type || undefined;
             state.message = action.payload.message;
             state.isVisible = action.payload.isVisible;
-            state.closeErrorLink = action.payload.closeErrorLink;
+            state.closeAlertLink = action.payload.closeAlertLink;
             state.closeButtonText = action.payload.closeButtonText;
         }
     }
 });
 
-export const { setReduxError} = errorSlice.actions
+export const { setAlertModal} = alertSlice.actions
 
-export default errorSlice.reducer;
+export default alertSlice.reducer;

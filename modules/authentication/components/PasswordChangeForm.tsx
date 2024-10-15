@@ -7,7 +7,7 @@ import Button from '@/modules/shared/components/ui/Button';
 import { useAppDispatch } from '@/modules/shared/hooks/use-store';
 import { changePassword } from '../actions';
 import { setReduxNotification } from '@/modules/shared/store/notificationSlice';
-import { setReduxError } from '@/modules/shared/store/errorSlice';
+import { setAlertModal } from '@/modules/shared/store/alertSlice';
 
 const PasswordChangeForm: React.FC = () => {
 
@@ -56,7 +56,7 @@ const PasswordChangeForm: React.FC = () => {
 
                     message = response.response.data.error.message;
                 }
-                dispatch(setReduxError({
+                dispatch(setAlertModal({
                     status: 'error',
                     message: message,
                     isVisible: true

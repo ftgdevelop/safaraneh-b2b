@@ -12,7 +12,7 @@ import { validateEmail, validateRequied } from "../../helpers/validation";
 import Button from "../ui/Button";
 import { useRouter } from "next/router";
 import { getReserveFromCoordinator } from "../../actions";
-import { setReduxError } from "../../store/errorSlice";
+import { setAlertModal } from "../../store/alertSlice";
 
 type Props ={
     isInMobileMenu?: boolean;
@@ -80,7 +80,7 @@ const TrackOrder: React.FC<Props> = props => {
         
         const localStorageTenant = localStorage?.getItem('S-TenantId');
         if (!localStorageTenant){
-            dispatch(setReduxError({
+            dispatch(setAlertModal({
                 title: "خطا",
                 message: "شناسه کاربری یافت نشد",
                 isVisible: true

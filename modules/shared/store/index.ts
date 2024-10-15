@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import errorSlice from "./errorSlice";
+import alertSlice from "./alertSlice";
 import notificationSlice from "./notificationSlice";
 import domesticHotelSlice from "@/modules/domesticHotel/store/domesticHotelSlice";
 import stylesSlice from "./stylesSlice";
@@ -8,7 +8,7 @@ import safarmarketSlice from "./safarmarketSlice";
 
 export const store = configureStore({
     reducer: {
-        error: errorSlice,
+        alert: alertSlice,
         notification: notificationSlice,
         domesticHotelFilter: domesticHotelSlice,
         styles: stylesSlice,

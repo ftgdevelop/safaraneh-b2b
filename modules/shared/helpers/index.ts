@@ -205,7 +205,12 @@ export const rialsToLettersToman = (number: number) => {
     const thousandRemained = milionRemained % 1000;
 
     const Milions = milions ? number3digitsToLeters(milions) + " میلیون " : "";
-    const Thousands = thousands ? number3digitsToLeters(thousands) + " هزار " : "";
+    let Thousands: string;
+    if (thousands === 1){
+        Thousands = " هزار ";
+    }else{
+        Thousands = thousands ? number3digitsToLeters(thousands) + " هزار " : "";
+    }
     const ThousandRemained = thousandRemained ? number3digitsToLeters(thousandRemained) : "";
 
     const resultArray = [];

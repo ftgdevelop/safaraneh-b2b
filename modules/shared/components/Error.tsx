@@ -48,13 +48,15 @@ const Error: React.FC = () => {
             <div className="fixed top-0 left-0 right-0 bottom-0 h-screen w-screen bg-black/50 backdrop-blur-sm z-50 flex justify-center items-center">
 
                 <div className="bg-white max-sm:h-screen sm:rounded-xl px-5 pt-10 pb-12 w-full max-w-md text-center">
-                    <ErrorIcon className="w-20 mx-auto fill-red-500 mb-3 md:mb-4" />
+                    <span className="p-2 bg-red-50 rounded-full inline-block mb-3 md:mb-4">
+                        <ErrorIcon className="w-10 mx-auto fill-red-500 relative -top-0.5" />
+                    </span>
 
-                    <h5 className="text-red-500 text-lg sm:text-2xl font-bold mb-1">
+                    <h5 className="text-red-500 text-lg sm:text-xl font-semibold mb-3">
                         {storedError.title || t('error')}
                     </h5>
 
-                    <div className="text-neutral-500 mb-4 md:mb-7 leading-7 text-center">
+                    <div className="text-neutral-500 text-sm mb-4 md:mb-7 leading-7 text-center">
                         {storedError.message}
                     </div>
 

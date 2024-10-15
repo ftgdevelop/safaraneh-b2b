@@ -47,22 +47,24 @@ const HeaderBalance = () => {
     return (
         <div className="group relative">
             <Link
-                className="text-sm flex gap-1 items-center transition-all hover:bg-gray-100 py-1 px-2 rounded"
-                href="/myaccount/wallet"
+                className="text-2xs flex gap-1 justify-between items-center transition-all hover:bg-gray-100 py-1 px-2 rounded-lg border min-w-44"
+                href="/wallet"
             >
                 {balanceLoading ? (
                     <Skeleton className="mt-2 w-24" />
                 ) : (
-                    <>
-                        <Wallet2 className="w-5 h-5 ml-1" />
-                        {numberWithCommas(balances[0]?.amount || 0)} {returnCurrency(balances[0]?.currencyType)}
-                    </>
+                    <div className="flex gap-2 items-center">
+                        <span className="p-1 rounded bg-neutral-100 block transition-all group-hover:bg-neutral-200">
+                            <Wallet2 className="w-4.5 h-4.5" />
+                        </span>
+                        {numberWithCommas(balances?.[0]?.amount || 0)} {returnCurrency(balances?.[0]?.currencyType)}
+                    </div>
                 )}
 
                 <DownCaret className="w-5 h-5 fill-current" />
             </Link>
             <div 
-                className="absolute top-full bg-white border rounded-lg text-sm whitespace-nowrap left-0 opacity-0 delay-200 invisible transition-all origin-top-left scale-75 -mt-5 group-hover:mt-0 group-hover:scale-100 group-hover:opacity-100 group-hover:visible group-hover:delay-0"
+                className="absolute top-full bg-white border rounded-lg text-2xs whitespace-nowrap left-0 opacity-0 delay-200 invisible transition-all origin-top-left scale-75 -mt-5 group-hover:mt-0 group-hover:scale-100 group-hover:opacity-100 group-hover:visible group-hover:delay-0"
             >
                 <Link href={"/wallet/deposit"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
                     <Plus className="w-5 h-5 fill-current"/>

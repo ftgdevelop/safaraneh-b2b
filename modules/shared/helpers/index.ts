@@ -1,34 +1,231 @@
 export const toPersianDigits = (x: string) => {
-    if (x) {                   
-        const persianNumbers = ["۰","۱","۲","۳","۴","۵","۶", "۷", "۸", "۹"];
+    if (x) {
+        const persianNumbers = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
 
-        for(var i=0; i<10; i++) {
+        for (var i = 0; i < 10; i++) {
             x = x.replaceAll(i.toString(), persianNumbers[i]);
         }
     }
 
-  return x;
+    return x;
 };
 
 export const numberWithCommas = (x: number) => {
-    if (x) {        
-        const y =  x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    if (x) {
+        const y = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         return toPersianDigits(y);
     } else {
         return "0";
     }
 }
 
-export const returnCurrency = (currency: string) =>{
-    switch (currency){
+export const returnCurrency = (currency: string) => {
+    switch (currency) {
         case "IRR":
             return "ریال";
         default:
             return currency;
     }
-} 
+}
 
-export const dateDiplayFormat = ({ date, format, locale }: { date: string; format?: "weekDayNumber" | "m" | "d" | "HH:mm"| "dd mm"| "ddd dd mm"| "ddd dd mm yyyy" | "dd mm yyyy" | "yyyy/mm/dd" | "YYYY-MM-DD" | "yyyy/mm/dd h:m" , locale?: string }): string => {
+const number3digitsToLeters = (number: number) => {
+    debugger;
+    const a = Math.floor(number / 100);
+    const remained = number % 100;
+    const b = Math.floor(remained / 10);
+    const c = Math.floor(number % 10);
+
+    let A: string = "";
+
+    switch (a) {
+        case 1:
+            A = "صد";
+            break;
+        case 2:
+            A = "دویست";
+            break;
+        case 3:
+            A = "سیصد";
+            break;
+        case 4:
+            A = "چهارصد";
+            break;
+        case 5:
+            A = "پانصد";
+            break;
+        case 6:
+            A = "ششصد";
+            break;
+        case 7:
+            A = "هفتصد";
+            break;
+        case 8:
+            A = "هشتصد";
+            break;
+        case 9:
+            A = "نهصد";
+            break;
+        default:
+            A = "";
+    }
+
+    let B: string = "";
+
+    switch (b) {
+        case 1:
+            switch (c) {
+                case 1:
+                    B = "یازده";
+                    break;
+                case 2:
+                    B = "دوازده";
+                    break;
+                case 3:
+                    B = "سیزده";
+                    break;
+                case 4:
+                    B = "چهارده";
+                    break;
+                case 5:
+                    B = "پانزده";
+                    break;
+                case 6:
+                    B = "شانزده";
+                    break;
+                case 7:
+                    B = "هفده";
+                    break;
+                case 8:
+                    B = "هجده";
+                    break;
+                case 9:
+                    B = "نوزده";
+                    break;
+                case 0:
+                    B = "ده";
+                    break;
+                default:
+                    B = "ده";
+            }
+            break;
+        case 2:
+            B = "بیست";
+            break;
+        case 3:
+            B = "سی";
+            break;
+        case 4:
+            B = "چهل";
+            break;
+        case 5:
+            B = "پنجاه";
+            break;
+        case 6:
+            B = "شصت";
+            break;
+        case 7:
+            B = "هفتاد";
+            break;
+        case 8:
+            B = "هشتاد";
+            break;
+        case 9:
+            B = "نود";
+            break;
+        default:
+            B = "";
+    }
+
+    let C: string = "";
+
+    if (b !== 1) {
+        switch (c) {
+            case 1:
+                C = "یک";
+                break;
+            case 2:
+                C = "دو";
+                break;
+            case 3:
+                C = "سه";
+                break;
+            case 4:
+                C = "چهار";
+                break;
+            case 5:
+                C = "پنج";
+                break;
+            case 6:
+                C = "شش";
+                break;
+            case 7:
+                C = "هفت";
+                break;
+            case 8:
+                C = "هشت";
+                break;
+            case 9:
+                C = "نه";
+                break;
+            default:
+                C = "";
+        }
+    }
+
+    const resultArray = [];
+
+    if (A) {
+        resultArray.push(A);
+    }
+    if (B) {
+        resultArray.push(B);
+    }
+    if (C) {
+        resultArray.push(C);
+    }
+
+    const result = resultArray.join(" و ");
+
+    return result;
+
+}
+
+export const rialsToLettersToman = (number: number) => {
+    const n = number / 10;
+    if (n < 1) {
+        return 0;
+    }
+    if (n >= 1000000000) {
+        return numberWithCommas(n) + " تومان";
+    }
+
+    const milions = Math.floor(n / 1000000);
+    const milionRemained = n % 1000000;
+    const thousands = Math.floor(milionRemained / 1000);
+    const thousandRemained = milionRemained % 1000;
+
+    const Milions = milions ? number3digitsToLeters(milions) + " میلیون " : "";
+    const Thousands = thousands ? number3digitsToLeters(thousands) + " هزار " : "";
+    const ThousandRemained = thousandRemained ? number3digitsToLeters(thousandRemained) : "";
+
+    const resultArray = [];
+
+    if (Milions) {
+        resultArray.push(Milions);
+    }
+    if (Thousands) {
+        resultArray.push(Thousands);
+    }
+    if (ThousandRemained) {
+        resultArray.push(ThousandRemained);
+    }
+    const result = resultArray.join(" و ");
+
+    return (result + " تومان");
+}
+
+
+export const dateDiplayFormat = ({ date, format, locale }: { date: string; format?: "weekDayNumber" | "m" | "d" | "HH:mm" | "dd mm" | "ddd dd mm" | "ddd dd mm yyyy" | "dd mm yyyy" | "yyyy/mm/dd" | "YYYY-MM-DD" | "yyyy/mm/dd h:m", locale?: string }): string => {
 
     if (!date) return "";
 
@@ -44,10 +241,10 @@ export const dateDiplayFormat = ({ date, format, locale }: { date: string; forma
     let h = dateObject.getHours().toString().padStart(2, '0');
     let m = dateObject.getMinutes().toString().padStart(2, '0');
 
-    if (format === "HH:mm"){
+    if (format === "HH:mm") {
         const h = dateObject.toLocaleString(locale, { hour: "2-digit" }).padStart(2, '0');
         const m = dateObject.toLocaleString(locale, { minute: "2-digit" }).padStart(2, '0');
-        return(h+":"+m);
+        return (h + ":" + m);
     }
 
     if (format === "ddd dd mm") {
@@ -65,25 +262,25 @@ export const dateDiplayFormat = ({ date, format, locale }: { date: string; forma
         return (`${year}-${month2digit}-${day2digit}`)
     }
 
-    if (format === "yyyy/mm/dd h:m"){
+    if (format === "yyyy/mm/dd h:m") {
         return (`${year}/${month2digit}/${day2digit} - ${h}:${m}`)
     }
 
-    if (format === "dd mm"){
+    if (format === "dd mm") {
         return (`${day} ${month}`)
     }
-    if (format === "d"){
+    if (format === "d") {
         return (day2digit)
     }
-    if (format === "m"){
+    if (format === "m") {
         return (month)
     }
 
-    if(format === "weekDayNumber"){
+    if (format === "weekDayNumber") {
         return weekDayNumber.toString()
     }
 
-    if (format === "ddd dd mm yyyy"){
+    if (format === "ddd dd mm yyyy") {
         return (`${weekDay} ${day} ${month} ${year}`)
     }
 
@@ -128,7 +325,7 @@ export const getDatesDiff = (a: Date, b: Date, unit?: "seconds") => {
 }
 
 export const checkDateIsAfterDate = (a: Date, b: Date) => {
-    if (b.getTime() > a.getTime()){
+    if (b.getTime() > a.getTime()) {
         return false;
     }
     return true;

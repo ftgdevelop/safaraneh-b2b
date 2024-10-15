@@ -1,6 +1,5 @@
 import Header from "./header";
 import Footer from "./footer";
-import Error from './Error';
 import { PropsWithChildren, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../hooks/use-store";
@@ -12,6 +11,7 @@ import { setProgressLoading } from "../store/stylesSlice";
 import AuthenticationRedirect from "@/modules/authentication/components/AuthenticationRedirect";
 import { Loading } from "./ui/icons";
 import PanelLayout from "./panelLayout";
+import AlertModal from "./AlertModal";
 
 const Layout: React.FC<PropsWithChildren> = props => {
   const router = useRouter();
@@ -129,7 +129,7 @@ const Layout: React.FC<PropsWithChildren> = props => {
 
       <PageLoadingBar active={loading} />
 
-      <Error />
+      <AlertModal />
       
       <Notification />
 
@@ -150,7 +150,7 @@ const Layout: React.FC<PropsWithChildren> = props => {
       
       <PageLoadingBar active={loading} />
 
-      <Error />
+      <AlertModal />
       
       <Notification />
       </>
@@ -163,7 +163,7 @@ const Layout: React.FC<PropsWithChildren> = props => {
 
       <PageLoadingBar active={loading} />
 
-      <Error />
+      <AlertModal />
       
       <Notification />
 

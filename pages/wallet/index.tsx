@@ -3,7 +3,7 @@ import Skeleton from "@/modules/shared/components/ui/Skeleton";
 import { CreditCard, Plus, TimeUpdate, Wallet2 } from "@/modules/shared/components/ui/icons";
 import { numberWithCommas, returnCurrency } from "@/modules/shared/helpers";
 import { useAppDispatch, useAppSelector } from "@/modules/shared/hooks/use-store";
-import { setReduxError } from "@/modules/shared/store/errorSlice";
+import { setAlertModal } from "@/modules/shared/store/alertSlice";
 import { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
@@ -25,17 +25,25 @@ const Wallet: NextPage = () => {
     useEffect(() => {
         if (status === "0") {
             
-            dispatch(setReduxError({
+            dispatch(setAlertModal({
+                type: "error",
                 title: "افزایش اعتبار ناموفق بود",
                 message: "در صورت برداشت وجه از حساب بانکی، مبلغ برداشت شده تا ۴۸ ساعت آینده به حساب شما برگشت داده خواهد شد.",
                 isVisible: true,
-                //closeErrorLink: "",
+                //closeAlertLink: "",
                 closeButtonText: "بستن"
             }));
 
 
         } else if (status === "1") {
-            //setAlertStatus("success");
+            dispatch(setAlertModal({
+                type: "success",
+                title: "افزایش اعتبار انجام شد",
+                message: "اعتبار موجودی کیف شما با موفقیت افزایش یافت.",
+                isVisible: true,
+                //closeAlertLink: "",
+                closeButtonText: "بستن"
+            }));
         }
     }, [status]);
 

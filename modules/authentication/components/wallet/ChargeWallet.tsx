@@ -10,7 +10,7 @@ import { getDepositBankGateway, makeDepositToken } from '@/modules/payment/actio
 import Loading from '@/modules/shared/components/ui/Loading';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/modules/shared/hooks/use-store';
-import { setReduxError } from '@/modules/shared/store/errorSlice';
+import { setAlertModal } from '@/modules/shared/store/alertSlice';
 import { ServerAddress } from '@/enum/url';
 import { CurrencyType } from '@/modules/payment/types';
 import { rialsToLettersToman } from '@/modules/shared/helpers';
@@ -84,7 +84,7 @@ const ChargeWallet: React.FC = () => {
         if (response.status == 200) {
             router.push(`https://${ServerAddress.Payment}/fa/User/Payment/PaymentRequest?tokenId=${response.data.result.tokenId}`);
         } else {
-            dispatch(setReduxError({
+            dispatch(setAlertModal({
                 title: t('error'),
                 message: response?.response?.data?.error?.message || "خطا در ارسال درخواست!",
                 isVisible: true

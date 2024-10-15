@@ -16,7 +16,7 @@ import OnlinePayment from '@/modules/payment/components/OnlinePayment';
 import CreditPayment from '@/modules/payment/components/CreditPayment';
 import { getReserveBankGateway, makeToken } from '@/modules/payment/actions';
 import { useAppDispatch } from '@/modules/shared/hooks/use-store';
-import { setReduxError } from '@/modules/shared/store/errorSlice';
+import { setAlertModal } from '@/modules/shared/store/alertSlice';
 
 import { ServerAddress } from '@/enum/url';
 import { emptyReduxSafarmarket, setReduxSafarmarketPixel } from '@/modules/shared/store/safarmarketSlice';
@@ -84,7 +84,7 @@ const Payment: NextPage = () => {
       if (response?.status == 200 && response.data.result) {
         setBankGatewayList(response.data?.result[0]);
       } else {
-        dispatch(setReduxError({
+        dispatch(setAlertModal({
           title: t('error'),
           message: response?.data?.error?.message,
           isVisible: true
@@ -263,7 +263,7 @@ const Payment: NextPage = () => {
         `https://${ServerAddress.Payment}/fa/Reserves/Payment/PaymentRequest?tokenId=${response.data.result.tokenId}`
       );
     } else {
-      dispatch(setReduxError({
+      dispatch(setAlertModal({
         title: t('error'),
         message: response.data.error.message,
         isVisible: true

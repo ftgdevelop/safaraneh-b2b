@@ -2,7 +2,7 @@ import Button from "@/modules/shared/components/ui/Button"
 import FormikField from "@/modules/shared/components/ui/FormikField"
 import { validateRequied } from "@/modules/shared/helpers/validation"
 import { useAppDispatch } from "@/modules/shared/hooks/use-store"
-import { setReduxError } from "@/modules/shared/store/errorSlice"
+import { setAlertModal } from "@/modules/shared/store/alertSlice"
 import { Form, Formik } from "formik"
 import React, { useState } from "react"
 import { resetUsersPassword } from "../../actions"
@@ -47,7 +47,7 @@ const ChangeUsersPassword: React.FC<Props> = props => {
 
         } else {
 
-            dispatch(setReduxError({
+            dispatch(setAlertModal({
                 title: "خطا",
                 message: "کلمه عبور و تکرار آن مطابقت ندارد",
                 isVisible: true

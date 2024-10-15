@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 
 import {Header} from "../../../enum/url";
 import { useAppDispatch } from "./use-store";
-import {setReduxError} from '../store/errorSlice';
+import {setAlertModal} from '../store/alertSlice';
 
 type RequestConfig = {
     url:string;
@@ -12,7 +12,7 @@ type RequestConfig = {
     data ?: any;
     header?:any;
     signal?:AbortSignal;
-    closeErrorLink?:string;
+    closeAlertLink?:string;
     closeButtonText?:string;
     dontShowError?:boolean;
 }
@@ -71,11 +71,11 @@ const useHttp : () => HookReturn = () => {
         }
         setErrorMessage(details || t('oopsSomethingWentWrong4'));
 
-        dispatch(setReduxError({
+        dispatch(setAlertModal({
           title: t('error'),
           message: details || t('oopsSomethingWentWrong5'),
           isVisible : true,
-          closeErrorLink: requestConfig.closeErrorLink,
+          closeAlertLink: requestConfig.closeAlertLink,
           closeButtonText: requestConfig.closeButtonText
         }));
 

@@ -9,7 +9,7 @@ import { setReduxUser,setAuthenticationDone } from '../store/authenticationSlice
 import { getTenant, loginWithPassword } from '../actions';
 import { setReduxNotification } from '@/modules/shared/store/notificationSlice';
 import { useRouter } from 'next/router';
-import { setReduxError } from '@/modules/shared/store/errorSlice';
+import { setAlertModal } from '@/modules/shared/store/alertSlice';
 
 const LognWithPassword: React.FC = () => {
 
@@ -39,7 +39,7 @@ const LognWithPassword: React.FC = () => {
                 user: {},
                 getUserLoading: false
             }));
-            dispatch(setReduxError({
+            dispatch(setAlertModal({
                 title: "خطا",
                 message:"شما دسترسی لازم برای ورود به سیستم را ندارد.لطفا برای اطلاعات بیشتر با پشتیبانی تماس بگیرید.",
                 isVisible: true

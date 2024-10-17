@@ -1,4 +1,5 @@
 import SearchForm from "@/modules/domesticHotel/components/shared/SearchForm";
+import DashboardBanners from "@/modules/panel/home/components/DashboardBanners";
 import Tab from "@/modules/shared/components/ui/Tab";
 import { Bus, Cip2, Dashboard, Flight2, Hotel } from "@/modules/shared/components/ui/icons";
 import { TabItem } from "@/modules/shared/types/common";
@@ -78,6 +79,8 @@ const Panel : NextPage = () => {
                 <Tab items={tabItems} noBorder />
             </div>
         </section>
+        
+        <DashboardBanners />
     </>
     )
 }

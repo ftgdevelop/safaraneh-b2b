@@ -29,7 +29,7 @@ export const returnCurrency = (currency: string) => {
 }
 
 const number3digitsToLeters = (number: number) => {
-    debugger;
+    
     const a = Math.floor(number / 100);
     const remained = number % 100;
     const b = Math.floor(remained / 10);

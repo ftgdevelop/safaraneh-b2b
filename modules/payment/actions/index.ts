@@ -1,8 +1,47 @@
 import axios from 'axios';
 import { Header, ServerAddress, Payment } from "../../../enum/url";
-import { CurrencyType, GetTenantTransactionParams, GetTransactionParams } from '../types';
+import { CreateManualReceiptParameters, CurrencyType, GetTenantTransactionParams, GetTransactionParams } from '../types';
 
 type DiscountType = "Undefined"| "HotelDomestic"| "FlightDomestic"| "Bus"| "Package"| "Flight"| "Hotel"| "PnrOutside"| "Cip"| "Activity";
+
+export const getAllAccountNumbers = async (tenant:number,token:string, acceptLanguage: string = 'fa-IR') => {
+  try {
+    const res = await axios.get(
+      `${ServerAddress.Type}${ServerAddress.Payment}${Payment.GetAllAccountNumbers}?SkipCount=0&MaxResultCount=10`,
+      {
+        headers: {
+          ...Header,
+          "Accept-Language": acceptLanguage,
+          TenantId: tenant,
+          Authorization: `Bearer ${token}`
+        },
+      },
+    )
+    return res
+  } catch (error:any) {
+    return error.response
+  }
+}
+
+export const createManualReceipt = async (params:{tenant:number,parameters: CreateManualReceiptParameters, token: string}, acceptLanguage: string = 'fa-IR') => {
+  try {
+      const response = await axios({
+          method: "post",
+          data: params.parameters,
+          url: `${ServerAddress.Type}${ServerAddress.Payment}${Payment.CreateManualReceipt}`,
+          headers: {
+              ...Header,
+              Authorization: `Bearer ${params.token}`,
+              "Accept-Language": acceptLanguage,
+              TenantId: params.tenant
+          }
+      });
+      return (response)
+  } catch (error: any) {
+      return error.response
+  }
+}
+
 
 export const validateDiscountCode = async (params:{tenant:number,prereserveKey:string, type:DiscountType, discountPromoCode:string}, acceptLanguage: string = 'fa-IR') => {
     try {

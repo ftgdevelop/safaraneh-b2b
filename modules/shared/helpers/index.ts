@@ -29,7 +29,7 @@ export const returnCurrency = (currency: string) => {
 }
 
 const number3digitsToLeters = (number: number) => {
-    debugger;
+    
     const a = Math.floor(number / 100);
     const remained = number % 100;
     const b = Math.floor(remained / 10);
@@ -205,7 +205,12 @@ export const rialsToLettersToman = (number: number) => {
     const thousandRemained = milionRemained % 1000;
 
     const Milions = milions ? number3digitsToLeters(milions) + " میلیون " : "";
-    const Thousands = thousands ? number3digitsToLeters(thousands) + " هزار " : "";
+    let Thousands: string;
+    if (thousands === 1){
+        Thousands = " هزار ";
+    }else{
+        Thousands = thousands ? number3digitsToLeters(thousands) + " هزار " : "";
+    }
     const ThousandRemained = thousandRemained ? number3digitsToLeters(thousandRemained) : "";
 
     const resultArray = [];

@@ -130,7 +130,9 @@ export const Payment = {
   ConfirmByDeposit: "/api/services/app/DepositReserve/ConfirmByDeposit",
   GetTenantTransaction: "/api/services/app/TenantTransaction/GetAll",
   TenantTransactionsToExcel: "/api/services/app/TenantTransaction/GetAllToExcel",
-  ManualReceiptGetAll: "/api/services/app/ManualReceipt/GetAll"
+  ManualReceiptGetAll: "/api/services/app/ManualReceipt/GetAll",
+  CreateManualReceipt:"/api/services/app/ManualReceipt/Create",
+  GetAllAccountNumbers:"/api/services/app/AccountNumbers/GetAll"
 };
 
 export const Cip = {

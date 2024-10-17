@@ -1,5 +1,19 @@
 export type CurrencyType = "IRR" | "USD" | "EUR";
 
+export type AccountNumbersType = {
+    accountNumber?: string;
+    accountOwnerName?: string;
+    ibanNumber?: string;
+    isDefault: boolean;
+    bank: {
+        name?: string;
+        keyword?: string;
+        picturePath?: string;
+        pictureAltAttribute?: string;
+        pictureTitleAttribute?: string;
+    },
+    id: number;
+}
 export type GetTransactionParams = {
     reserveId?: number;
     CreationTimeFrom?: string;
@@ -9,10 +23,28 @@ export type GetTransactionParams = {
     MaxResultCount: number;
 }
 
+export interface CreateManualReceiptParameters {
+    transactionNumber?: string;
+    amount: number;
+    currencyType?: CurrencyType;
+    bankBrand?: string;
+    holderName?: string;
+    type: "Cash" | "Account" | "Card" | "Credit" | "Transfer";
+    accountNumber?: string;
+    bankAccountId: number;
+    reserveStatus?: "Undefined" | "Registered" | "Pending" | "Issued" | "Canceled" | "WebServiceCancel" | "PaymentSuccessful" | "WebServiceUnsuccessful" | "PriceChange" | "Unavailable" | "Refunded" | "Voided" | "InProgress" | "PaidBack" | "RefundInProgress" | "Changed" | "OnCredit" | "ContactProvider" | "UnConfirmed" | "ReceivedAdvance" | "ExtraReceiving";
+    transferTime: string;
+    reserveId?: number;
+    username?: string;
+    userId?: number;
+    tenantId: number;
+    operatorDescription?: string;
+    id?: number;
+}
 
 export interface TransactionItem {
     amount: number;
-    creationTime:string;
+    creationTime: string;
     currencyType: CurrencyType;
     description?: string;
     isConfirmed?: boolean;
@@ -29,9 +61,9 @@ export interface TransactionItem {
 
 export interface ManualReceiptItem {
     amount: number;
-    creationTime:string;
-    currencyType:  CurrencyType;
-    "type": "Cash" | "Account" | "Card" | "Credit" |"Transfer";
+    creationTime: string;
+    currencyType: CurrencyType;
+    "type": "Cash" | "Account" | "Card" | "Credit" | "Transfer";
     operatorDescription?: string;
     reserveId?: number;
     // "accountNumber": "string",
@@ -54,7 +86,7 @@ export type GetTenantTransactionParams = {
     reserveId?: number;
     CreationTimeFrom?: string;
     CreationTimeTo?: string;
-    CurrencyType:  CurrencyType;
+    CurrencyType: CurrencyType;
     SkipCount: number;
     MaxResultCount: number;
     PaymentType?: string;

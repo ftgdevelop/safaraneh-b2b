@@ -1,4 +1,5 @@
 import ChargeWallet from "@/modules/authentication/components/wallet/ChargeWallet";
+import ChargeWalletManualReceipt from "@/modules/authentication/components/wallet/ChargeWalletManualReceipt";
 import BreadCrumpt from "@/modules/shared/components/ui/BreadCrumpt";
 import Tab from "@/modules/shared/components/ui/Tab";
 import { CreditCard, Plus } from "@/modules/shared/components/ui/icons";
@@ -31,11 +32,7 @@ const Deposit: NextPage = () => {
                 </span>
             </div>),
             children: (
-                <div className="py-5">
-                    <h3 className="text-xl md:text-2xl font-semibold mb-8 md:mb-12">
-                        ثبت فیش واریزی
-                    </h3>
-                </div>
+                <ChargeWalletManualReceipt />
             )
         }
     ];

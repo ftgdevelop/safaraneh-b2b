@@ -49,6 +49,8 @@ const HotelListItem: React.FC<Props> = props => {
         nights = getDatesDiff(new Date(checkout), new Date(checkin));
     }
 
+    const hotelDetailUrl =  hotel.id ? ("/hotel/hotelId-" + hotel.id + searchInfo ): "";
+
     let rate: React.ReactNode = null;
     if (!hotel.ratesInfo) {
         rate = null;
@@ -159,7 +161,7 @@ const HotelListItem: React.FC<Props> = props => {
         button = (
             <Button
                 hasArrow
-                href={hotel.url + searchInfo}
+                href={hotelDetailUrl}
                 target="_blank"
                 className="rounded-lg h-10 px-5 text-sm w-full md:w-48 max-w-full mt-3"
             >
@@ -173,7 +175,7 @@ const HotelListItem: React.FC<Props> = props => {
         return (
             <Link
                 target="_blank"
-                href={hotel.url! + searchInfo}
+                href={hotelDetailUrl}
                 className="grid grid-cols-3 text-sm border border-neutral-200 bg-white rounded-lg relative rtl:rtl"
             >
 
@@ -234,7 +236,7 @@ const HotelListItem: React.FC<Props> = props => {
             </ModalPortal>}
 
             <div className="grid md:grid-cols-12 mb-4 border border-neutral-200 bg-white rounded-lg relative" >
-                <Link target="_blank" href={hotel.url! + searchInfo} className="relative md:col-span-12 lg:col-span-4 bg-travel-pattern lg:rtl:rounded-r-lg lg:ltr:rounded-l-lg">
+                <Link target="_blank" href={hotelDetailUrl} className="relative md:col-span-12 lg:col-span-4 bg-travel-pattern lg:rtl:rounded-r-lg lg:ltr:rounded-l-lg">
                     {hotel.picture?.path ? (
                         <Image
                             src={hotel.picture.path}
@@ -262,7 +264,7 @@ const HotelListItem: React.FC<Props> = props => {
 
 
                 <div className="md:col-span-7 lg:col-span-5 p-3 max-md:pb-0">
-                    <Link target="_blank" href={hotel.url! + searchInfo} className="font-bold text-neutral-700 rtl:ml-2 ltr:mr-2" > {hotel.displayName || hotel.name} </Link>
+                    <Link target="_blank" href={hotelDetailUrl} className="font-bold text-neutral-700 rtl:ml-2 ltr:mr-2" > {hotel.displayName || hotel.name} </Link>
 
                     {!!hotel.rating && <Rating number={hotel.rating} inline className="align-middle rtl:ml-2 ltr:mr-2" />}
 

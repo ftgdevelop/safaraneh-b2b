@@ -113,6 +113,10 @@ export const Hotel = {
   SearchAccomodations: "/api/services/app/Accommodation/GetAll"
 };
 
+export const Wp = {
+  getById:"/api/services/app/Accommodation/GetById"
+}
+
 export const Reserve = {
   GetReserveFromCoordinator: "/api/services/app/Order/Get",
   GetUserAllReserves: "/api/services/app/Order/GetAll"

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { AvailabilityByHotelId, SearchAccomodation, getEntityNameByLocation, getRates } from '@/modules/domesticHotel/actions';
+import { AvailabilityByHotelId, SearchAccomodation, getEntityNameByLocation} from '@/modules/domesticHotel/actions';
 import type { GetServerSideProps, NextPage } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { EntitySearchResultItemType, PricedHotelItem, SearchAccomodationItem, SortTypes } from '@/modules/domesticHotel/types/hotel';
@@ -10,36 +10,22 @@ import ProgressBarWithLabel from '@/modules/shared/components/ui/ProgressBarWith
 import { useTranslation } from 'next-i18next';
 import Select from '@/modules/shared/components/ui/Select';
 import Skeleton from '@/modules/shared/components/ui/Skeleton';
-import parse from 'html-react-parser';
-import Accordion from '@/modules/shared/components/ui/Accordion';
-import { CalendarError, ErrorIcon, Hotel, QuestionCircle, UserX } from '@/modules/shared/components/ui/icons';
+import { CalendarError, ErrorIcon, Hotel } from '@/modules/shared/components/ui/icons';
 import DomesticHotelListSideBar from '@/modules/domesticHotel/components/hotelsList/sidebar';
-import { setGuestPointFilterOptions, setTypeFilterOptions, setPriceFilterRange, setPromotionsFilterOptions } from '@/modules/domesticHotel/store/domesticHotelSlice';
+import { setTypeFilterOptions, setPriceFilterRange, setPromotionsFilterOptions } from '@/modules/domesticHotel/store/domesticHotelSlice';
 import { useAppDispatch } from '@/modules/shared/hooks/use-store';
 import { useRouter } from 'next/router';
 import HotelsOnMap from '@/modules/domesticHotel/components/hotelsList/HotelsOnMap';
 import Image from 'next/image';
-import { getPageByUrl } from '@/modules/shared/actions';
-import { GetPageByUrlDataType} from '@/modules/shared/types/common';
 import ModalPortal from '@/modules/shared/components/ui/ModalPortal';
 import AvailabilityTimeout from '@/modules/shared/components/AvailabilityTimeout';
 
 const HotelList: NextPage = () => {
 
-  const [pageData, setPageData] = useState<GetPageByUrlDataType | undefined>(undefined);
-  const [accomodations, setAccomodations] = useState<SearchAccomodationItem[]>([]);
+  const [accomodations, setAccomodations] = useState<SearchAccomodationItem[] | undefined>();
   const [listLoading, setListLoading] = useState<boolean>(false);
 
-  const isSafaraneh = process.env.PROJECT === "SAFARANEH";
-
   const searchFormWrapperRef = useRef<HTMLDivElement>(null);
-
-  type RatesResponseItem = {
-    HotelId: number;
-    Satisfaction: number;
-    PositiveRowCount: number;
-    TotalRowCount: number;
-  }
 
   type PricesResponseItem = {
     id: number;
@@ -59,9 +45,6 @@ const HotelList: NextPage = () => {
   const { t: tHotel } = useTranslation('hotel');
 
   const [fetchPercentage, setFetchPercentage] = useState<number>(0);
-
-  const [ratesData, setRatesData] = useState<RatesResponseItem[] | undefined>();
-  const [ratesLoading, setRatesLoading] = useState<boolean>(false);
 
   const [pricesData, setPricesData] = useState<PricesResponseItem[] | undefined>();
   const [pricesLoading, setPricesLoading] = useState<boolean>(false);
@@ -114,66 +97,6 @@ const HotelList: NextPage = () => {
     dispatch(setPriceFilterRange({ min: min, max: max }));
   }
 
-  const saveGuestPointFilterOptions = (rates: RatesResponseItem[]) => {
-
-    const filterOptions = {
-      excellent: { label: tHotel('excellent'), count: 0, value: [90, 100] },
-      veryGood: { label: tHotel('very-good'), count: 0, value: [80, 89] },
-      good: { label: tHotel('good'), count: 0, value: [70, 79] },
-      fair: { label: tHotel('fair'), count: 0, value: [50, 69] },
-      bad: { label: tHotel('bad'), count: 0, value: [0, 49] },
-    }
-
-    for (let i = 0; i < rates.length; i++) {
-      const itemSatisfaction = rates[i].Satisfaction;
-
-      if (itemSatisfaction >= 90) {
-        filterOptions.excellent.count = filterOptions.excellent.count + 1;
-      } else if (itemSatisfaction >= 80) {
-        filterOptions.veryGood.count = filterOptions.veryGood.count + 1;
-      } else if (itemSatisfaction >= 70) {
-        filterOptions.good.count = filterOptions.good.count + 1;
-      } else if (itemSatisfaction >= 50) {
-        filterOptions.fair.count = filterOptions.fair.count + 1;
-      } else {
-        filterOptions.bad.count = filterOptions.bad.count + 1;
-      }
-    }
-
-    const optionsArray = Object.values(filterOptions)
-
-    dispatch(setGuestPointFilterOptions(optionsArray));
-
-  }
-  // const saveFacilityOptions = (hotelItems: SearchHotelItem[]) => {
-
-  //   const options: { keyword: string, label: string, count: number }[] = [];
-
-  //   for (let i = 0; i < hotelItems.length; i++) {
-  //     const hotelItemFacilities = hotelItems[i].Facilities;
-
-  //     if (!hotelItemFacilities?.length) continue;
-
-  //     for (let j = 0; j < hotelItemFacilities.length; j++) {
-  //       const facilityItem = hotelItemFacilities[j];
-
-  //       const updatingOptionItem = options.find(item => item.keyword === facilityItem.Keyword);
-
-  //       if (!facilityItem.Keyword) continue;
-
-  //       if (updatingOptionItem) {
-  //         updatingOptionItem.count = updatingOptionItem.count + 1;
-  //       } else {
-  //         options.push({ keyword: facilityItem.Keyword, label: facilityItem.Title || "", count: 1 })
-  //       }
-
-  //     }
-  //   }
-
-  //   dispatch(setFacilityFilterOptions(options));
-
-  // }
-
   const saveHotelType = (hotelItems: SearchAccomodationItem[]) => {
 
     const options: { id: string, label: string, count: number }[] = [];
@@ -198,8 +121,6 @@ const HotelList: NextPage = () => {
     dispatch(setTypeFilterOptions(options));
 
   }
-
-
 
   const saveOffersOptions = (hotelItems: PricedHotelItem[]) => {
 
@@ -234,49 +155,30 @@ const HotelList: NextPage = () => {
   const localStorageToken = localStorage.getItem('Token');
   const localStorageTenant = localStorage?.getItem('S-TenantId');
 
-  useEffect(()=>{
-    if (fetchPercentage > 90){
-      setTimeout(()=>{setFetchPercentage(100)},1000);
-    } else if (fetchPercentage > 80){
-      setTimeout(()=>{setFetchPercentage(99.9)},1000);
-    }
-  },[fetchPercentage])
-
+  const { query } = router;
+  const querySections : string[] = query.hotelList as string[];
+  const locationSegment = querySections.find(x=> x.includes("locationId-"));
+  const locationId : string = locationSegment?.split("locationId-")[1] || "";
+  
   useEffect(() => {
 
     const fetchAccomodations = async (tenant: number) => {
-      
-      const { query } = router;
 
       setListLoading(true);
-      setAccomodations([]);
+      setAccomodations(undefined);
+      
       setFetchPercentage(0);
-
-      let url = `/${locale}/hotels/${query.hotelList![0]}`;
-
-      // if (process.env.LocaleInUrl === "off"){
-      //   url = `/hotels/${query.hotelList![0]}`;
-      // }
-
-      const searchParameters: { url: string; EntityId?: string; } = {
-        url: url
-      }
+      setTimeout(()=>{setFetchPercentage(20)},500);
+          
+      if (!locationId) return;
 
       const acceptLanguage = locale === "en" ? "en-US" : locale === "ar" ? "ar-AE" : "fa-IR";
 
-      const pageResponse: any = await getPageByUrl(url, tenant, acceptLanguage);
-      setPageData(pageResponse?.result);
+      const searchAccomodationResponse: any = await SearchAccomodation(locationId, acceptLanguage);
 
-      if (pageResponse?.data?.result?.entityId) {
-        searchParameters.EntityId = pageResponse.data.result.entityId;
-      }
-      setFetchPercentage(20);
+      setAccomodations(searchAccomodationResponse?.data?.result || []);
 
-      const searchAccomodationResponse: any = await SearchAccomodation(searchParameters, acceptLanguage);
-
-      setAccomodations(searchAccomodationResponse?.data?.result);
-
-      setFetchPercentage(45);
+      setFetchPercentage(50);
 
       setListLoading(false);
 
@@ -302,31 +204,14 @@ const HotelList: NextPage = () => {
             saveOffersOptions(pricesResponse.data.result.hotels);
     
           }
-          setFetchPercentage(previous => previous+20);
+          setFetchPercentage(80);
+          setTimeout(()=>{setFetchPercentage(99.5)},1000);
+          setTimeout(()=>{setFetchPercentage(100)},2000);
     
           setPricesLoading(false);
         }
 
         fetchPrices();
-
-        const fetchRates = async () => {      
-          setRatesLoading(true);
-          setRatesData(undefined);
-    
-          const ratesResponse: { data?: RatesResponseItem[] } = await getRates(hotelIds as number[], acceptLanguage);
-    
-          if (ratesResponse?.data) {
-    
-            setRatesData(ratesResponse.data);
-    
-            saveGuestPointFilterOptions(ratesResponse.data);
-    
-          }
-          setRatesLoading(false);      
-          setFetchPercentage(previous => previous+20);
-        }
-
-        fetchRates();
     
       }
 
@@ -348,8 +233,6 @@ const HotelList: NextPage = () => {
   }, [accomodations]);
 
   
-  const locationId = pageData?.entityId || accomodations?.[0]?.city?.id;
-  
   useEffect(() => {
 
     const fetchEntityDetail = async (id: number) => {
@@ -360,7 +243,7 @@ const HotelList: NextPage = () => {
     }
 
     if(locationId){
-      fetchEntityDetail(locationId);
+      fetchEntityDetail(+locationId);
     }
 
   }, [locationId]);
@@ -375,10 +258,6 @@ const HotelList: NextPage = () => {
   }, [checkin, checkout]);
 
   const hotels: PricedHotelItem[] = accomodations?.map(hotel => {
-
-    const HotelRateData = ratesData?.find(item => item.HotelId === hotel.id);
-    const ratesInfo = !isSafaraneh ? undefined : HotelRateData ? { Satisfaction: HotelRateData.Satisfaction, TotalRowCount: HotelRateData.TotalRowCount } : (ratesLoading || !ratesData) ? "loading" : undefined;
-
 
     const hotelPriceData = pricesData?.find(item => item.id === hotel.id);
 
@@ -396,7 +275,6 @@ const HotelList: NextPage = () => {
 
     return ({
       ...hotel,
-      ratesInfo: ratesInfo,
       priceInfo: priceInfo,
       promotions: hotelPriceData?.promotions
     })
@@ -404,11 +282,11 @@ const HotelList: NextPage = () => {
 
   let progressBarLabel = tHotel('getting-the-best-prices-and-availability');
   
-  if(accomodations.length && pricesData){    
-    if (ratesData){
-      progressBarLabel = tHotel('looking-for-cheaper-rates');
+  if(accomodations?.length){    
+    if (pricesData){
+      progressBarLabel = tHotel('نمایش هتلهای یافت شده');
     } else {
-      progressBarLabel = tHotel('getting-guest-ratings');
+      progressBarLabel = tHotel('looking-for-cheaper-rates');
     }
   }
 
@@ -568,20 +446,6 @@ const HotelList: NextPage = () => {
     fallbackLocation = [firstHotelWithLocation.coordinates?.latitude!, firstHotelWithLocation.coordinates?.longitude!];
   }
 
-
-  let envSiteName = process.env.SITE_NAME;
-
-  if (process.env.SITE_NAME?.includes("iranhotel")) {
-    envSiteName = "https://www.iranhotel.app";
-  }
-
-  let pageUrl = pageData?.url;
-
-  if (pageUrl && process.env.LocaleInUrl === "off") {
-    pageUrl = pageUrl.replace("fa/", "");
-  }
-
-  const faqItems = pageData?.widget?.faqs || [];
   return (
 
     <>
@@ -656,7 +520,6 @@ const HotelList: NextPage = () => {
       <div className="px-4 md:px-6 py-3" ref={searchFormWrapperRef}>
 
         <div>
-
           <SearchForm wrapperClassName="relative z-[2] mb-4" defaultDates={domesticHotelDefaultDates} defaultDestination={defaultDestination} />
 
           {(fetchPercentage === 100 || (accomodations?.length === 0 && !listLoading)) || <ProgressBarWithLabel
@@ -687,7 +550,6 @@ const HotelList: NextPage = () => {
                 allHotels={hotels.length}
                 filteredHotels={filteredHotels.length}
                 priceIsFetched={!!pricesData}
-                scoreIsFetched={!ratesLoading}
               />
 
             </div>
@@ -753,7 +615,7 @@ const HotelList: NextPage = () => {
                     isFetching={pricesLoading}
                   />}
                 </>
-              ) : pageData ? (
+              ) : (accomodations && accomodations.length === 0) ? (
                 <div className='flex flex-col items-center justify-center text-red-500 font-semibold'>
                   <ErrorIcon className='block w-14 h-14 mx-auto mb-2 fill-current' />
                   متاسفانه برای این مقصد هتلی یافت نشد!
@@ -761,29 +623,6 @@ const HotelList: NextPage = () => {
               ) : null}
 
 
-              {pageData?.widget?.content?.description ? (
-                <div className='py-10 text-justify inserted-content'>
-                  {parse(pageData.widget.content.description)}
-                </div>
-              ) : null}
-
-
-              {faqItems.length > 0 && (
-                <div className="mt-10 bg-white p-5 rounded-lg">
-                  <h5 className='font-semibold text-lg'>{t('faq')}</h5>
-                  {faqItems.filter(faq => (faq.answer && faq.question)).map(faq => (
-                    <Accordion
-                      key={faq.question}
-                      title={(<>
-                        <QuestionCircle className='w-5 h-5 mt-.5 rtl:ml-2 ltr:mr-2 fill-current inline-block' />
-                        {faq.question}
-                      </>)}
-                      content={parse(faq.answer!)}
-                      WrapperClassName='mt-5'
-                    />
-                  ))}
-                </div>
-              )}
             </div>
 
           </div>
@@ -794,7 +633,6 @@ const HotelList: NextPage = () => {
       {!!showMap && <HotelsOnMap
         fallbackLocation={fallbackLocation}
         priceIsFetched={!!pricesData}
-        scoreIsFetched={!!ratesData}
         allHotelsLength={hotels.length}
         setSort={setSortFactor}
         sortBy={sortFactor}
@@ -805,7 +643,8 @@ const HotelList: NextPage = () => {
           longitude: hotel.coordinates?.longitude,
           name: hotel.displayName || hotel.name || "",
           rating: hotel.rating,
-          url: hotel.url + searchInfo,
+          //url: hotel.url + searchInfo,
+          url:"/hotel/hotelId-" + hotel.id + searchInfo ,
           price: hotel.priceInfo,
           guestRate: hotel.ratesInfo,
           imageUrl: hotel.picture?.path

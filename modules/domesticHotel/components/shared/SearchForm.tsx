@@ -6,14 +6,14 @@ import { useRouter } from "next/router";
 import { getDomesticHotelSummaryDetailById } from "@/modules/domesticHotel/actions";
 import { Header, ServerAddress, Hotel } from "../../../../enum/url";
 import AutoComplete from "../../../shared/components/ui/AutoComplete";
-import { ApartmentOutline, Calendar, Home2, Location } from "../../../shared/components/ui/icons";
+import { ApartmentOutline, Home2, Location } from "../../../shared/components/ui/icons";
 import { EntitySearchResultItemType, HotelRecentSearchItem } from "@/modules/domesticHotel/types/hotel";
 import { useAppDispatch } from "@/modules/shared/hooks/use-store";
 import { setAlertModal } from "@/modules/shared/store/alertSlice";
 import RangePicker from "../../../shared/components/ui/RangePicker";
 import { localeFa } from "@mobiscroll/react";
 import Button from "../../../shared/components/ui/Button";
-import AutoCompleteZoom from "@/modules/shared/components/ui/AutoCompleteZoom";
+import { setReduxNotification } from "@/modules/shared/store/notificationSlice";
 
 
 
@@ -127,11 +127,21 @@ const SearchForm: React.FC<Props> = props => {
     const submitHandler = async () => {
         if (!dates || dates.length < 2) {
             // TODO validation message
+            dispatch(setReduxNotification({
+                status: 'error',
+                message: "تاریخ ورود و خروج را انتخاب کنید",
+                isVisible: true
+            }));
             return;
         }
 
         if (!selectedDestination) {
             // TODO validation message
+            dispatch(setReduxNotification({
+                status: 'error',
+                message: "مقصد را انتخاب کنید",
+                isVisible: true
+            }));
             return;
         }
 
@@ -139,60 +149,15 @@ const SearchForm: React.FC<Props> = props => {
 
         let url: string = "";
 
-        const isSafarLife = process.env.SITE_NAME === 'https://www.safarlife.com';
-
         switch (selectedDestination.type) {
             case "City":
-                if (isSafarLife && selectedDestination.slug){
-                    url = selectedDestination.slug;
-                }else if (i18n && i18n.language === "fa") {
-                    url = `/hotels/هتل-های-${selectedDestination.name!.replace(/ /g, "-")}`;
-                } else if (i18n && i18n.language === "ar") {
-                    url = `/hotels/فنادق-${selectedDestination.name!.replace(/ /g, "-")}`;
-                } else {
-                    url = `/hotels/${selectedDestination.name!.replace(/ /g, "-")}`;
-                }
-
-                break;
-
             case "Province":
-
-                if (i18n && i18n.language === "fa") {
-                    url = `/hotels/هتل-های-استان-${selectedDestination.name!.replace(/ /g, "-")}`;
-                } else if (i18n && i18n.language === "ar") {
-                    url = `/hotels/فنادق-محافظة-${selectedDestination.name!.replace(/ /g, "-")}`;
-                } else {
-                    url = `/hotels/${selectedDestination.name!.replace(/ /g, "-")}`;
-                }
-
+                url = `/hotels/locationId-${selectedDestination.id}`;
                 break;
-
             case "Hotel":
+                url = `/hotel/hotelId-${selectedDestination.id}`;
                 const hotelDetailsResponse = await getDomesticHotelSummaryDetailById(selectedDestination.id!, i18n?.language === "en" ? "en-US" : "fa-IR");
-
-                if (hotelDetailsResponse.data?.result) {
-                    if(hotelDetailsResponse.data.result.url){
-                        url = hotelDetailsResponse.data.result.url;
-                    }
-                } else {
-                    let message = "";
-                    if (hotelDetailsResponse.response) {
-                        message = hotelDetailsResponse.response.statusText || hotelDetailsResponse.response.data.error?.message || t('oopsSomethingWentWrong1');
-                    } else if (!hotelDetailsResponse.request) {
-                        message = hotelDetailsResponse.message;
-                    } else {
-                        message = t('oopsSomethingWentWrong2')
-                    }
-                    dispatch(setAlertModal({
-                        title: t('error'),
-                        message,
-                        isVisible: true
-                    }));
-                    return;
-                }
-
                 break;
-
             default:
                 url = "";
         }

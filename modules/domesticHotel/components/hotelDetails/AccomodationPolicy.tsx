@@ -27,7 +27,7 @@ const AccomodationPolicy: React.FC<Props> = props => {
     const checkoutTime = policies.find(policy => policy.keyword === 'check-out')?.value;
 
     return (
-        <div id="terms_section" className="max-w-container mx-auto px-3 sm:px-5 pt-7 md:pt-10 text-neutral-800">
+        <div id="terms_section" className="px-4 md:px-6 pt-7 md:pt-10 text-neutral-800">
             <h3 className='text-lg lg:text-3xl font-semibold mb-3 md:mb-7'> {t("terms")} </h3>
 
             <div className='p-3 sm:p-5 lg:p-7 bg-white rounded-xl text-sm'>

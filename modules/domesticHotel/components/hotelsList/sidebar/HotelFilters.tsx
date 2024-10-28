@@ -66,7 +66,7 @@ const HotelFilters: React.FC<Props> = props => {
 
                 <HotelFacilityFilter />
 
-                {props.scoreIsFetched ? <HotelGuestPointFilter /> : (
+                {/* {props.scoreIsFetched ? <HotelGuestPointFilter /> : (
                     <>
                         <label className="font-semibold text-sm mb-2 mt-4 border-t border-neutral-300 pt-5 block">
                             {tHotel('guest-rating')}
@@ -76,7 +76,7 @@ const HotelFilters: React.FC<Props> = props => {
                         <Skeleton className="mb-4" />
                         <Skeleton className="mb-4" />
                     </>
-                )}
+                )} */}
 
                 <HotelTypeFilter />
 

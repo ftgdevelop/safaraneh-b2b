@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Header, ServerAddress, Hotel } from "../../../enum/url";
+import { Header, ServerAddress, Hotel, Wp } from "../../../enum/url";
 import { DomesticHotelPrereserveParams } from '../types/hotel';
 
 export const getDomesticHotelSummaryDetailById = async (id: number, acceptLanguage: string = 'fa-IR') => {
@@ -19,10 +19,14 @@ export const getDomesticHotelSummaryDetailById = async (id: number, acceptLangua
     }
 }
 
-export const getDomesticHotelDetailsByUrl = async (url: string, acceptLanguage: string = 'fa-IR') => {
+export const getDomesticHotelAllDetailsById = async (params : {
+    id: string;
+    checkin: string;
+    checkout : string;
+}, acceptLanguage: string = 'fa-IR') => {
     try {
         let response = await axios.get(
-            `${ServerAddress.Type}${ServerAddress.Hotel_WP}${Hotel.GetDomesticHotelDetails}?url=${url}`,
+            `${ServerAddress.Type}${ServerAddress.Hotel_WP}${Wp.getById}?id=${params.id}&checkin=${params.checkin}&checkout=${params.checkout}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -37,16 +41,12 @@ export const getDomesticHotelDetailsByUrl = async (url: string, acceptLanguage: 
     }
 }
 
-export const SearchAccomodation = async (parameters: {url: string; EntityId?: string}, acceptLanguage: string = 'fa-IR') => {
+export const SearchAccomodation = async (EntityId: string , acceptLanguage: string = 'fa-IR') => {
     try {
         
         const paramsArray :string[] = [];
-        if(parameters.EntityId){
-            paramsArray.push(`EntityId=${parameters.EntityId}`);
-        }
-
-        if(parameters.url){
-            paramsArray.push(`Url=${parameters.url}`);
+        if(EntityId){
+            paramsArray.push(`EntityId=${EntityId}`);
         }
 
         const requestUrl = ServerAddress.Type! + ServerAddress.Hotel_Data! + Hotel.SearchAccomodations+ "?" + paramsArray.join("&") ;
@@ -237,29 +237,29 @@ export const domesticHotelGetValidate = async (key: string, acceptLanguage: stri
 }
 
 
-// export const domesticHotelPreReserve = async (param: DomesticHotelPrereserveParams,tenant:number, token?:string | null , acceptLanguage: string = 'fa-IR') => {
+export const domesticHotelPreReserve = async (param: DomesticHotelPrereserveParams,tenant:number, token?:string | null , acceptLanguage: string = 'fa-IR') => {
 
-//     try {
-//         let response = await axios.post(
-//             `${ServerAddress.Type}${ServerAddress.Hotel_Availability}${Hotel.PreReserve}`,
-//             param,
-//             {
-//                 headers: {
-//                     accept: 'text/plain',
-//                     'Content-Type': 'application/json',
-//                     apikey: process.env.PROJECT_SERVER_APIKEY,
-//                     'Accept-Language': acceptLanguage,
-//                     TenantId: tenant,
-//                     Authorization: `Bearer ${token}`,
-//                     Currency: 'IRR'
-//                 },
-//             },
-//         )
-//         return response
-//     } catch (error) {
-//         return error
-//     }
-// }
+    try {
+        let response = await axios.post(
+            `${ServerAddress.Type}${ServerAddress.Hotel_Availability}${Hotel.PreReserve}`,
+            param,
+            {
+                headers: {
+                    accept: 'text/plain',
+                    'Content-Type': 'application/json',
+                    apikey: process.env.PROJECT_SERVER_APIKEY,
+                    'Accept-Language': acceptLanguage,
+                    TenantId: tenant,
+                    Authorization: `Bearer ${token}`,
+                    Currency: 'IRR'
+                },
+            },
+        )
+        return response
+    } catch (error) {
+        return error
+    }
+}
 
 
 export const domesticHotelGetReserveById = async (params: { reserveId: string, userName: string }, acceptLanguage: string = 'fa-IR') => {

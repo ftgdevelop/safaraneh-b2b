@@ -52,9 +52,9 @@ const AnchorTabItem: React.FC<Props> = props => {
         const target = document.getElementById(props.target);
 
         if (target) {
-            let offset = 85;
+            let offset = -100;
             if (window?.innerWidth < 768){
-                offset = 75;
+                offset = -50;
             }
             const targetOffsetTop = target.offsetTop + offset;
 

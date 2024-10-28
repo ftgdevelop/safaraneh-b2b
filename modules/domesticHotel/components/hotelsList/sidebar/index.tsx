@@ -40,7 +40,7 @@ const DomesticHotelListSideBar: React.FC<Props> = props => {
             </button>}
             {!!open && <div className="bg-black/75 backdrop-blur fixed top-0 left-0 right-0 bottom-0 z-20 lg:hidden" onClick={() => { setOpen(false) }} />}
             <div
-                className={`bg-white max-lg:fixed max-lg:max-w-full max-lg:w-72 z-20 max-lg:overflow-auto top-0 max-lg:h-screen rtl:right-0 transition-all
+                className={`bg-white rounded-xl border max-lg:fixed max-lg:max-w-full max-lg:w-72 z-20 max-lg:overflow-auto top-0 max-lg:h-screen rtl:right-0 transition-all
                 ${open ? "max-lg:translate-x-0" : "max-lg:translate-x-full"}`}
             >
 

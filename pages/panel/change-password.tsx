@@ -5,7 +5,7 @@ import { UserX } from "@/modules/shared/components/ui/icons";
 import { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-const Password: NextPage = () => {
+const ChangePassword: NextPage = () => {
 
     return (
 
@@ -43,7 +43,7 @@ const Password: NextPage = () => {
     )
 }
 
-export default Password;
+export default ChangePassword;
 
 export async function getStaticProps(context: any) {
     return (

@@ -21,7 +21,7 @@ const UserNavigation: React.FC = () => {
                 </Link>
 
                 <Link
-                    href={"/panel/password"}
+                    href={"/panel/change-password"}
                     className="flex items-center gap-4 py-2 px-5 border-b"
                 >
                     <span className="bg-slate-100 rounded-lg p-1.5">

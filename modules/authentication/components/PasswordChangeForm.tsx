@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { Form, Formik } from "formik";
-
 import FormikField from '@/modules/shared/components/ui/FormikField';
 import Button from '@/modules/shared/components/ui/Button';
-
 import { useAppDispatch } from '@/modules/shared/hooks/use-store';
 import { changePassword } from '../actions';
 import { setReduxNotification } from '@/modules/shared/store/notificationSlice';
@@ -12,8 +10,6 @@ import { setAlertModal } from '@/modules/shared/store/alertSlice';
 const PasswordChangeForm: React.FC = () => {
 
     const dispatch = useAppDispatch();
-
-    const theme2 = process.env.THEME === "THEME2";
 
     const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
@@ -82,84 +78,73 @@ const PasswordChangeForm: React.FC = () => {
     }
 
     return (
-        <>
-            <p className='text-sm mb-8'>
-                گذرواژه فعلی خود را وارد کرده ، رمز جدید را تنظیم کرده و برای تأیید دوباره رمز جدید را وارد کنید.
-            </p>
+        <Formik
+            validate={() => { return {} }}
+            initialValues={{ currentPassword: "", newPassword: "", repeatPassword: "" }}
+            onSubmit={submitHandler}
+        >
+            {({ errors, touched, setFieldValue, values }) => {
+                return (
 
-            <Formik
-                validate={() => { return {} }}
-                initialValues={{ currentPassword: "", newPassword: "", repeatPassword: "" }}
-                onSubmit={submitHandler}
-            >
-                {({ errors, touched, setFieldValue, values }) => {
-                    return (
+                    <Form autoComplete='off' className="sm:w-520" >
 
-                        <Form autoComplete='off' className='md:w-1/2' >
+                        <FormikField
+                            isPassword
+                            labelIsSimple
+                            showRequiredStar
+                            className="mb-5"
+                            setFieldValue={setFieldValue}
+                            errorText={errors.currentPassword as string}
+                            id='currentPassword'
+                            name='currentPassword'
+                            isTouched={touched.currentPassword}
+                            label={"کلمه عبور فعلی"}
+                            validateFunction={(value: string) => validatePassword(value)}
+                            value={values.currentPassword!}
+                        />
 
-                            <FormikField
-                                isPassword
-                                labelIsSimple
-                                showRequiredStar
-                                showRequiredStarEnd={theme2}
-                                className="mb-5"
-                                setFieldValue={setFieldValue}
-                                errorText={errors.currentPassword as string}
-                                id='currentPassword'
-                                name='currentPassword'
-                                isTouched={touched.currentPassword}
-                                label={"کلمه عبور فعلی"}
-                                validateFunction={(value: string) => validatePassword(value)}
-                                value={values.currentPassword!}
-                            />
+                        <FormikField
+                            isPassword
+                            labelIsSimple
+                            showRequiredStar
+                            className="mb-5"
+                            setFieldValue={setFieldValue}
+                            errorText={errors.newPassword as string}
+                            id='newPassword'
+                            name='newPassword'
+                            isTouched={touched.newPassword}
+                            label={"کلمه عبور جدید"}
+                            validateFunction={(value: string) => validatePassword(value)}
+                            value={values.newPassword!}
+                        />
 
-                            <FormikField
-                                isPassword
-                                labelIsSimple
-                                showRequiredStar
-                                showRequiredStarEnd={theme2}
-                                className="mb-5"
-                                setFieldValue={setFieldValue}
-                                errorText={errors.newPassword as string}
-                                id='newPassword'
-                                name='newPassword'
-                                isTouched={touched.newPassword}
-                                label={"کلمه عبور جدید"}
-                                validateFunction={(value: string) => validatePassword(value)}
-                                value={values.newPassword!}
-                            />
+                        <FormikField
+                            isPassword
+                            labelIsSimple
+                            showRequiredStar
+                            className="mb-5"
+                            setFieldValue={setFieldValue}
+                            errorText={errors.repeatPassword as string}
+                            id='repeatPassword'
+                            name='repeatPassword'
+                            isTouched={touched.repeatPassword}
+                            label={"تکرار کلمه عبور جدید"}
+                            validateFunction={(value: string) => validatePassword(value, values.newPassword)}
+                            value={values.repeatPassword!}
+                        />
 
-                            <FormikField
-                                isPassword
-                                labelIsSimple
-                                showRequiredStar
-                                showRequiredStarEnd={theme2}
-                                className="mb-5"
-                                setFieldValue={setFieldValue}
-                                errorText={errors.repeatPassword as string}
-                                id='repeatPassword'
-                                name='repeatPassword'
-                                isTouched={touched.repeatPassword}
-                                label={"تکرار کلمه عبور جدید"}
-                                validateFunction={(value: string) => validatePassword(value, values.newPassword)}
-                                value={values.repeatPassword!}
-                            />
+                        <Button
+                            type="submit"
+                            className="h-10 px-8 rounded"
+                            loading={submitLoading}
+                        >
+                            تغییر کلمه عبور
+                        </Button>
 
-
-                            <Button
-                                type="submit"
-                                className="h-12 w-full mt-10 mb-5"
-                                loading={submitLoading}
-                            >
-                                تغییر کلمه عبور
-                            </Button>
-
-                        </Form>
-                    )
-                }}
-            </Formik>
-
-        </>
+                    </Form>
+                )
+            }}
+        </Formik>
     )
 }
 

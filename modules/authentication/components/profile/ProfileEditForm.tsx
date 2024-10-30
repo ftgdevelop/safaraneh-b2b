@@ -332,7 +332,7 @@ const ProfileEditForm: React.FC<Props> = props => {
 
                             <Button
                                 type="submit"
-                                className={`h-10 px-8 rounded ${theme2 ? "mx-auto  mt-8" : ""}`}
+                                className="h-10 px-8 rounded"
                                 loading={submitLoading}
                                 disabled={!isTouched}
                             >

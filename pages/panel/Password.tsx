@@ -1,3 +1,4 @@
+import PasswordChangeForm from "@/modules/authentication/components/PasswordChangeForm";
 import UserNavigation from "@/modules/authentication/components/users/UserNavigation";
 import BreadCrumpt from "@/modules/shared/components/ui/BreadCrumpt";
 import { UserX } from "@/modules/shared/components/ui/icons";
@@ -14,9 +15,7 @@ const Password: NextPage = () => {
 
             <div className="relative col-span-5">
 
-                <div
-                    className="border-b flex items-center gap-3 px-4 md:px-6 py-3 bg-white text-lg md:text-xl"
-                >
+                <div className="border-b flex items-center gap-3 px-4 md:px-6 py-3 bg-white text-lg md:text-xl" >
                     <UserX className="w-8 h-8" />
                     تغییر کلمه عبور
                 </div>
@@ -32,7 +31,7 @@ const Password: NextPage = () => {
                     />
 
                     <div className="bg-white border rounded-xl p-5 md:p-8 mb-5">
-                        تغییر کلمه عبور
+                        <PasswordChangeForm />
                     </div>
 
                 </div>

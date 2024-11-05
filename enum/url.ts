@@ -111,7 +111,7 @@ export const Hotel = {
   GetReserveById: "/api/services/app/Reserve/Get",
   Confirm: "/api/services/app/Booking/Confirm",
   SearchAccomodations: "/api/services/app/Accommodation/GetAll",
-  GetAllOverview:"/api/services/app/Review/GetAllOverview"
+  GetOverview:"/api/services/app/Review/Overview"
 };
 
 export const Wp = {

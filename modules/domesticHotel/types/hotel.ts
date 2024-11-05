@@ -645,6 +645,7 @@ export interface DomesticHotelConfirmType {
 }
 
 export interface DomesticHotelSummaryDetail {
+    id: number;
     coordinates: {
         latitude?: number;
         longitude?: number;
@@ -704,8 +705,7 @@ export interface DomesticHotelSummaryDetail {
     //     "answer": "string",
     //     "id": 0
     //   }
-    // ],
-    // "id": 0
+    // ],    
   }
 
 export type HotelRecentSearchItem = {

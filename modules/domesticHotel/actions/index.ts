@@ -67,26 +67,28 @@ export const SearchAccomodation = async (EntityId: string , acceptLanguage: stri
     }
 }
 
-export const getHotelsScore = async (entityIds: number[] , tenantId: number, acceptLanguage: string = 'fa-IR') => {
+export const getHotelsScore = async (params: {
+    ids: number[];
+    tenant:number;
+
+}, acceptLanguage: string = 'fa-IR') => {
     try {
-        
-        const paramsArray :string[] = entityIds.map(entityId => `EntityIds=${entityId}`);
-
-        const requestUrl = ServerAddress.Type! + ServerAddress.CMS! + Hotel.GetAllOverview+ "?" + paramsArray.join("&") ;
-
-        let response = await axios.get(
-            requestUrl,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    apikey: process.env.PROJECT_SERVER_APIKEY,
-                    'Accept-Language': acceptLanguage,
-                    TenantId: tenantId
-                },
+        const response = await axios({
+            method: "post",
+            data: {
+                entityIds: params.ids
             },
-        )
-        return response
-    } catch (error) {
+            url: `${ServerAddress.Type}${ServerAddress.CMS}${Hotel.GetOverview}`,
+            headers: {
+                ...Header,
+                "Accept-Language": acceptLanguage,
+                Currency: "IRR",
+                TenantId: params.tenant,
+                Apikey: process.env.PROJECT_SERVER_APIKEY
+            }
+        });
+        return (response)
+    } catch (error: any) {
         return error
     }
 }

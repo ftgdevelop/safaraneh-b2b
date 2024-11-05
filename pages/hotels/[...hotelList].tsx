@@ -220,7 +220,10 @@ const HotelList: NextPage = () => {
         
           //setPricesLoading(true);
     
-          const scoresResponse = await getHotelsScore( hotelIds , +tenant ,acceptLanguage);
+          const scoresResponse = await getHotelsScore( {
+            ids:hotelIds,
+            tenant: tenant
+          } ,acceptLanguage);
     
           if (scoresResponse) {
     debugger;

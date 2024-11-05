@@ -98,19 +98,20 @@ export const Hotel = {
   GetHotelById: "/v2/Hotel/GetHotelById",
   GetHotelSummaryDetailById: "/api/services/app/Accommodation/Get",
   GetDomesticHotelDetails: "/api/services/app/Accommodation/Get",
-  GetScore: "/v2/Comment/GetScore",
-  InsertComment: '/v2/Comment/InsertComment',
+  //GetScore: "/v2/Comment/GetScore",
+  //InsertComment: '/v2/Comment/InsertComment',
   AvailabilityByHotelId: "/api/services/app/Booking/AvailabilityByHotelId",
   GetRooms: "/api/services/app/Booking/GetRoom",
   ValidateRoom: "/api/services/app/Booking/Validate",
   SearchHotels: "/v2/Hotel/SearchHotels",
-  getRates: "/v2/Comment/Rates",
+  //getRates: "/v2/Comment/Rates",
   GetEntityNameByLocation: "/api/services/app/Entity/Get",
   GetValidate: "/api/services/app/Booking/GetValidate",
   PreReserve: "/api/services/app/Booking/PreReserve",
   GetReserveById: "/api/services/app/Reserve/Get",
   Confirm: "/api/services/app/Booking/Confirm",
-  SearchAccomodations: "/api/services/app/Accommodation/GetAll"
+  SearchAccomodations: "/api/services/app/Accommodation/GetAll",
+  GetAllOverview:"/api/services/app/Review/GetAllOverview"
 };
 
 export const Wp = {

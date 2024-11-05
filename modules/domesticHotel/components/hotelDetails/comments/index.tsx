@@ -2,7 +2,7 @@ import { useTranslation } from 'next-i18next';
 
 import { HotelScoreDataType } from "@/modules/domesticHotel/types/hotel";
 import UsersComments from './UsersComments';
-import CommentForm from './CommentForm';
+//import CommentForm from './CommentForm';
 
 type Props = {
     hotelScoreData?: HotelScoreDataType;
@@ -19,7 +19,7 @@ const Comments: React.FC<Props> = props => {
 
             {!!props.hotelScoreData && <UsersComments hotelScoreData={props.hotelScoreData} />}
 
-            <CommentForm pageId={props.pageId} />
+            {/* <CommentForm pageId={props.pageId} /> */}
 
         </div>
     )

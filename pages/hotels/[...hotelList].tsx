@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { AvailabilityByHotelId, SearchAccomodation, getEntityNameByLocation} from '@/modules/domesticHotel/actions';
+import { AvailabilityByHotelId, SearchAccomodation, getEntityNameByLocation, getHotelsScore} from '@/modules/domesticHotel/actions';
 import type { GetServerSideProps, NextPage } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { EntitySearchResultItemType, PricedHotelItem, SearchAccomodationItem, SortTypes } from '@/modules/domesticHotel/types/hotel';
@@ -212,6 +212,36 @@ const HotelList: NextPage = () => {
         }
 
         fetchPrices();
+
+        const fetchScores = async (tenant:number) => {
+        
+          //setPricesData(undefined);
+          if (!hotelIds?.length) return;
+        
+          //setPricesLoading(true);
+    
+          const scoresResponse = await getHotelsScore( hotelIds , +tenant ,acceptLanguage);
+    
+          if (scoresResponse) {
+    debugger;
+    console.log("scoresResponse",scoresResponse);
+            // setPricesData(pricesResponse.data.result.hotels);
+    
+            // savePriceRange(pricesResponse.data.result.hotels);
+    
+            // saveOffersOptions(pricesResponse.data.result.hotels);
+    
+          }
+          // setFetchPercentage(80);
+          // setTimeout(()=>{setFetchPercentage(99.5)},1000);
+          // setTimeout(()=>{setFetchPercentage(100)},2000);
+    
+          //setPricesLoading(false);
+        }
+
+        if(localStorageTenant){
+          fetchScores(+localStorageTenant);
+        }
     
       }
 

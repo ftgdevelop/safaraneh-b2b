@@ -67,6 +67,30 @@ export const SearchAccomodation = async (EntityId: string , acceptLanguage: stri
     }
 }
 
+export const getHotelsScore = async (entityIds: number[] , tenantId: number, acceptLanguage: string = 'fa-IR') => {
+    try {
+        
+        const paramsArray :string[] = entityIds.map(entityId => `EntityIds=${entityId}`);
+
+        const requestUrl = ServerAddress.Type! + ServerAddress.CMS! + Hotel.GetAllOverview+ "?" + paramsArray.join("&") ;
+
+        let response = await axios.get(
+            requestUrl,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    apikey: process.env.PROJECT_SERVER_APIKEY,
+                    'Accept-Language': acceptLanguage,
+                    TenantId: tenantId
+                },
+            },
+        )
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
 export const AvailabilityByHotelId = async (params: {
     ids: number[];
     checkin: string;
@@ -98,26 +122,26 @@ export const AvailabilityByHotelId = async (params: {
 }
 
 
-export const getRates = async (ids: number[], acceptLanguage: string = 'fa-IR') => {
-    try {
-        const response = await axios({
-            method: "post",
-            data: {
-                HotelIds: ids,
-            },
-            url: `${ServerAddress.Type}api.safaraneh.com${Hotel.getRates}`,
-            headers: {
-                ...Header,
-                "Accept-Language": acceptLanguage,
-                Currency: "IRR",
-                Apikey: process.env.PROJECT_SERVER_APIKEY
-            }
-        });
-        return (response)
-    } catch (error: any) {
-        return error
-    }
-}
+// export const getRates = async (ids: number[], acceptLanguage: string = 'fa-IR') => {
+//     try {
+//         const response = await axios({
+//             method: "post",
+//             data: {
+//                 HotelIds: ids,
+//             },
+//             url: `${ServerAddress.Type}api.safaraneh.com${Hotel.getRates}`,
+//             headers: {
+//                 ...Header,
+//                 "Accept-Language": acceptLanguage,
+//                 Currency: "IRR",
+//                 Apikey: process.env.PROJECT_SERVER_APIKEY
+//             }
+//         });
+//         return (response)
+//     } catch (error: any) {
+//         return error
+//     }
+// }
 
 
 export const getEntityNameByLocation = async (cityId: number, acceptLanguage: string = 'fa-IR') => {
@@ -159,26 +183,26 @@ export const GetRooms = async (params:{id:number,checkin:string,checkout:string,
     }
 }
 
-export const insertComment = async (param: any, acceptLanguage: string = 'fa-IR') => {
+// export const insertComment = async (param: any, acceptLanguage: string = 'fa-IR') => {
 
-    try {
-        let response = await axios.post(
-            `${ServerAddress.Type}api.safaraneh.com${Hotel.InsertComment}`,
-            param,
-            {
-                headers: {
-                    ...Header,
-                    "Accept-Language": acceptLanguage,
-                    // apikey: "68703d73-c92c-4105-9f71-9f718aaad2cc"
-                    apikey: process.env.PROJECT_SERVER_APIKEY,
-                },
-            },
-        )
-        return response
-    } catch (error) {
-        return error
-    }
-}
+//     try {
+//         let response = await axios.post(
+//             `${ServerAddress.Type}api.safaraneh.com${Hotel.InsertComment}`,
+//             param,
+//             {
+//                 headers: {
+//                     ...Header,
+//                     "Accept-Language": acceptLanguage,
+//                     // apikey: "68703d73-c92c-4105-9f71-9f718aaad2cc"
+//                     apikey: process.env.PROJECT_SERVER_APIKEY,
+//                 },
+//             },
+//         )
+//         return response
+//     } catch (error) {
+//         return error
+//     }
+// }
 
 
 export const domesticHotelValidateRoom = async (param: {

@@ -14,7 +14,7 @@ const Hero: React.FC = () => {
                 </p>
             </div>
             <div className="flex flex-col md:flex-row gap-[10px] mx-5">
-                <Button href="/panel" className="px-6 h-12 whitespace-nowrap">
+                <Button href="/panel" className="px-6 h-12 whitespace-nowrap" prefetch={false}>
                     <User3 className="fill-current w-7 h-7" />
                     ورود به پنل کاربری
                 </Button>

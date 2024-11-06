@@ -17,7 +17,7 @@ type HotelItem = {
     rating?: number;
     url: string;
     imageUrl?: string;
-    guestRate?: "loading" | { Satisfaction: number; TotalRowCount: number; };
+    scoreInfo?: "loading" | {averageRating: number, reviewCount: number };
     price: "loading" | "notPriced" | "need-to-inquire" | { boardPrice: number; salePrice: number; };
 } 
 type Props = {
@@ -102,10 +102,10 @@ const LeafletMap: React.FC<Props> = props => {
         }
 
         let rate = null;
-        if (!item.guestRate || item.guestRate === 'loading') {
+        if (!item.scoreInfo || item.scoreInfo === 'loading') {
             rate = null;
         } else {
-            const score = item.guestRate.Satisfaction;
+            const score = item.scoreInfo.averageRating;
 
             let title = '';
 
@@ -122,7 +122,7 @@ const LeafletMap: React.FC<Props> = props => {
             }
 
             rate = (<>
-                <span className="text-base font-semibold"> {score} از 100  </span> {title} ({item.guestRate.TotalRowCount} {tHotel("guest-reviews")})                 </>)
+                <span className={`text-base font-semibold ${score<7 ? "text-orange-600":"text-green-600"}`}> {score} </span> امتیاز کاربران ({item.scoreInfo.reviewCount} {tHotel("guest-reviews")})                 </>)
         }
 
         const iconHTML = ReactDOMServer.renderToString(<div>

@@ -93,7 +93,7 @@ export const getHotelsScore = async (params: {
     }
 }
 
-export const AvailabilityByHotelId = async (params: {
+export const availabilityByHotelId = async (params: {
     ids: number[];
     checkin: string;
     checkout: string;

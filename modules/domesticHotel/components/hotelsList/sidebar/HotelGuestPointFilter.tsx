@@ -14,7 +14,7 @@ const HotelGuestPointFilter: React.FC = () => {
 
     const savedOptions = useAppSelector(state => state.domesticHotelFilter.filterOptions.guestPointFilterOptions);
 
-    const options: { value: string, label: React.ReactNode }[] = savedOptions.filter(item => +item.value[0] >= 50).map(item => ({
+    const options: { value: string, label: React.ReactNode }[] = savedOptions.filter(item => +item.value[0] >= 5).map(item => ({
         label: (<div className="flex justify-between grow"> {item.label}  <span> ({toPersianDigits(item.count?.toString())}) </span></div>),
         value: item.value[0] + "-" + item.value[1]
     }))

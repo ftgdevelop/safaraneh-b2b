@@ -38,8 +38,8 @@ const HotelScore: React.FC<Props> = props => {
     }
 
     return (
-        <div className={`${props.small?"text-sm":""} ${props.className || ""}`}>
-            <span className={`${props.small?"text-base font-semibold":"text-3xl font-bold"}`}> {score} از 100  </span> {pointTitle} ({props.reviews} {tHotel("guest-reviews")}) 
+        <div className={`${props.small?"text-xs":"text-sm"} ${props.className || ""}`}>
+            <span className={`${score >= 7 ? "text-green-600" : "text-orange-600"}  ${props.small?"text-lg font-semibold":"text-3xl font-bold"}`}> {score} </span> امتیاز کاربران ({props.reviews} {tHotel("guest-reviews")}) 
         </div>
     )
 };

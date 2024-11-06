@@ -15,7 +15,7 @@ type Props = {
     rating?: number;
     url: string;
     imageUrl?: string;
-    ratesInfo?: "loading" | { Satisfaction: number; TotalRowCount: number; };
+    scoreInfo?: "loading" | {averageRating: number, reviewCount: number };
     priceInfo: "loading" | "notPriced" | "need-to-inquire" | { boardPrice: number; salePrice: number; };
 }
 
@@ -24,18 +24,18 @@ const SimpleHotelListItem: React.FC<Props> = props => {
     const { t } = useTranslation('common');
     const { t: tHotel } = useTranslation('hotel');
 
-    const { ratesInfo, name, priceInfo, url, rating, imageUrl, onHoverHotel, id } = props;
+    const { scoreInfo, name, priceInfo, url, rating, imageUrl, onHoverHotel, id } = props;
 
     let guestRate = null;
 
-    if (!ratesInfo) {
+    if (!scoreInfo) {
         guestRate = null;
-    } else if (ratesInfo === "loading") {
+    } else if (scoreInfo === "loading") {
         guestRate = <Skeleton />
     } else {
         guestRate = <HotelScore
-            reviews={ratesInfo.TotalRowCount}
-            score={ratesInfo.Satisfaction}
+            reviews={scoreInfo.reviewCount}
+            score={scoreInfo.averageRating}
             small
         />
     }

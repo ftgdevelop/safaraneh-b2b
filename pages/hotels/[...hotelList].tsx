@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { AvailabilityByHotelId, SearchAccomodation, getEntityNameByLocation, getHotelsScore} from '@/modules/domesticHotel/actions';
+import { availabilityByHotelId, SearchAccomodation, getEntityNameByLocation, getHotelsScore } from '@/modules/domesticHotel/actions';
 import type { GetServerSideProps, NextPage } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { EntitySearchResultItemType, PricedHotelItem, SearchAccomodationItem, SortTypes } from '@/modules/domesticHotel/types/hotel';
@@ -12,7 +12,7 @@ import Select from '@/modules/shared/components/ui/Select';
 import Skeleton from '@/modules/shared/components/ui/Skeleton';
 import { CalendarError, ErrorIcon, Hotel } from '@/modules/shared/components/ui/icons';
 import DomesticHotelListSideBar from '@/modules/domesticHotel/components/hotelsList/sidebar';
-import { setTypeFilterOptions, setPriceFilterRange, setPromotionsFilterOptions } from '@/modules/domesticHotel/store/domesticHotelSlice';
+import { setTypeFilterOptions, setPriceFilterRange, setPromotionsFilterOptions, setGuestPointFilterOptions } from '@/modules/domesticHotel/store/domesticHotelSlice';
 import { useAppDispatch } from '@/modules/shared/hooks/use-store';
 import { useRouter } from 'next/router';
 import HotelsOnMap from '@/modules/domesticHotel/components/hotelsList/HotelsOnMap';
@@ -37,6 +37,12 @@ const HotelList: NextPage = () => {
     }[];
   }
 
+  type ScoreResponseItem = {
+    entityId: number;
+    averageRating: number;
+    reviewCount: number;
+  }
+
   const dispatch = useAppDispatch();
 
   const router = useRouter();
@@ -48,6 +54,8 @@ const HotelList: NextPage = () => {
 
   const [pricesData, setPricesData] = useState<PricesResponseItem[] | undefined>();
   const [pricesLoading, setPricesLoading] = useState<boolean>(false);
+
+  const [scoreData, setScoreData] = useState<ScoreResponseItem[] | undefined>();
 
   const [sortFactor, setSortFactor] = useState<SortTypes>("priority");
 
@@ -156,20 +164,55 @@ const HotelList: NextPage = () => {
   const localStorageTenant = localStorage?.getItem('S-TenantId');
 
   const { query } = router;
-  const querySections : string[] = query.hotelList as string[];
-  const locationSegment = querySections.find(x=> x.includes("locationId-"));
-  const locationId : string = locationSegment?.split("locationId-")[1] || "";
-  
+  const querySections: string[] = query.hotelList as string[];
+  const locationSegment = querySections.find(x => x.includes("locationId-"));
+  const locationId: string = locationSegment?.split("locationId-")[1] || "";
+
   useEffect(() => {
+
+    const saveGuestPointFilterOptions = (rates: ScoreResponseItem[]) => {
+
+      const filterOptions = {
+        excellent: { label: tHotel('excellent') + " " + "(+9)", count: 0, value: [9, 10] },
+        veryGood: { label: tHotel('very-good') + " " + "(+8)", count: 0, value: [8, 8.99] },
+        good: { label: tHotel('good') + " " + "(+7)", count: 0, value: [7, 7.99] },
+        fair: { label: tHotel('fair') + " " + "(+5)", count: 0, value: [5, 6.99] },
+        bad: { label: tHotel('bad'), count: 0, value: [0, 4.99] },
+      }
+
+      for (let i = 0; i < rates.length; i++) {
+        const itemSatisfaction = rates[i].averageRating;
+
+        if (itemSatisfaction >= 9) {
+          filterOptions.excellent.count = filterOptions.excellent.count + 1;
+        } else if (itemSatisfaction >= 8) {
+          filterOptions.veryGood.count = filterOptions.veryGood.count + 1;
+        } else if (itemSatisfaction >= 7) {
+          filterOptions.good.count = filterOptions.good.count + 1;
+        } else if (itemSatisfaction >= 5) {
+          filterOptions.fair.count = filterOptions.fair.count + 1;
+        } else {
+          filterOptions.bad.count = filterOptions.bad.count + 1;
+        }
+      }
+
+      const optionsArray = Object.values(filterOptions)
+
+      dispatch(setGuestPointFilterOptions(optionsArray));
+
+    }
 
     const fetchAccomodations = async (tenant: number) => {
 
       setListLoading(true);
+      setPricesLoading(true);
       setAccomodations(undefined);
-      
+      setPricesData(undefined);
+      setScoreData(undefined);
+
       setFetchPercentage(0);
-      setTimeout(()=>{setFetchPercentage(20)},500);
-          
+      setTimeout(() => { setFetchPercentage(20) }, 500);
+
       if (!locationId) return;
 
       const acceptLanguage = locale === "en" ? "en-US" : locale === "ar" ? "ar-AE" : "fa-IR";
@@ -182,70 +225,39 @@ const HotelList: NextPage = () => {
 
       setListLoading(false);
 
-      if(searchAccomodationResponse?.data?.result?.length){
+      if (searchAccomodationResponse?.data?.result?.length) {
 
-        const hotelIds: number [] = searchAccomodationResponse?.data?.result?.map((hotel:SearchAccomodationItem) => hotel.id) || []
+        const hotelIds: number[] = searchAccomodationResponse?.data?.result?.map((hotel: SearchAccomodationItem) => hotel.id) || [];
 
-        const fetchPrices = async () => {
-        
-          setPricesData(undefined);
+        const fetchPricesAndScores = async () => {
+
           if (!hotelIds?.length) return;
-        
-          setPricesLoading(true);
-    
-          const pricesResponse = await AvailabilityByHotelId({ checkin: checkin, checkout: checkout, ids: hotelIds as number[], tenant: tenant }, acceptLanguage);
-    
+
+          const [pricesResponse, scoresResponse] = await Promise.all<any>([
+            availabilityByHotelId({ checkin: checkin, checkout: checkout, ids: hotelIds as number[], tenant: tenant }, acceptLanguage),
+            getHotelsScore({ ids: hotelIds, tenant: tenant }, acceptLanguage)
+          ]);
+
           if (pricesResponse.data?.result?.hotels) {
-    
             setPricesData(pricesResponse.data.result.hotels);
-    
             savePriceRange(pricesResponse.data.result.hotels);
-    
             saveOffersOptions(pricesResponse.data.result.hotels);
-    
           }
+
+          if (scoresResponse.data?.result) {
+            setScoreData(scoresResponse.data.result);
+            saveGuestPointFilterOptions(scoresResponse.data.result);
+          }
+
           setFetchPercentage(80);
-          setTimeout(()=>{setFetchPercentage(99.5)},1000);
-          setTimeout(()=>{setFetchPercentage(100)},2000);
-    
+          setTimeout(() => { setFetchPercentage(99.5) }, 1000);
+          setTimeout(() => { setFetchPercentage(100) }, 2000);
+
           setPricesLoading(false);
         }
 
-        fetchPrices();
+        fetchPricesAndScores();
 
-        const fetchScores = async (tenant:number) => {
-        
-          //setPricesData(undefined);
-          if (!hotelIds?.length) return;
-        
-          //setPricesLoading(true);
-    
-          const scoresResponse = await getHotelsScore( {
-            ids:hotelIds,
-            tenant: tenant
-          } ,acceptLanguage);
-    
-          if (scoresResponse) {
-    debugger;
-    console.log("scoresResponse",scoresResponse);
-            // setPricesData(pricesResponse.data.result.hotels);
-    
-            // savePriceRange(pricesResponse.data.result.hotels);
-    
-            // saveOffersOptions(pricesResponse.data.result.hotels);
-    
-          }
-          // setFetchPercentage(80);
-          // setTimeout(()=>{setFetchPercentage(99.5)},1000);
-          // setTimeout(()=>{setFetchPercentage(100)},2000);
-    
-          //setPricesLoading(false);
-        }
-
-        if(localStorageTenant){
-          fetchScores(+localStorageTenant);
-        }
-    
       }
 
     }
@@ -254,8 +266,7 @@ const HotelList: NextPage = () => {
       fetchAccomodations(+localStorageTenant);
     }
 
-
-  }, [localStorageToken, localStorageTenant, router.asPath]);
+  }, [localStorageToken, localStorageTenant, locationId, checkin, checkout]);
 
   useEffect(() => {
     if (accomodations) {
@@ -265,7 +276,6 @@ const HotelList: NextPage = () => {
     }
   }, [accomodations]);
 
-  
   useEffect(() => {
 
     const fetchEntityDetail = async (id: number) => {
@@ -275,12 +285,11 @@ const HotelList: NextPage = () => {
       }
     }
 
-    if(locationId){
+    if (locationId) {
       fetchEntityDetail(+locationId);
     }
 
   }, [locationId]);
-
 
   useEffect(() => {
     setShowOnlyForm(false);
@@ -306,17 +315,31 @@ const HotelList: NextPage = () => {
       priceInfo = { boardPrice: hotelPriceData.boardPrice, salePrice: hotelPriceData.salePrice }
     }
 
+    const hotelScoreData = scoreData?.find(item => item.entityId === hotel.id);
+
+    let scoreInfo: undefined | "loading" | { averageRating: number, reviewCount: number } = undefined;
+
+    if (pricesLoading) {
+      scoreInfo = 'loading';
+    } else if (hotelScoreData) {
+      scoreInfo = {
+        averageRating: hotelScoreData.averageRating,
+        reviewCount: hotelScoreData.reviewCount
+      }
+    }
+
     return ({
       ...hotel,
       priceInfo: priceInfo,
-      promotions: hotelPriceData?.promotions
+      promotions: hotelPriceData?.promotions,
+      scoreInfo: scoreInfo
     })
   }) || [];
 
   let progressBarLabel = tHotel('getting-the-best-prices-and-availability');
-  
-  if(accomodations?.length){    
-    if (pricesData){
+
+  if (accomodations?.length) {
+    if (pricesData) {
       progressBarLabel = tHotel('نمایش هتلهای یافت شده');
     } else {
       progressBarLabel = tHotel('looking-for-cheaper-rates');
@@ -368,10 +391,10 @@ const HotelList: NextPage = () => {
 
         case "gueatRate":
 
-          if (a.ratesInfo === "loading" || b.ratesInfo === 'loading') return 1;
-          if (a.ratesInfo && b.ratesInfo) {
-            return a.ratesInfo.Satisfaction - b.ratesInfo.Satisfaction
-          } else if (b.ratesInfo?.Satisfaction) {
+          if (a.scoreInfo === "loading" || b.scoreInfo === 'loading') return 1;
+          if (a.scoreInfo && b.scoreInfo) {
+            return a.scoreInfo.averageRating - b.scoreInfo.averageRating
+          } else if (b.scoreInfo?.averageRating) {
             return -1
           }
           return 1;
@@ -386,7 +409,7 @@ const HotelList: NextPage = () => {
 
   const domesticHotelDefaultDates: [string, string] = [checkin, checkout];
 
-  const defaultDestination: EntitySearchResultItemType | undefined  = entity ? {
+  const defaultDestination: EntitySearchResultItemType | undefined = entity ? {
     name: entity?.EntityName,
     displayName: entity?.EntityName,
     type: entity?.EntityType || 'City',
@@ -395,7 +418,7 @@ const HotelList: NextPage = () => {
 
   const urlSegments = router.asPath.split("/");
   const defaultDestinationIdSegment = urlSegments.find(item => item.includes('location'));
-  if (defaultDestinationIdSegment && defaultDestination ) {
+  if (defaultDestinationIdSegment && defaultDestination) {
     const defaultDestinationId = defaultDestinationIdSegment.split("-")[1];
     defaultDestination.id = +defaultDestinationId;
   }
@@ -430,7 +453,7 @@ const HotelList: NextPage = () => {
     if (filteredGuestPoints.length && (!hotelItem.priceInfo || !filteredGuestPoints.some(item => {
       const min = Number(item.split("-")[0]);
       const max = Number(item.split("-")[1]);
-      const hotelSatisfaction = hotelItem.ratesInfo && hotelItem.ratesInfo !== "loading" ? Number(hotelItem.ratesInfo!.Satisfaction) : 0;
+      const hotelSatisfaction = hotelItem.scoreInfo && hotelItem.scoreInfo !== "loading" ? Number(hotelItem.scoreInfo!.averageRating) : 0;
       return (hotelSatisfaction >= min && hotelSatisfaction <= max)
     }))) {
       return false;
@@ -451,7 +474,6 @@ const HotelList: NextPage = () => {
     })) {
       return false;
     }
-
 
     if (
       filteredPrice.length &&
@@ -583,6 +605,7 @@ const HotelList: NextPage = () => {
                 allHotels={hotels.length}
                 filteredHotels={filteredHotels.length}
                 priceIsFetched={!!pricesData}
+                scoreIsFetched={!!scoreData}
               />
 
             </div>
@@ -676,10 +699,9 @@ const HotelList: NextPage = () => {
           longitude: hotel.coordinates?.longitude,
           name: hotel.displayName || hotel.name || "",
           rating: hotel.rating,
-          //url: hotel.url + searchInfo,
-          url:"/hotel/hotelId-" + hotel.id + searchInfo ,
+          url: "/hotel/hotelId-" + hotel.id + searchInfo,
           price: hotel.priceInfo,
-          guestRate: hotel.ratesInfo,
+          scoreInfo: hotel.scoreInfo,
           imageUrl: hotel.picture?.path
         }))}
       />}

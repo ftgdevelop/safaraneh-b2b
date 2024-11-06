@@ -52,14 +52,14 @@ const HotelListItem: React.FC<Props> = props => {
     const hotelDetailUrl =  hotel.id ? ("/hotel/hotelId-" + hotel.id + searchInfo ): "";
 
     let rate: React.ReactNode = null;
-    if (!hotel.ratesInfo) {
+    if (!hotel.scoreInfo) {
         rate = null;
-    } else if (hotel.ratesInfo === "loading") {
-        rate = <Skeleton />
+    } else if (hotel.scoreInfo === "loading") {
+        rate = <Skeleton className="w-40 max-w-1/2" />
     } else {
         rate = <HotelScore
-            reviews={hotel.ratesInfo.TotalRowCount}
-            score={hotel.ratesInfo.Satisfaction}
+            reviews={hotel.scoreInfo.reviewCount}
+            score={hotel.scoreInfo.averageRating}
             small
             className="text-md"
         />

@@ -58,7 +58,7 @@ const nextConfig = {
     
     PROJECT_SERVER_CMS:"cms2.safaraneh.com",
     
-    PROJECT_SERVER_HOTEL_WP:"wp.safaraneh.com",
+    PROJECT_SERVER_HOTEL_WP:"performance.safaraneh.com",
     PROJECT_SERVER_HOTEL_DATA: "hoteldomesticdata.safaraneh.com",
     PROJECT_SERVER_HOTEL_AVAILABILITY: "hotelv4.safaraneh.com",
     PROJECT_SERVER_COORDINATOR:"coordinator.safaraneh.com",

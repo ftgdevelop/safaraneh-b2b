@@ -6,12 +6,13 @@ import { getDatesDiff, numberWithCommas } from '@/modules/shared/helpers';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { bankGatewayItem } from '../types';
 
 type Props = {
     goToBankLoading?: boolean;
     onSubmit: (gatewayId: number) => void;
     expireDate?: string;
-    bankGatewayList?: any;
+    bankGatewayList: bankGatewayItem[];
     status?: any;
     type?: "Undefined" | "HotelDomestic" | "FlightDomestic" | "Bus" | "Package" | "Flight" | "Hotel" | "PnrOutside" | "Cip" | "Activity";
     coordinatorPrice?: number;
@@ -37,8 +38,8 @@ const OnlinePayment: React.FC<Props> = props => {
     const [remaindSeconds, setRemaindSeconds] = useState<number>(100);
 
     let firstBankId: number | undefined = undefined;
-    if (bankGatewayList?.gateways?.length) {
-        firstBankId = bankGatewayList.gateways[0].id;
+    if (bankGatewayList[0]?.gateways?.length) {
+        firstBankId = bankGatewayList[0]?.gateways[0]?.id;
     }
 
     useEffect(() => {
@@ -127,7 +128,7 @@ const OnlinePayment: React.FC<Props> = props => {
         <div className='pt-10'>
 
             {type === 'HotelDomestic' && remaindSeconds < 1 && (
-                <div className={`border p-4 ${theme1?"text-xs border-neutral-300 rounded border-t-4 border-t-red-500":"text-sm border-red-600 rounded-xl"}`}>
+                <div className={`border p-4 ${theme1 ? "text-xs border-neutral-300 rounded border-t-4 border-t-red-500" : "text-sm border-red-600 rounded-xl"}`}>
                     <h6 className='text-red-600 text-sm font-semibold mb-1'> اخطار! </h6>
                     <p>
                         درخواست رزرو تایید شد ولی به علت عدم پرداخت در مهلت تعیین شده لغو گردید.
@@ -158,39 +159,76 @@ const OnlinePayment: React.FC<Props> = props => {
                 {tPayment('second-password-desc')}
             </Link>
 
-            {bankGatewayList && bankGatewayList.gateways ? (
-                <div>
+            {bankGatewayList.length ? (
+                <>
                     <h5 className='text-xl mb-5'>
                         {tPayment('please-choose-pay-panel')}
                     </h5>
-                    <div className='bg-neutral-50 p-2 sm:p-4 text-xs rounded flex items-center gap-2'>
-                        <img
-                            src={bankGatewayList.image.path}
-                            alt={bankGatewayList.image.altAttribute}
-                        />
-                        {bankGatewayList.description}
-                    </div>
 
-                    <div className='flex gap-4 my-4'>
-                        {bankGatewayList.gateways.map((bank: any, index: number) => (
-                            <button
-                                key={index}
-                                disabled={type === 'HotelDomestic' && remaindSeconds < 1}
-                                type='button'
-                                onClick={() => { setGatewayId(bank.id) }}
-                                className={`border border-3 px-4 py-3 text-sm grow text-center rounded-sm text-blue-700 select-none outline-none border-blue-500 disabled:border-neutral-400 disabled:bg-neutral-200 disabled:grayscale ${gatewayId === bank.id ? "bg-blue-100" : "bg-blue-50"}`}
-                            >
-                                <img
-                                    className="block mx-auto mb-1"
-                                    src={bank.image.path}
-                                    alt={bank.image.altAttribute}
-                                />
-                                {bank.displayName || bank.name}
-                            </button>
-                        ))}
+                    {bankGatewayList.filter(item => item.gateways?.length).map(item =>
+                    (<div key={item.name}>
 
-                    </div>
+                        {item.category === "Group" ? (
+                            <>
+                                <div className='bg-neutral-50 p-2 sm:p-4 text-xs rounded flex items-center gap-2'>
+                                    <img
+                                        src={item.image.path}
+                                        alt={item.image.altAttribute}
+                                    />
+                                    {item.description}
+                                </div>
 
+                                <div className='flex gap-4 my-4'>
+                                    {item.gateways.map((bank: any, index: number) => (
+                                        <button
+                                            key={index}
+                                            disabled={type === 'HotelDomestic' && remaindSeconds < 1}
+                                            type='button'
+                                            onClick={() => { setGatewayId(bank.id) }}
+                                            className={`border border-3 px-4 py-3 text-sm grow text-center rounded-sm text-blue-700 select-none outline-none disabled:border-neutral-400 disabled:bg-neutral-200 disabled:grayscale ${gatewayId === bank.id ? "bg-blue-100 border-blue-500" : "bg-blue-50"}`}
+                                        >
+                                            <img
+                                                className="block mx-auto mb-1"
+                                                src={bank.image.path}
+                                                alt={bank.image.altAttribute}
+                                            />
+                                            {bank.displayName || bank.name}
+                                        </button>
+                                    ))}
+
+                                </div>
+                            </>
+                        ) : item.category === "Single" ? (
+                            <>
+                            <hr className='my-6'/>
+                                <div className='flex gap-4 my-4'>
+                                    <button
+                                        disabled={type === 'HotelDomestic' && remaindSeconds < 1}
+                                        type='button'
+                                        onClick={() => { setGatewayId(item.gateways[0]?.id) }}
+                                        className={`border flex gap-3 border-3 px-4 py-3 text-sm grow rounded-sm text-blue-700 select-none outline-none disabled:border-neutral-400 disabled:bg-neutral-200 disabled:grayscale ${gatewayId === item.gateways[0]?.id ? "border-blue-500 bg-blue-100" : "bg-blue-50"}`}
+                                    >
+                                        <img
+                                            className="block"
+                                            src={item.gateways[0]?.image?.path}
+                                            alt={item.gateways[0]?.image?.altAttribute}
+                                        />
+                                        <div className='text-right'>
+                                            <div className='font-semibold'>
+                                                {item.gateways[0]?.displayName || item.gateways[0]?.name}
+                                            </div>
+                                            {item.description}
+                                        </div>
+                                    </button>
+
+                                </div>
+                            </>
+                        ) : (
+                            null
+                        )}
+
+                    </div>)
+                    )}
 
                     {coordinatorPrice ? (
                         <div className='text-sm font-semibold py-4'>
@@ -211,11 +249,11 @@ const OnlinePayment: React.FC<Props> = props => {
 
                     </Button>
 
-
                     <p className='my-4 text-neutral-400 text-xs' >
                         {tPayment('accept-privacy')}
                     </p>
-                </div>
+
+                </>
             ) : (
                 <>
                     <div>

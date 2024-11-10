@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { ErrorCircle, InfoCircle, Lock, TikCircle } from "@/modules/shared/components/ui/icons";
+import { ErrorCircle, TikCircle } from "@/modules/shared/components/ui/icons";
 import { Form, Formik } from "formik";
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
 import FormikField from '@/modules/shared/components/ui/FormikField';
 import { validateRequied } from '@/modules/shared/helpers/validation';
 import Button from '@/modules/shared/components/ui/Button';
@@ -67,7 +66,17 @@ const ChargeWallet: React.FC = () => {
         setGoToBankLoading(true);
 
         //const callbackUrl = window?.location.origin + (i18n?.language === "fa" ? "/fa" : "/ar") + "/myaccount/wallet";
-        const callbackUrl = window?.location.origin + "/wallet";
+
+        const pathArray = router.asPath.split("?")[1]?.split("#")[0].split("&");
+
+        const username: string | undefined = pathArray?.find(item => item.includes("username="))?.split("username=")[1];
+        const reserveId: string | undefined = pathArray?.find(item => item.includes("reserveId="))?.split("reserveId=")[1];
+
+        let callbackUrl = window?.location.origin + "/wallet";
+
+        if(username && reserveId){
+            callbackUrl += `?bookingId=${reserveId}&bookingUserName=${username}`;
+        }
 
         const token = localStorage.getItem('Token');
         if (!token) return;

@@ -274,6 +274,52 @@ export interface DomesticAccomodationType {
       
 }
 
+export interface DomesticHotelReviewsType {
+    averageRating: number;
+    ratings: {
+        average: number;
+        category: {
+            keyword: "price_quality_satisfaction" | "staff_behavior" | "restaurant_cafe_quality" | "services" | "location" | "cleanliness",
+            name?: string;
+            tenantId: number;
+            isActive: boolean;
+            id: number;
+        },
+        //"id": 0
+    }[];
+    reviews: {
+        totalCount: number;
+        items: {
+            id: number;
+            comment?: string;
+            overallRating: number;
+            userDisplayName: string;
+            recommendToOthers: boolean;
+            creationTime: string;
+            ratings: {
+                rating: number;
+                categoryId: number;
+                //categoryName: number;
+                id: number;
+            }[];
+            //"travelType": "Business",
+            //"isVerifiedReviewer": false,
+            //"positivePoints": null,
+            //"negativePoints": null,
+            //"isAnonymous": true,
+            // "page": null,
+            // "userId": null,
+            // "language": "fa-IR",
+            // "pageId": 261,
+            // "isActive": true,
+            // "tenantId": 1040,
+            // "reply": null,
+            // "likeCount": 0,
+            // "dislikeCount": 0,
+        }[]
+    }
+}
+
 export interface AvailabilityByIdItem {
     id: number,
     boardPrice: number,

@@ -31,6 +31,10 @@ const CreditPayment: React.FC<Props> = props => {
     }
 
     const router = useRouter();
+    const pathArray = router.asPath.split("?")[1]?.split("#")[0].split("&");
+
+    const username: string | undefined = pathArray.find(item => item.includes("username="))?.split("username=")[1];
+    const reserveId: string | undefined = pathArray.find(item => item.includes("reserveId="))?.split("reserveId=")[1];
 
     const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
@@ -58,10 +62,6 @@ const CreditPayment: React.FC<Props> = props => {
     const submitHandler = async () => {
         setErrorMessage('');
         setSubmitLoading(true);
-
-        const pathArray = router.asPath.split("?")[1]?.split("#")[0].split("&");
-        const username: string | undefined = pathArray.find(item => item.includes("username="))?.split("username=")[1];
-        const reserveId: string | undefined = pathArray.find(item => item.includes("reserveId="))?.split("reserveId=")[1];
 
         const token = localStorage.getItem('Token');        
         const tenantId = localStorage.getItem('S-TenantId');
@@ -93,10 +93,9 @@ const CreditPayment: React.FC<Props> = props => {
     return (
         <div className="py-8">
             <div className="flex justify-between items-center gap-5 mb-4 sm:mb-6">
-                <div className="text-lg"> پرداخت با استفاده از کیف پول؟ </div>
+                {/* <div className="text-lg"> پرداخت با استفاده از کیف پول؟ </div> */}
                 <Link
-                    href="/myaccount/wallet"
-                    target="_blank"
+                    href={`/wallet/deposit?reserveId=${reserveId}&username=${username}`}
                     className="text-blue-500 font-semibold text-sm"
                 >
                     <Plus className="w-7 h-7 fill-current inline-block" />  افزایش اعتبار

@@ -2,7 +2,7 @@ import { getDomesticHotelAllDetailsById } from '@/modules/domesticHotel/actions'
 import type { GetServerSideProps, NextPage } from 'next';
 import { i18n, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { DomesticAccomodationType, DomesticHotelDetailType, EntitySearchResultItemType, HotelScoreDataType } from '@/modules/domesticHotel/types/hotel';
+import { DomesticAccomodationType, DomesticHotelDetailType, DomesticHotelReviewsType, EntitySearchResultItemType } from '@/modules/domesticHotel/types/hotel';
 import { useRouter } from 'next/router';
 import BackToList from '@/modules/domesticHotel/components/hotelDetails/BackToList';
 import { CalendarError, Hotel } from '@/modules/shared/components/ui/icons';
@@ -22,6 +22,7 @@ import AvailabilityTimeout from '@/modules/shared/components/AvailabilityTimeout
 import AccommodationFacilities from '@/modules/domesticHotel/components/hotelDetails/AccommodationFacilities';
 import dynamic from 'next/dynamic';
 import Skeleton from '@/modules/shared/components/ui/Skeleton';
+import Comments from '@/modules/domesticHotel/components/hotelDetails/comments';
 
 const SearchForm = dynamic(() => import('@/modules/domesticHotel/components/shared/SearchForm'), {
   ssr: false
@@ -29,8 +30,9 @@ const SearchForm = dynamic(() => import('@/modules/domesticHotel/components/shar
 
 type AllData = {
   accommodation?: { result: DomesticAccomodationType };
-  score?: HotelScoreDataType;
   hotel?: DomesticHotelDetailType;
+  reviews?: DomesticHotelReviewsType;
+
 };
 
 const HotelDetail: NextPage = () => {
@@ -139,7 +141,6 @@ const HotelDetail: NextPage = () => {
 
   const accommodation = allData?.accommodation;
   const hotelData = allData?.hotel;
-  const hotelScoreData = allData?.score;
 
   const accommodationData = accommodation?.result;
 
@@ -231,6 +232,12 @@ const HotelDetail: NextPage = () => {
     );
   }
 
+  if (allData?.reviews) {
+    anchorTabsItems.push(
+      { id: "reviews_section", title: tHotel('suggestion') }
+    );
+  }
+
   if (hotelData?.Similars) {
     anchorTabsItems.push(
       { id: "similarhotels_section", title: tHotel('similar-hotels') }
@@ -314,6 +321,14 @@ const HotelDetail: NextPage = () => {
     return null;
   }
 
+  let reviewData = undefined;
+  if(allData?.reviews?.averageRating && allData.reviews.reviews?.totalCount){
+    reviewData = {
+      averageRating: allData.reviews.averageRating,
+      reviewCount: allData.reviews.reviews.totalCount
+    }
+  }
+
   return (
     <>
       <div
@@ -384,7 +399,11 @@ const HotelDetail: NextPage = () => {
 
       <div className="px-4 md:px-6 pt-3" id="hotel_intro">
 
-        <HotelName hotelData={hotelData} scoreData={hotelScoreData} accomodationData={accommodationData} />
+        <HotelName 
+          hotelData={hotelData} 
+          reviewData={reviewData} 
+          accomodationData={accommodationData} 
+        />
 
         <div ref={searchFormWrapperRef} className='pt-5'>
           {!!showOnlyForm && (
@@ -430,6 +449,8 @@ const HotelDetail: NextPage = () => {
           </div>
         </div>
       )}
+
+      {!!allData?.reviews && <Comments hotelReviewData={allData.reviews} />}
 
       {!!(accommodationData?.faqs?.length) && <FAQ faqs={accommodationData.faqs} />}
 

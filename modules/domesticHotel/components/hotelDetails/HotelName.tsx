@@ -7,7 +7,6 @@ import Rating from "@/modules/shared/components/ui/Rating";
 import Image from 'next/image';
 import Attractions from './Attractions';
 import HotelMap from './HotelMap';
-import GuestRating from '@/modules/shared/components/ui/GuestRating';
 import HotelMapButton from './HotelMapButton';
 import AccommodationFacilityIcon from './AccommodationFacilityIcon';
 import Link from 'next/link';
@@ -15,9 +14,9 @@ import Link from 'next/link';
 type Props = {
     accomodationData: DomesticAccomodationType;
     hotelData?: DomesticHotelDetailType;
-    scoreData?: {
-        CommentCount?: number;
-        Satisfaction?: number;
+    reviewData?: {
+        averageRating: number;
+        reviewCount: number;
     };
 }
 
@@ -55,19 +54,14 @@ const HotelName: React.FC<Props> = props => {
                     </p>
                 )}
                 
-                {props.scoreData && theme1 ? (
+                {props.reviewData ? (
                     <HotelScore
-                        reviews={props.scoreData?.CommentCount}
-                        score={props.scoreData?.Satisfaction}
+                        reviews={props.reviewData.reviewCount}
+                        score={props.reviewData.averageRating}
                         className="text-md lg:text-lg font-semibold"
                     />
-                ) : (theme2 && props.scoreData?.CommentCount && props.scoreData.Satisfaction) ? (
-                    <GuestRating
-                        rating={props.scoreData?.Satisfaction}
-                        reviewCount={props.scoreData?.CommentCount}
-                        large
-                    />
-                ) : (
+                )
+                : (
                     null
                 )}
 

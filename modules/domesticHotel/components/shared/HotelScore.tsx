@@ -39,7 +39,7 @@ const HotelScore: React.FC<Props> = props => {
 
     return (
         <div className={`${props.small?"text-xs":"text-sm"} ${props.className || ""}`}>
-            <span className={`${score >= 7 ? "text-green-600" : "text-orange-600"}  ${props.small?"text-lg font-semibold":"text-3xl font-bold"}`}> {score} </span> امتیاز کاربران ({props.reviews} {tHotel("guest-reviews")}) 
+            <span className={`${score >= 7 ? "text-green-600" : "text-orange-600"}  ${props.small?"text-lg font-semibold":"text-3xl font-bold"}`}> { Math.round(score * 10) / 10} </span> امتیاز کاربران ({props.reviews} {tHotel("guest-reviews")}) 
         </div>
     )
 };

@@ -170,7 +170,7 @@ const Checkout: NextPage = () => {
 
     setSubmitLoading(true);
 
-    const reserveResponse: any = await domesticHotelPreReserve(params, +localStorageToken);
+    const reserveResponse: any = await domesticHotelPreReserve(params,  +localStorageTenant, localStorageToken );
 
     if (reserveResponse.data && reserveResponse.data.result) {
       const id = reserveResponse.data.result.id;

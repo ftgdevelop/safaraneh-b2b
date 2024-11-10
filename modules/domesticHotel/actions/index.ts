@@ -263,7 +263,7 @@ export const domesticHotelGetValidate = async (key: string, acceptLanguage: stri
 }
 
 
-export const domesticHotelPreReserve = async (param: DomesticHotelPrereserveParams,tenant:number, token?:string | null , acceptLanguage: string = 'fa-IR') => {
+export const domesticHotelPreReserve = async (param: DomesticHotelPrereserveParams,tenant:number, token:string | null , acceptLanguage: string = 'fa-IR') => {
 
     try {
         let response = await axios.post(

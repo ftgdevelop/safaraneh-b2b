@@ -508,7 +508,6 @@ const HotelList: NextPage = () => {
       {!!pricesData && <AvailabilityTimeout
         minutes={20}
         onRefresh={() => { window.location.reload() }}
-        type='hotel'
         description={t("GetTheLatestPriceAndAvailabilityForYourSearchTo", { destination: cityName, dates: `${dateDiplayFormat({ date: checkin, locale: locale, format: "dd mm" })} - ${dateDiplayFormat({ date: checkout, locale: locale, format: "dd mm" })}` })}
       />}
 

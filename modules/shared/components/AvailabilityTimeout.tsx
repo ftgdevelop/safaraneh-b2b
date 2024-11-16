@@ -9,7 +9,6 @@ type Props = {
     minutes: number;
     onRefresh: () => void;
     icon?: React.ReactNode;
-    type: "flight" | "hotel";
     description: string;
 }
 
@@ -17,7 +16,7 @@ const AvailabilityTimeout: React.FC<Props> = props => {
 
     const { t } = useTranslation("common")
 
-    const { type, icon, description, minutes, onRefresh } = props;
+    const { icon, description, minutes, onRefresh } = props;
 
     const [open, setOpen] = useState<boolean>(false);
 
@@ -56,7 +55,7 @@ const AvailabilityTimeout: React.FC<Props> = props => {
                     </Button>
 
                     <Link
-                        href={type === "hotel" ? "/hotels-home" : type === "flight" ? "/flights-home" : "/"}
+                        href="/panel"
                         className='text-blue-500 mt-3 text-sm'
                     >
                         {t('startANewSearch')}

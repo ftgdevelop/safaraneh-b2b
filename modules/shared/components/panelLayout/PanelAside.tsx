@@ -115,7 +115,7 @@ const PanelAside: React.FC = () => {
                     />
 
                     <Link
-                        href={"/panel/users"}
+                        href={"/users"}
                         className="flex items-center gap-4 py-2 px-5 border-b"
                     >
                         <span className="bg-slate-100 rounded-lg p-1.5">

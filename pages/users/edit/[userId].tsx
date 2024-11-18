@@ -91,7 +91,7 @@ const EditUser: NextPage = () => {
                         hideHome
                         items={[
                             {label:"پیشخوان", link:"/panel"},
-                            {label:"مدیریت کاربران", link:"/panel/users"},
+                            {label:"مدیریت کاربران", link:"/users"},
                             {label:"ویرایش کاربر"}
                         ]}
                     />

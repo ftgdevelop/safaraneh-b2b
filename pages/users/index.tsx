@@ -184,7 +184,7 @@ const Users: NextPage = () => {
                             resetHandler={resetFilter}
                         />
                         <Link
-                            href='/panel/users/create'
+                            href='/users/create'
                             className="bg-blue-600 hover:bg-blue-500 py-2 px-4 rounded text-sm text-white block"
                         >
                             <Plus className="inline-block fill-current w-7 h-7" /> ایجاد کاربر جدید

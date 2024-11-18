@@ -31,8 +31,8 @@ const Wallet: NextPage = () => {
 
     const pathArray = router.asPath.split("?")[1]?.split("#")[0].split("&");
 
-    const username: string | undefined = pathArray.find(item => item.includes("bookingUserName="))?.split("bookingUserName=")[1];
-    const reserveId: string | undefined = pathArray.find(item => item.includes("bookingId="))?.split("bookingId=")[1];
+    const username: string | undefined = pathArray?.find(item => item.includes("bookingUserName="))?.split("bookingUserName=")[1];
+    const reserveId: string | undefined = pathArray?.find(item => item.includes("bookingId="))?.split("bookingId=")[1];
 
     let chargeDepositUrl = "/wallet/deposit";
     if (username && reserveId) {

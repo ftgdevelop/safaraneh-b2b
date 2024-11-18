@@ -93,7 +93,7 @@ const CreateUser: NextPage = () => {
                 message: `کاربر جدید با نام کاربری ${response.data.result.userName} ایجاد شد.`,
                 isVisible: true
             }));
-            router.push("/panel/users");
+            router.push("/users");
         }
     }
 
@@ -134,7 +134,7 @@ const CreateUser: NextPage = () => {
                         hideHome
                         items={[
                             {label:"پیشخوان", link:"/panel"},
-                            {label:"مدیریت کاربران", link:"/panel/users"},
+                            {label:"مدیریت کاربران", link:"/users"},
                             {label:"کاربرجدید"}
                         ]}
                     />

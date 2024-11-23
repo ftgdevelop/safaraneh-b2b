@@ -23,6 +23,7 @@ const ChangePassword: NextPage = () => {
                 <div className="p-4 md:p-6">
 
                     <BreadCrumpt
+                        wrapperClassName="mb-4"
                         hideHome
                         items={[
                             { label: "پیشخوان", link: "/panel" },

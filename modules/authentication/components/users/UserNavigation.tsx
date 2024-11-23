@@ -7,7 +7,7 @@ const UserNavigation: React.FC = () => {
             <nav className="sticky top-16 border-slate-300">
 
                 <Link
-                    href={"/panel/profile"}
+                    href={"/profile"}
                     className="flex items-center gap-4 py-2 px-5 border-b"
                 >
                     <span className="bg-slate-100 rounded-lg p-1.5">
@@ -21,7 +21,7 @@ const UserNavigation: React.FC = () => {
                 </Link>
 
                 <Link
-                    href={"/panel/change-password"}
+                    href={"/change-password"}
                     className="flex items-center gap-4 py-2 px-5 border-b"
                 >
                     <span className="bg-slate-100 rounded-lg p-1.5">
@@ -35,7 +35,7 @@ const UserNavigation: React.FC = () => {
                 </Link>
 
                 <Link
-                    href={"/panel/users"}
+                    href={"/users"}
                     className="flex items-center gap-4 py-2 px-5 border-b"
                 >
                     <span className="bg-slate-100 rounded-lg p-1.5">

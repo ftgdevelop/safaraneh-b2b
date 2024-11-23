@@ -94,7 +94,7 @@ const EditUserInformation: React.FC<Props> = (props) => {
                 message: `تغییرات کاربر با نام کاربری ${response.data.result.userName} ثبت شد.`,
                 isVisible: true
             }));
-            router.push("/panel/users");
+            router.push("/users");
         }
     }
 

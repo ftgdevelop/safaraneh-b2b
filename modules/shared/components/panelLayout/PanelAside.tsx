@@ -29,7 +29,7 @@ const PanelAside: React.FC = () => {
                             <Link href={"/"} className="block py-2 hover:bg-neutral-100 px-3 rounded">
                                 رزرو
                             </Link>
-                            <Link href={"/"} className="block py-2 hover:bg-neutral-100 px-3 rounded">
+                            <Link href={"/hotel/reserveList"} className="block py-2 hover:bg-neutral-100 px-3 rounded">
                                 لیست رزرو ها
                             </Link>
                             <Link href={"/"} className="block py-2 hover:bg-neutral-100 px-3 rounded">
@@ -115,7 +115,7 @@ const PanelAside: React.FC = () => {
                     />
 
                     <Link
-                        href={"/panel/users"}
+                        href={"/users"}
                         className="flex items-center gap-4 py-2 px-5 border-b"
                     >
                         <span className="bg-slate-100 rounded-lg p-1.5">

@@ -15,6 +15,7 @@ const ForgetPassword: NextPage = () => {
             <div className='max-w-container mx-auto px-5 py-4'>
 
                 <BreadCrumpt
+                    wrapperClassName="mb-4"
                     items={[
                         { label: "بازنشانی کلمه عبور" },
                     ]}

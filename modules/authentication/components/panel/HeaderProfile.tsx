@@ -15,7 +15,7 @@ const HeaderProfile = () => {
         <div className="group relative">
             <Link
                 className="text-2xs flex gap-1 justify-between items-center transition-all hover:bg-gray-100 py-1 px-2 rounded-lg border min-w-44"
-                href="/panel/profile"
+                href="/profile"
             >
                 {loading ? (
                     <Skeleton className="mt-2 w-24" />
@@ -33,7 +33,7 @@ const HeaderProfile = () => {
             <div 
                 className="absolute min-w-full top-full bg-white border rounded-lg text-2xs whitespace-nowrap left-0 opacity-0 delay-200 invisible transition-all origin-top-left scale-75 -mt-5 group-hover:mt-0 group-hover:scale-100 group-hover:opacity-100 group-hover:visible group-hover:delay-0"
             >
-                <Link href={"/panel/profile"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
+                <Link href={"/profile"} className="py-2 hover:bg-neutral-100 px-3 rounded flex gap-2 items-center">
                     <User2 className="w-5 h-5"/>
                     حساب کاربری
                 </Link>

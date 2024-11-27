@@ -78,16 +78,21 @@ export const validateNationalId = ({ value, reqiredMessage, invalidMessage }: { 
     return error;
 }
 
-export const validateMobileNumberId = ({ value, expectedLength, reqiredMessage, invalidMessage }: { value: string, expectedLength?: number, reqiredMessage?: string, invalidMessage: string }) => {
+export const validateMobileNumberId = ({ value, codeValue, expectedLength, reqiredMessage, invalidMessage }: { value: string,codeValue: string, expectedLength?: number, reqiredMessage?: string, invalidMessage: string }) => {
     let error;
-    if (!value) {
+    
+    let numberValue: string = value.replace(codeValue,"").replace("+","");
+
+    debugger;
+
+    if (!numberValue) {
         error = reqiredMessage || "";
     } else if (
         !/^[+0123456789۰۱۲۳۴۵۶۷۸۹]*$/.test(value)
         ||
-        (expectedLength && value.replace("+", "").length !== expectedLength)
+        (expectedLength && numberValue.length !== expectedLength)
         ||
-        (!expectedLength && value.length < 10)
+        (!expectedLength && value.length < 9)
     ) {
         error = invalidMessage;
     }

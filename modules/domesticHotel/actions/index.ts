@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { Header, ServerAddress, Hotel, Wp } from "../../../enum/url";
-import { DomesticHotelPrereserveParams, GetTenantReservedHotelsParams } from '../types/hotel';
+import { DomesticHotelPrereserveParams } from '../types/hotel';
 import { CurrencyType } from '@/modules/payment/types';
 
 export const getDomesticHotelSummaryDetailById = async (id: number, acceptLanguage: string = 'fa-IR') => {
@@ -331,13 +331,11 @@ export const DomesticHotelConfirm = async (param: { reserveId: string, username:
 }
 
 
-export const getTenantReservesDomesticHotel = async (params:GetTenantReservedHotelsParams, headerParams:{token:string, tenant:number , acceptLanguage: string , currencyType : CurrencyType}) => {
-    console.log("params", params);
+export const getTenantReservesDomesticHotel = async (queryParams:string, headerParams:{token:string, tenant:number , acceptLanguage: string , currencyType : CurrencyType}) => {
     try {
       const response = await axios.get(
-        `${ServerAddress.Type}${ServerAddress.Hotel_Availability}${Hotel.GetTenantAllReserves}`,
+        `${ServerAddress.Type}${ServerAddress.Hotel_Availability}${Hotel.GetTenantAllReserves}?${queryParams}`,
         {
-          params:params,
           headers: {
             "Accept-Language": headerParams.acceptLanguage,
             Accept: 'application/json;charset=UTF-8',

@@ -155,7 +155,7 @@ const PhoneInput: React.FC<Props> = props => {
     );
 
     const expectedLength = country?.format?.replaceAll(" ", '')?.replaceAll('+', "")?.replaceAll("(", "")?.replaceAll(")", "")?.replaceAll('-', "")?.length;
-    const expectedTotalLength = expectedLength ? expectedLength + country.dialCode.length : undefined;
+    const expectedTotalLength = expectedLength || undefined;
 
     const labelClassNames: string[] = [`select-none pointer-events-none block leading-4`];
 
@@ -244,7 +244,8 @@ const PhoneInput: React.FC<Props> = props => {
                             expectedLength: expectedTotalLength,
                             invalidMessage: t('invalid-phone-number'),
                             reqiredMessage: props.isOptional ? "" : t('please-enter-phone-number'),
-                            value: value
+                            value: value,
+                            codeValue: country.dialCode
                         })}
                         type='hidden'
                         name={props.name}

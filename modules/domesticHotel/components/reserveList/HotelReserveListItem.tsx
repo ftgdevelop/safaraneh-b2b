@@ -14,7 +14,6 @@ const HotelReserveListItem: React.FC<Props> = props => {
 
     const { id, status, username } = props.reserve;
 
-
     let statusIcon: React.ReactNode;
     let statusText: React.ReactNode;
 

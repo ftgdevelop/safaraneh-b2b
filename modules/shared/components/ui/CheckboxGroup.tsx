@@ -6,6 +6,7 @@ type Props = {
     items: { value: string, label: React.ReactNode }[];
     onChange: (values: string[]) => void;
     noMultipleWrappers?: boolean;
+    checkboxClassName?: string;
 }
 
 const CheckboxGroup: React.FC<Props> = props => {
@@ -47,6 +48,7 @@ const CheckboxGroup: React.FC<Props> = props => {
                             value={item.value}
                             key={item.value}
                             checked={values.includes(item.value)}
+                            className={props.checkboxClassName}
                         />
                     ))}
                 </div>
@@ -59,6 +61,7 @@ const CheckboxGroup: React.FC<Props> = props => {
                             value={item.value}
                             key={item.value}
                             checked={values.includes(item.value)}
+                            className={props.checkboxClassName}
                         />
                     ))}
                 </div>
@@ -71,6 +74,7 @@ const CheckboxGroup: React.FC<Props> = props => {
                             value={item.value}
                             key={item.value}
                             checked={values.includes(item.value)}
+                            className={props.checkboxClassName}
                         />
                     ))}
                 </div>}
@@ -88,6 +92,7 @@ const CheckboxGroup: React.FC<Props> = props => {
                     value={item.value}
                     key={item.value}
                     checked={values.includes(item.value)}
+                    className={props.checkboxClassName}
                 />
             )}
         </>

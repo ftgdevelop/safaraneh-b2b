@@ -763,29 +763,6 @@ export type HotelRecentSearchItem = {
     dates: string[];
 }
 
-export interface GetTenantReservedHotelsParams {
-
-    MaxResultCount: number;
-    SkipCount: number;
-
-    Email?: string;
-    PhoneNumber?: string;
-    LastName?: string;
-
-    ReserveId?: number;
-
-    CreationTimeFrom?: string;
-    CreationTimeTo?: string;
-
-    CheckInFrom?:string;
-    CheckInTo?: string;
-
-    CheckOutFrom?: string;
-    CheckOutTo?: string;
-
-    Statuses?: Statuse[];
-}
-
 export interface HotelReserveItemType {
     message?: string;
     accommodation: {

@@ -169,3 +169,41 @@ export interface TravelerItem {
     phoneNumber?:string;
     id:number;
 }
+
+export interface StrapiData {
+    siteTitle?: string;
+    logo?: {
+        url?: string;
+        alternativeText?: string;
+    },
+    copyright?: string;
+    menuItems: {
+        Text?: string;
+        Url?: string
+        Icon: any;
+    }[];
+}
+
+export interface StrapiHomeSectionData {
+    Keyword: "hero-text" | "facilities" | "partners",
+    Title?: string;
+    Subtitle?: string;
+    Description?: string;
+    Items?: {
+        id: number;
+        Title?: string;
+        Description?: string;
+        Url?: string,
+        ImageAlternative?: string;
+        ImageTitle?: string;
+        Keyword?: string;
+        Image?: {
+            data?: {
+                attributes?: {
+                    alternativeText?: string;
+                    url?: string;
+                }
+            }
+        }
+    }[];
+}

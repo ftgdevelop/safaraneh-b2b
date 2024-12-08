@@ -14,13 +14,17 @@ import '../styles/leaflet.css';
 // import '../styles/modernDatePicker.scss';
 
 import { store } from '../modules/shared/store';
-import { GetPageByUrlDataType, WebSiteDataType } from '@/modules/shared/types/common';
 import Layout from '@/modules/shared/components/layout';
-import { getPageByUrl } from '@/modules/shared/actions';
+import { getStrapiData } from '@/modules/shared/actions/strapiActions';
+import { StrapiData } from '@/modules/shared/types/common';
+import { ServerAddress } from '@/enum/url';
 
-type TProps = Pick<AppProps, "Component" | "pageProps">;
+type TProps = Pick<AppProps, "Component" | "pageProps"> & {
+  strapiData?: StrapiData;
+};
 
-function MyApp({ Component, pageProps }: TProps) {
+
+function MyApp({ Component, pageProps, strapiData }: TProps) {
   const router = useRouter();
 
   const { locale } = router;
@@ -75,7 +79,7 @@ function MyApp({ Component, pageProps }: TProps) {
       <Head>
         <meta charSet="utf-8" />
 
-        <meta name="copyright" content="safaraneh.com" />
+        <meta name="copyright" content={strapiData?.copyright} />
         <meta name="cache-control" content="cache" />
         <meta name="content-language" content="fa" />
         <meta name="content-type" content="text/html;UTF-8" />
@@ -97,11 +101,15 @@ function MyApp({ Component, pageProps }: TProps) {
 
         <link rel="shortcut icon" href="/favicon.ico" />
 
-        <title> سفرانه </title>
+        <title> {strapiData?.siteTitle} </title>
 
       </Head>
 
-      <Layout>
+      <Layout
+        logo={strapiData?.logo?.url ? `${ServerAddress.Type}${ServerAddress.Strapi}${strapiData.logo.url}`:undefined}
+        menuItems={strapiData?.menuItems || []}
+        copyright={strapiData?.copyright || ""}
+      >
         <Component {...pageProps} />
       </Layout>
 
@@ -113,8 +121,30 @@ MyApp.getInitialProps = async (
   context: AppContext
 ): Promise<any> => {
   const ctx = await App.getInitialProps(context);
+  
+  const [HeaderRes, generalRes] = await Promise.all<any>([
+    getStrapiData('populate[Header][populate]=*'),
+    getStrapiData('populate=*')
+  ]);
+
+  
+  const generalData = generalRes?.data?.data?.[0]?.attributes;
+  const menuItems = HeaderRes?.data?.data?.[0]?.attributes?.Header?.Links;
+  const siteTitle = HeaderRes?.data?.data?.[0]?.attributes?.Header?.Title;
+  const copyright = generalData.Copyright;
+  const logo = generalData.Logo?.data?.attributes;
+
+  const strapiData = {
+    siteTitle,
+    logo,
+    copyright,
+    menuItems
+  }
+
+
   return {
-    ...ctx
+    ...ctx,
+    strapiData:strapiData || null
   };
 };
 

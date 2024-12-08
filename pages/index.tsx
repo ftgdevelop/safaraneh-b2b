@@ -25,7 +25,7 @@ const Home: NextPage<{ sections?: StrapiHomeSectionData[] }> = ({ sections }) =>
       <Partners
         title={partnersData?.Title}
         items={partnersData?.Items?.map(item => ({
-          image: `${ServerAddress.Type}${ServerAddress.Strapi}${item.Image?.data?.attributes?.url}`,
+          image: item.Image?.data?.attributes?.url ? `${ServerAddress.Type}${ServerAddress.Strapi}${item.Image.data.attributes.url}` : "",
           title: item.Title || ""
         })) || []}
       />
@@ -33,7 +33,7 @@ const Home: NextPage<{ sections?: StrapiHomeSectionData[] }> = ({ sections }) =>
       <Features
         title={featuresData?.Title}
         items={featuresData?.Items?.map(item => ({
-          image: `${ServerAddress.Type}${ServerAddress.Strapi}${item.Image?.data?.attributes?.url}`,
+          image: item.Image?.data?.attributes?.url ? `${ServerAddress.Type}${ServerAddress.Strapi}${item.Image.data.attributes.url}` : "",
           title: item.Title || ""
         })) || []}
       />

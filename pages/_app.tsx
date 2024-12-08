@@ -131,8 +131,8 @@ MyApp.getInitialProps = async (
   const generalData = generalRes?.data?.data?.[0]?.attributes;
   const menuItems = HeaderRes?.data?.data?.[0]?.attributes?.Header?.Links;
   const siteTitle = HeaderRes?.data?.data?.[0]?.attributes?.Header?.Title;
-  const copyright = generalData.Copyright;
-  const logo = generalData.Logo?.data?.attributes;
+  const copyright = generalData?.Copyright;
+  const logo = generalData?.Logo?.data?.attributes;
 
   const strapiData = {
     siteTitle,

@@ -7,9 +7,10 @@ import { useTranslation } from 'next-i18next';
 import { persianNumbersToEnglish } from '../../helpers';
 
 type Props = {
-    disabled?:boolean;
+    disabled?: boolean;
     errorText?: string;
     isTouched?: boolean;
+    isOptional?: boolean;
     label?: string;
     name?: string;
     className?: string;
@@ -59,8 +60,8 @@ const PhoneInput: React.FC<Props> = props => {
         }
     }
 
-    useEffect(()=>{
-        if(initialValue){
+    useEffect(() => {
+        if (initialValue) {
             let userCountry: CountryObject | undefined = undefined;
 
             const userCountryArray = CountryCodes.find(item => initialValue.replace("+", "").startsWith(item[3].toString()));
@@ -70,14 +71,14 @@ const PhoneInput: React.FC<Props> = props => {
                     dialCode: userCountryArray[3] as string,
                     format: userCountryArray[4] as string
                 }
-                const code = userCountryArray[3] as string;                
+                const code = userCountryArray[3] as string;
                 setCountry(userCountry);
                 setPhoneNumberValue(initialValue.replace("+", "").substring(code?.length || 0))
             }
             setLabelUp(true);
 
         }
-    },[initialValue]);
+    }, [initialValue]);
 
     const [typedCode, setTypedCode] = useState<string>("");
     const [openCodes, setOpenCodes] = useState<boolean>(false);
@@ -154,36 +155,36 @@ const PhoneInput: React.FC<Props> = props => {
     );
 
     const expectedLength = country?.format?.replaceAll(" ", '')?.replaceAll('+', "")?.replaceAll("(", "")?.replaceAll(")", "")?.replaceAll('-', "")?.length;
-    const expectedTotalLength = expectedLength ? expectedLength + country.dialCode.length : undefined;
+    const expectedTotalLength = expectedLength || undefined;
 
-    const labelClassNames:string[] = [`select-none pointer-events-none block leading-4`];
-    
-    if (props.labelIsSimple){
+    const labelClassNames: string[] = [`select-none pointer-events-none block leading-4`];
+
+    if (props.labelIsSimple) {
         labelClassNames.push("mb-3 text-sm");
-    }else{
+    } else {
         labelClassNames.push("z-10 absolute px-2 bg-white transition-all duration-300 -translate-y-1/2 right-1");
 
-        if (labelUp){
+        if (labelUp) {
             labelClassNames.push(`top-0 text-xs`);
-        }else{
+        } else {
             labelClassNames.push("top-1/2 text-sm");
         }
     }
 
 
-    const inputClassNames : string[] = [`bg-caret border h-10 px-22 rounded-l-md col-span-4 px-2 outline-none`];
+    const inputClassNames: string[] = [`bg-caret border h-10 px-22 rounded-l-md col-span-4 px-2 outline-none`];
 
-    if(errorText && isTouched){
+    if (errorText && isTouched) {
         inputClassNames.push(`border-red-500`);
-    }else{
+    } else {
         inputClassNames.push(`border-slate-300 focus:border-slate-500`);
     }
 
-    const inputClassNames2 : string[] = [`border h-10 px-2 col-span-5 border-l-0 rounded-r-md outline-none`];
+    const inputClassNames2: string[] = [`border h-10 px-2 col-span-5 border-l-0 rounded-r-md outline-none`];
 
-    if(errorText && isTouched){
+    if (errorText && isTouched) {
         inputClassNames2.push(`border-red-500`);
-    }else{
+    } else {
         inputClassNames2.push(`border-slate-300 focus:border-slate-500`);
     }
     return (
@@ -242,8 +243,9 @@ const PhoneInput: React.FC<Props> = props => {
                         validate={(value: string) => validateMobileNumberId({
                             expectedLength: expectedTotalLength,
                             invalidMessage: t('invalid-phone-number'),
-                            reqiredMessage: t('please-enter-phone-number'),
-                            value: value
+                            reqiredMessage: props.isOptional ? "" : t('please-enter-phone-number'),
+                            value: value,
+                            codeValue: country.dialCode
                         })}
                         type='hidden'
                         name={props.name}

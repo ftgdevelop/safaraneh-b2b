@@ -25,13 +25,12 @@ type Props = {
         rating?: number;
         url: string;
         imageUrl?: string;
-        guestRate?: "loading" | { Satisfaction: number; TotalRowCount: number; };
         price: "loading" | "notPriced" | "need-to-inquire" | { boardPrice: number; salePrice: number; };
+        scoreInfo?: "loading" | {averageRating: number, reviewCount: number };
     }[];
     closeMapModal: () => void;
     allHotelsLength: number;
     priceIsFetched: boolean;
-    scoreIsFetched: boolean;
 }
 
 const HotelsOnMap: React.FC<Props> = props => {
@@ -135,7 +134,6 @@ const HotelsOnMap: React.FC<Props> = props => {
                                     allHotels={props.allHotelsLength}
                                     filteredHotels={props.hotels.length}
                                     priceIsFetched={props.priceIsFetched}
-                                    scoreIsFetched={props.scoreIsFetched}
                                 />
                             </div>
                         ) : (
@@ -143,12 +141,12 @@ const HotelsOnMap: React.FC<Props> = props => {
                                 {hotels.map(hotel => <SimpleHotelListItem
                                     id={hotel.id!}
                                     key={hotel.url}
-                                    ratesInfo={hotel.guestRate}
                                     name={hotel.name}
                                     priceInfo={hotel.price}
                                     url={hotel.url}
                                     imageUrl={hotel.imageUrl}
                                     rating={hotel.rating}
+                                    scoreInfo={hotel.scoreInfo}
                                     onHoverHotel={setHoveredMarkerId}
                                 />)}
                             </div>

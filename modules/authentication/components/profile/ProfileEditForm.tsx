@@ -7,14 +7,26 @@ import { useAppDispatch, useAppSelector } from "@/modules/shared/hooks/use-store
 import { Field, Form, Formik } from "formik";
 import { useTranslation } from "next-i18next";
 import { getCurrentUserProfile, updateCurrentUserProfile } from "../../actions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setReduxNotification } from "@/modules/shared/store/notificationSlice";
 import { setReduxUser } from "../../store/authenticationSlice";
+import SelectWithSearch from "@/modules/shared/components/ui/SelectWithSearch";
+import { getAllCountries } from "@/modules/shared/actions";
+import Checkbox from "@/modules/shared/components/ui/Checkbox";
+import Skeleton from "@/modules/shared/components/ui/Skeleton";
 
 type Props = {
     oneBlock?: boolean;
     afterSubmit?: () => void;
 }
+
+type CountryItem = {
+    code?: string;
+    name?: string;
+    nationality?: string;
+    id: number;
+}
+
 
 const ProfileEditForm: React.FC<Props> = props => {
 
@@ -28,6 +40,43 @@ const ProfileEditForm: React.FC<Props> = props => {
     const user = userAuthentication.user;
 
     const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+    const [isTouched, setIsTouched] = useState<boolean>(false);
+
+    const [countries, setCountries] = useState<CountryItem[]>();
+
+
+    useEffect(() => {
+        const fetchCountriesList = async () => {
+            const response: any = await getAllCountries("fa-IR");
+            if (response?.data?.result?.items) {
+                const sortedcountries = [...response.data.result.items].sort((b: CountryItem, a: CountryItem) => {
+
+                    if (!a.name || !b.name) return 1;
+
+                    const farsiAlphabet = ["آ", "ا", "ب", "پ", "ت", "ث", "ج", "چ", "ح", "خ", "د", "ذ", "ر", "ز", "ژ", "س", "ش", "ص", "ض", "ط", "ظ", "ع", "غ", "ف", "ق", "ک", "گ", "ل", "م", "ن", "و", "ه", "ی",
+                        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+                    const x = a.name.toLowerCase().trim();
+                    const y = b.name.toLowerCase().trim();
+
+                    for (let i = 0; i < y.length; i++) {
+                        if (farsiAlphabet.indexOf(y[i]) < farsiAlphabet.indexOf(x[i])) {
+                            return -1;
+                        }
+                        if (farsiAlphabet.indexOf(y[i]) > farsiAlphabet.indexOf(x[i])) {
+                            return 1;
+                        }
+                    }
+                    return 1;
+                })
+                setCountries(sortedcountries);
+            }
+        }
+
+        fetchCountriesList();
+
+    }, []);
+
 
     let initialValues = {
         gender: true,
@@ -57,32 +106,32 @@ const ProfileEditForm: React.FC<Props> = props => {
         const token = localStorage?.getItem('Token');
         const localStorageTenant = localStorage?.getItem('S-TenantId');
         if (token && localStorageTenant) {
-          const getUserData = async () => {
-            dispatch(setReduxUser({
-              isAuthenticated: false,
-              user: {},
-              getUserLoading: true
-            }));
-    
-            const response: any = await getCurrentUserProfile(token, +localStorageTenant);
-    
-            if (response && response.status === 200) {
-              dispatch(setReduxUser({
-                isAuthenticated: true,
-                user: response.data?.result,
-                getUserLoading: false
-              }));
-            } else {
-              dispatch(setReduxUser({
-                isAuthenticated: false,
-                user: {},
-                getUserLoading: false
-              }));
+            const getUserData = async () => {
+                dispatch(setReduxUser({
+                    isAuthenticated: false,
+                    user: {},
+                    getUserLoading: true
+                }));
+
+                const response: any = await getCurrentUserProfile(token, +localStorageTenant);
+
+                if (response && response.status === 200) {
+                    dispatch(setReduxUser({
+                        isAuthenticated: true,
+                        user: response.data?.result,
+                        getUserLoading: false
+                    }));
+                } else {
+                    dispatch(setReduxUser({
+                        isAuthenticated: false,
+                        user: {},
+                        getUserLoading: false
+                    }));
+                }
+
             }
-    
-          }
-    
-          getUserData();
+
+            getUserData();
         }
     }
 
@@ -114,10 +163,10 @@ const ProfileEditForm: React.FC<Props> = props => {
                 message: "اطلاعات با موفقیت ارسال شد",
                 isVisible: true
             }));
-            
+
             refreshUserData();
 
-            if(props.afterSubmit){
+            if (props.afterSubmit) {
                 props.afterSubmit();
             }
 
@@ -133,6 +182,19 @@ const ProfileEditForm: React.FC<Props> = props => {
 
     const maximumBirthDate = dateFormat(goBackYears(new Date(), 12));
     const minimumBirthDate = dateFormat(goBackYears(new Date(), 100));
+
+    if (!countries?.length) {
+        return (
+            <div className="sm:w-520" >
+                {[1, 2, 3, 4, 5, 6, 7].map(item => (
+                    <div className="mb-7" key={item}>
+                        <Skeleton className="mb-4 w-32" />
+                        <Skeleton />
+                    </div>
+                ))}
+            </div>
+        )
+    }
 
     return (
 
@@ -153,7 +215,7 @@ const ProfileEditForm: React.FC<Props> = props => {
                         }, 100)
                     }
                     return (
-                        <Form autoComplete='off' >
+                        <Form autoComplete='off' className="sm:w-520" >
 
                             <div role="group" className="mb-4" >
                                 <label className='block text-xs mb-1' > جنسیت </label>
@@ -164,6 +226,7 @@ const ProfileEditForm: React.FC<Props> = props => {
                                         onChange={(e: any) => {
                                             const val = e.target.checked;
                                             setFieldValue('gender', val);
+                                            setIsTouched(true);
                                         }}
                                         checked={values.gender}
                                     />
@@ -176,6 +239,7 @@ const ProfileEditForm: React.FC<Props> = props => {
                                         onChange={(e: any) => {
                                             const val = !e.target.checked;
                                             setFieldValue('gender', val);
+                                            setIsTouched(true);
                                         }}
                                         checked={!values.gender}
                                     />
@@ -183,7 +247,7 @@ const ProfileEditForm: React.FC<Props> = props => {
                                 </label>
                             </div>
 
-                            <div className={`grid gap-4 mb-5 ${props.oneBlock?"":"sm:grid-cols-2"}`}>
+                            <div className={`grid gap-4 mb-5 ${props.oneBlock ? "" : "sm:grid-cols-2"}`}>
 
                                 <FormikField
                                     labelIsSimple
@@ -195,7 +259,7 @@ const ProfileEditForm: React.FC<Props> = props => {
                                     isTouched={touched.firstname}
                                     label={t('first-name')}
                                     validateFunction={(value: string) => validateRequiedPersianAndEnglish(value, t('please-enter-first-name'), t('just-english-persian-letter-and-space'))}
-                                    onChange={(value: string) => { setFieldValue('firstname', value, true) }}
+                                    onChange={(value: string) => { setFieldValue('firstname', value, true); setIsTouched(true); }}
                                     value={values.firstname}
                                 />
 
@@ -209,7 +273,7 @@ const ProfileEditForm: React.FC<Props> = props => {
                                     isTouched={touched.lastname}
                                     label={t('last-name')}
                                     validateFunction={(value: string) => validateRequiedPersianAndEnglish(value, t('please-enter-first-name'), t('just-english-persian-letter-and-space'))}
-                                    onChange={(value: string) => { setFieldValue('lastname', value, true) }}
+                                    onChange={(value: string) => { setFieldValue('lastname', value, true); setIsTouched(true); }}
                                     value={values.lastname}
                                 />
 
@@ -224,7 +288,7 @@ const ProfileEditForm: React.FC<Props> = props => {
                                     maxLength={10}
                                     validateFunction={(value: string) => validateNationalId({ value: value, invalidMessage: t('invalid-national-code') })}
                                     value={values.nationalId}
-                                    onChange={(value: string) => { setFieldValue('nationalId', value, true) }}
+                                    onChange={(value: string) => { setFieldValue('nationalId', value, true); setIsTouched(true); }}
                                 />
 
                                 <div>
@@ -237,16 +301,40 @@ const ProfileEditForm: React.FC<Props> = props => {
                                         shamsi={true}
                                         label="تاریخ تولد"
                                         descending
-                                        onChange={value => {setFieldValue('birthDay', value);}}
+                                        onChange={value => { setFieldValue('birthDay', value); setIsTouched(true); }}
                                     />
                                 </div>
+
+                                {!!countries && <SelectWithSearch
+                                    labelIsSimple
+                                    className="mb-5"
+                                    setFieldValue={setFieldValue}
+                                    isTouched={touched.nationalityId}
+                                    errorText={errors.nationalityId as string}
+                                    name="nationalityId"
+                                    id="nationalityId"
+                                    items={countries.map(item => ({ label: item.name || item.nationality || "", value: item.code || "" }))}
+                                    value={values.nationalityId || ""}
+                                    label="ملیت"
+                                    onTouch={() => { setIsTouched(true) }}
+                                />}
+
+                                <Checkbox
+                                    label="عضویت در خبرنامه"
+                                    value="newsletter"
+                                    onChange={checked => { setFieldValue("isNewsLetter", checked); }}
+                                    block
+                                    checked={values.isNewsLetter}
+                                    onTouch={() => { setIsTouched(true) }}
+                                />
 
                             </div>
 
                             <Button
                                 type="submit"
-                                className={`h-10 px-8 rounded ${theme2?"mx-auto  mt-8":""}`}
+                                className="h-10 px-8 rounded"
                                 loading={submitLoading}
+                                disabled={!isTouched}
                             >
                                 ذخیره
                             </Button>

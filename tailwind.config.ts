@@ -78,6 +78,7 @@ const config: Config = {
       },
       width: {
         '850':'850px',
+        '620':'620px',
         '520':'520px',
         '480':'480px',
         '400': '400px'
@@ -87,7 +88,7 @@ const config: Config = {
         "half-container": 'var(--half-container-max-width)'
       },
       minHeight: {
-        'desktop-main' : 'calc(100vh - 535px)',
+        'desktop-main' : 'calc(100vh - 241px)',
         '65vh': '65vh'
       },
       height: {

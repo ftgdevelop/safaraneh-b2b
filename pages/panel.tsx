@@ -1,11 +1,19 @@
 import SearchForm from "@/modules/domesticHotel/components/shared/SearchForm";
+import DashboardBanners from "@/modules/panel/home/components/DashboardBanners";
 import Tab from "@/modules/shared/components/ui/Tab";
 import { Bus, Cip2, Dashboard, Flight2, Hotel } from "@/modules/shared/components/ui/icons";
+import { addSomeDays, dateFormat } from "@/modules/shared/helpers";
 import { TabItem } from "@/modules/shared/types/common";
 import { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Panel : NextPage = () => {
+
+    const today = dateFormat(new Date());
+    const tomorrow = dateFormat(addSomeDays(new Date()));
+    let checkin = today;
+    let checkout = tomorrow;
+
 
     const tabItems : TabItem[] = [
         {
@@ -17,7 +25,7 @@ const Panel : NextPage = () => {
             children:(
                 <>
                     <h3 className="text-lg md:text-2xl font-semibold mt-6 mb-10"> جستجوی هتل </h3>
-                    <SearchForm wrapperClassName="" />
+                    <SearchForm wrapperClassName="" defaultDates={[checkin,checkout]} />
                 </>
             )
 
@@ -78,6 +86,8 @@ const Panel : NextPage = () => {
                 <Tab items={tabItems} noBorder />
             </div>
         </section>
+        
+        <DashboardBanners />
     </>
     )
 }

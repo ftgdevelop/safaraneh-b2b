@@ -5,7 +5,7 @@ import { Form, Formik } from "formik";
 import { useTranslation } from "next-i18next";
 import { getTenant, registerOrLogin, sendOtp } from "../actions";
 import { useAppDispatch } from '@/modules/shared/hooks/use-store';
-import { setReduxError } from '@/modules/shared/store/errorSlice';
+import { setAlertModal } from '@/modules/shared/store/alertSlice';
 import OtpInput from '@/modules/shared/components/ui/OtpInput';
 import CountDown from '@/modules/shared/components/ui/CountDown';
 import Skeleton from '@/modules/shared/components/ui/Skeleton';
@@ -66,7 +66,7 @@ const OTPLogin: React.FC<Props> = props => {
 
             const response: any = await sendOtp({ emailOrPhoneNumber: phoneNumber, tenantId: tenantId});
             if (response.message) {
-                dispatch(setReduxError({
+                dispatch(setAlertModal({
                     title: "خطا",
                     message: response.message,
                     isVisible: true
@@ -84,7 +84,7 @@ const OTPLogin: React.FC<Props> = props => {
 
             if (response.status == 500)
 
-                dispatch(setReduxError({
+                dispatch(setAlertModal({
                     title: "خطا",
                     message: response?.data?.error?.message,
                     isVisible: true
@@ -92,7 +92,7 @@ const OTPLogin: React.FC<Props> = props => {
 
         } catch (error) {
             setLoading(false);
-            dispatch(setReduxError({
+            dispatch(setAlertModal({
                 title: "خطا",
                 isVisible: true
             }))
@@ -130,23 +130,38 @@ const OTPLogin: React.FC<Props> = props => {
         
         if (response && response.status === 200) {
 
-            const token = response.data?.result?.accessToken
-            localStorage.setItem('Token', token);
-            props.onCloseLogin();
+            const roleNames : string[] = response.data?.result?.user?.roleNames || [];
+            if(roleNames.includes("Affiliate")){
+                const token = response.data?.result?.accessToken
+                localStorage.setItem('Token', token);
+                props.onCloseLogin();
+    
+                dispatch(setReduxUser({
+                    isAuthenticated: true,
+                    user: response.data?.result?.user,
+                    getUserLoading: false
+                }));
+    
+                const userFirstName = response.data?.result?.user?.firstName || "کاربر";
+    
+                dispatch(setReduxNotification({
+                    status: 'success',
+                    message: userFirstName +'  عزیز،  خوش آمدید.',
+                    isVisible: true
+                }));            
+            }else{
+                dispatch(setReduxUser({
+                    isAuthenticated: false,
+                    user: {},
+                    getUserLoading: false
+                }));
+                dispatch(setAlertModal({
+                    title: "خطا",
+                    message:"شما دسترسی لازم برای ورود به سیستم را ندارد.لطفا برای اطلاعات بیشتر با پشتیبانی تماس بگیرید.",
+                    isVisible: true
+                }));
+            }
 
-            dispatch(setReduxUser({
-                isAuthenticated: true,
-                user: response.data?.result?.user,
-                getUserLoading: false
-            }));
-
-            const userFirstName = response.data?.result?.user?.firstName || "کاربر";
-
-            dispatch(setReduxNotification({
-                status: 'success',
-                message: userFirstName +'  عزیز،  خوش آمدید.',
-                isVisible: true
-            }));            
 
         } else {
             dispatch(setReduxUser({

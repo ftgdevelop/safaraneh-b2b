@@ -1,4 +1,7 @@
+import { CurrencyType } from "@/modules/payment/types";
 import React from "react";
+
+export type Statuse = "" | "Undefined" | "Registered" | "Pending" | "Issued" | "Canceled" | "WebServiceCancel" | "PaymentSuccessful" | "WebServiceUnsuccessful" | "PriceChange" | "Unavailable" | "Refunded" | "Voided" | "InProgress" | "PaidBack" | "RefundInProgress" | "Changed" | "OnCredit" | "ContactProvider" | "UnConfirmed" | "ReceivedAdvance" | "ExtraReceiving";
 
 export interface EntitySearchResultItemType {
     name?: string;
@@ -274,6 +277,52 @@ export interface DomesticAccomodationType {
       
 }
 
+export interface DomesticHotelReviewsType {
+    averageRating: number;
+    ratings: {
+        average: number;
+        category: {
+            keyword: "price_quality_satisfaction" | "staff_behavior" | "restaurant_cafe_quality" | "services" | "location" | "cleanliness",
+            name?: string;
+            tenantId: number;
+            isActive: boolean;
+            id: number;
+        },
+        //"id": 0
+    }[];
+    reviews: {
+        totalCount: number;
+        items: {
+            id: number;
+            comment?: string;
+            overallRating: number;
+            userDisplayName: string;
+            recommendToOthers: boolean;
+            creationTime: string;
+            ratings: {
+                rating: number;
+                categoryId: number;
+                //categoryName: number;
+                id: number;
+            }[];
+            //"travelType": "Business",
+            //"isVerifiedReviewer": false,
+            //"positivePoints": null,
+            //"negativePoints": null,
+            //"isAnonymous": true,
+            // "page": null,
+            // "userId": null,
+            // "language": "fa-IR",
+            // "pageId": 261,
+            // "isActive": true,
+            // "tenantId": 1040,
+            // "reply": null,
+            // "likeCount": 0,
+            // "dislikeCount": 0,
+        }[]
+    }
+}
+
 export interface AvailabilityByIdItem {
     id: number,
     boardPrice: number,
@@ -443,7 +492,7 @@ export interface SearchAccomodationItem {
 }
 
 export interface PricedHotelItem extends SearchAccomodationItem {
-    ratesInfo?: "loading" | { Satisfaction: number; TotalRowCount: number; };
+    scoreInfo?: "loading" | {averageRating: number, reviewCount: number };
     priceInfo: "loading" | "notPriced" | "need-to-inquire" | { boardPrice: number; salePrice: number; };
     promotions?:{
         name?:string;
@@ -569,7 +618,7 @@ export interface DomesticHotelPrereserveParams {
     metaSearchName?: "safarmarket"
 }
 
-export type DomesticHotelReserveStatus = "Undefined" | "Registered" | "Pending" | "Issued" | "ContactProvider" | "Canceled" | "WebServiceCancel" | "PaymentSuccessful" | "WebServiceUnsuccessful" | "PriceChange" | "Unavailable" | "Refunded" | "Voided" | "InProgress" | "PaidBack" | "RefundInProgress" | "Changed" | "OnCredit";
+export type DomesticHotelReserveStatus = Statuse;
 
 export interface DomesticHotelGetReserveByIdData {
     id: number;
@@ -640,11 +689,12 @@ export interface DomesticHotelGetReserveByIdData {
 export interface DomesticHotelConfirmType {
     isCompleted: boolean;
     reserve: {
-        status: "Undefined" | "Registered" | "Pending" | "Issued" | "Canceled" | "ContactProvider" | "WebServiceCancel" | "PaymentSuccessful" | "WebServiceUnsuccessful" | "PriceChange" | "Unavailable" | "Refunded" | "Voided" | "InProgress" | "PaidBack" | "RefundInProgress" | "Changed" | "OnCredit";
+        status: Statuse;
     }
 }
 
 export interface DomesticHotelSummaryDetail {
+    id: number;
     coordinates: {
         latitude?: number;
         longitude?: number;
@@ -704,12 +754,124 @@ export interface DomesticHotelSummaryDetail {
     //     "answer": "string",
     //     "id": 0
     //   }
-    // ],
-    // "id": 0
+    // ],    
   }
 
 export type HotelRecentSearchItem = {
     url: string;
     title: string;
     dates: string[];
+}
+
+export interface HotelReserveItemType {
+    message?: string;
+    accommodation: {
+        type?: string;
+        //"latitude": 35.790107874,
+        //"longitude": 51.415081549,
+        checkinTime?:string;
+        checkoutTime?:string;
+        rating: number;
+        isActive: boolean;
+        telNumber?:string;
+        address?:string;
+        name?:string;
+        displayName?:string;
+        briefDescription?:string;
+        fileUniqKey?:string;
+        filePath?:string;
+        city: {
+            "title": "تهران - Tehran",
+            "type": "City",
+            "isActive": true,
+            "name": "تهران",
+            "mandatoryFee": null,
+            "remarks": null,
+            "parentId": 59,
+            "id": 164
+        },
+        id: number;
+    };
+    checkin: string;
+    checkout: string;
+    stayNights: number;
+    count: number;
+    accommodationId: number;
+    totalPrice: number;
+    totalBoardPrice: number;
+    totalPassengerDiscount: number;
+    //taxPrice: number;
+    //"expirTime": "2024-11-18T13:59:00",
+    username?: string;
+    creationTime: string;
+    status: Statuse;
+    reserver: {
+        nationalId?:string;
+        firstName?:string;
+        lastName?:string;
+        phoneNumber?:string;
+        email?:string;
+        userName?:string;
+        gender:boolean;
+    },
+    // "terminal": {
+    //     "name": null,
+    //     "id": "00000000-0000-0000-0000-000000000000"
+    // },
+    currencyType: CurrencyType;
+    //"supplierType": "Safaraneh",
+    //"specialRequest": null,
+    //"rules": [],
+    "rooms": {
+            "name": "دو تخته دبل ",
+            "image": "https://cdn.safaraneh.com/general/Images/RoomType/دبل کینگ.jpeg",
+            "bed": 2,
+            "extraBed": 0,
+            "roomId": 39198,
+            "maxInfantAge": 5,
+            "maxChildAge": 5,
+            "supplierType": "Safaraneh",
+            "available": 0,
+            "description": null,
+            "providerName": "هتل پارک وی تهران",
+            "supplierRefrence": "202918",
+            "availablityType": "Offline",
+            "boardCode": "BB",
+            "boardExtra": "",
+            "checkin": null,
+            "checkout": null,
+            "salePrice": 0,
+            "boardPrice": 0,
+            "passengerDiscount": 0,
+            "taxPrice": 0,
+            "passengers": [],
+            "nightly": [],
+            "pricing": [
+                {
+                    "amount": 100000000,
+                    "isSelected": true,
+                    "isShow": true,
+                    "ageCategoryType": "ADL",
+                    "type": "Room"
+                },
+                {
+                    "amount": 100000000,
+                    "isSelected": true,
+                    "isShow": true,
+                    "ageCategoryType": "ADL",
+                    "type": "RoomNet"
+                },
+                {
+                    "amount": 106000000,
+                    "isSelected": true,
+                    "isShow": true,
+                    "ageCategoryType": "ADL",
+                    "type": "RoomBoard"
+                }
+            ],
+            "cancellationPolicyStatus": null,
+            "cancellationPolicyFees": [],
+            "id": 42150
+        }[];
+    id: number;
 }

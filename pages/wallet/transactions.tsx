@@ -8,7 +8,7 @@ import Button from "@/modules/shared/components/ui/Button";
 import Skeleton from "@/modules/shared/components/ui/Skeleton";
 import { ErrorCircle, LeftCaret, RightCaret, TableIcon, TimeUpdate } from "@/modules/shared/components/ui/icons";
 import { useAppDispatch } from "@/modules/shared/hooks/use-store";
-import { setReduxError } from "@/modules/shared/store/errorSlice";
+import { setAlertModal } from "@/modules/shared/store/alertSlice";
 import { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
@@ -213,7 +213,7 @@ const Transactions: NextPage = () => {
             a.href = url;
             a.click();
         } else {
-            dispatch(setReduxError({
+            dispatch(setAlertModal({
                 title: "خطا",
                 message: response?.response?.data?.error?.message || "خطا در ارسال درخواست!",
                 isVisible: true
@@ -260,6 +260,7 @@ const Transactions: NextPage = () => {
             <section className="p-4 md:p-6">
 
                 <BreadCrumpt
+                    wrapperClassName="mb-4"
                     hideHome
                     items={[
                         { label: "پیشخوان", link: "/panel" },

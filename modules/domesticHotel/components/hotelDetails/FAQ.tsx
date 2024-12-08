@@ -20,7 +20,7 @@ const FAQ: React.FC<Props> = props => {
     }
 
     return (
-        <div className="max-w-container mx-auto px-3 sm:px-5">
+        <div className="px-4 md:px-6 pt-6">
             <div className='p-3 sm:p-5 lg:p-7 bg-white rounded-xl text-sm leading-7 md:text-base md:leading-7'>
 
                 <h3 className='text-md lg:text-lg font-semibold mb-4'> {t("faq")} </h3>

@@ -224,7 +224,7 @@ const Rooms: React.FC<Props> = props => {
 
             </ModalPortal>
 
-            <div id="rooms_section" className="max-w-container mx-auto px-3 sm:px-5 pt-7 md:pt-10">
+            <div id="rooms_section" className="px-4 md:px-6 pt-7 md:pt-10">
 
                 {(availabilites && availabilites.length === 0) ? (
                     <div className='bg-white rounded-xl p-3 sm:p-7'>

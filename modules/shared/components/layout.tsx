@@ -1,19 +1,26 @@
 import Header from "./header";
 import Footer from "./footer";
-import Error from './Error';
 import { PropsWithChildren, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../hooks/use-store";
 import PageLoadingBar from "./ui/PageLoadingBar";
-import { setAuthenticationDone, setReduxUser } from "@/modules/authentication/store/authenticationSlice";
-import { getCurrentUserProfile } from "@/modules/authentication/actions";
+import { setAuthenticationDone, setReduxUser, setUserPermissions } from "@/modules/authentication/store/authenticationSlice";
+import { getCurrentUserPermissions, getCurrentUserProfile } from "@/modules/authentication/actions";
 import Notification from "./Notification";
 import { setProgressLoading } from "../store/stylesSlice";
 import AuthenticationRedirect from "@/modules/authentication/components/AuthenticationRedirect";
 import { Loading } from "./ui/icons";
 import PanelLayout from "./panelLayout";
+import AlertModal from "./AlertModal";
+import { StrapiData } from "../types/common";
 
-const Layout: React.FC<PropsWithChildren> = props => {
+type Props = {
+  logo?: string;
+  menuItems: StrapiData['menuItems'];
+  copyright: string;
+}
+
+const Layout: React.FC<PropsWithChildren<Props>> = props => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -60,12 +67,16 @@ const Layout: React.FC<PropsWithChildren> = props => {
           getUserLoading: true
         }));
 
-        const response: any = await getCurrentUserProfile(token, +localStorageTenant);
 
-        if (response && response.status === 200) {
+        const [userDataResponse, userPermissionsResponse] = await Promise.all<any>([
+          getCurrentUserProfile(token, +localStorageTenant),
+          getCurrentUserPermissions(token, +localStorageTenant)
+        ]);
+
+        if (userDataResponse && userDataResponse.status === 200) {
           dispatch(setReduxUser({
             isAuthenticated: true,
-            user: response.data?.result,
+            user: userDataResponse.data?.result,
             getUserLoading: false
           }));
         } else {
@@ -76,6 +87,12 @@ const Layout: React.FC<PropsWithChildren> = props => {
           }));
         }
         dispatch(setAuthenticationDone());
+
+        if(userPermissionsResponse?.data?.result){
+          dispatch(setUserPermissions(userPermissionsResponse.data.result));
+        }else{
+          dispatch(setUserPermissions(undefined));
+        }
 
       }
 
@@ -119,7 +136,7 @@ const Layout: React.FC<PropsWithChildren> = props => {
 
       <PageLoadingBar active={loading} />
 
-      <Error />
+      <AlertModal />
       
       <Notification />
 
@@ -140,7 +157,7 @@ const Layout: React.FC<PropsWithChildren> = props => {
       
       <PageLoadingBar active={loading} />
 
-      <Error />
+      <AlertModal />
       
       <Notification />
       </>
@@ -153,17 +170,17 @@ const Layout: React.FC<PropsWithChildren> = props => {
 
       <PageLoadingBar active={loading} />
 
-      <Error />
+      <AlertModal />
       
       <Notification />
 
-      <Header />
+      <Header logo={props.logo} menuItems={props.menuItems} />
       
       <main id="main" className={`min-h-desktop-main relative ${isHeaderUnderMain ? "z-50" : "z-10"}`}>
         {props.children}
       </main>
 
-      <Footer />
+      <Footer copyright={props.copyright} />
 
     </div>
 

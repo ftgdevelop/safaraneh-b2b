@@ -7,20 +7,19 @@ import Head from 'next/head';
 import { getReserveFromCoordinator } from '@/modules/shared/actions';
 import { useRouter } from 'next/router';
 import DomesticHotelAside from '@/modules/domesticHotel/components/shared/Aside';
-import DomesticHotelAside2 from '@/modules/domesticHotel/components/shared/AsideTheme2';
 import { domesticHotelGetReserveById, getDomesticHotelSummaryDetailById } from '@/modules/domesticHotel/actions';
 import { AsideHotelInfoType, AsideReserveInfoType, DomesticHotelGetReserveByIdData, DomesticHotelSummaryDetail } from '@/modules/domesticHotel/types/hotel';
 import { dateFormat, getDatesDiff } from '@/modules/shared/helpers';
 import { TabItem } from '@/modules/shared/types/common';
-import Tab from '@/modules/shared/components/ui/Tab';
-import OnlinePayment from '@/modules/payment/components/OnlinePayment';
 import CreditPayment from '@/modules/payment/components/CreditPayment';
 import { getReserveBankGateway, makeToken } from '@/modules/payment/actions';
 import { useAppDispatch } from '@/modules/shared/hooks/use-store';
-import { setReduxError } from '@/modules/shared/store/errorSlice';
+import { setAlertModal } from '@/modules/shared/store/alertSlice';
 
 import { ServerAddress } from '@/enum/url';
 import { emptyReduxSafarmarket, setReduxSafarmarketPixel } from '@/modules/shared/store/safarmarketSlice';
+import { bankGatewayItem } from '@/modules/payment/types';
+import { CreditCard } from '@/modules/shared/components/ui/icons';
 
 
 const Payment: NextPage = () => {
@@ -43,7 +42,7 @@ const Payment: NextPage = () => {
   const [coordinatorPrice, setCoordinatorPrice] = useState<number>();
   const [domesticHotelReserveData, setDomesticHotelReserveData] = useState<DomesticHotelGetReserveByIdData>();
   const [domesticHotelData, setDomesticHotelData] = useState<DomesticHotelSummaryDetail>();
-  const [bankGatewayList, setBankGatewayList] = useState([]);
+  const [bankGatewayList, setBankGatewayList] = useState<bankGatewayItem[]>([]);
 
   // const [cipReserveInfo, setCipReserveInfo] = useState<CipGetReserveByIdResponse>();
   // const [cipReserveInfoLoading, setCipReserveInfoLoading] = useState<boolean>(true);
@@ -77,25 +76,6 @@ const Payment: NextPage = () => {
     }
 
 
-    const getBankGatewayList = async (reserveId:string, tenant: number) => {
-
-      if (!reserveId) return;
-
-      const response: any = await getReserveBankGateway(tenant,reserveId);
-      if (response?.status == 200 && response.data.result) {
-        setBankGatewayList(response.data?.result[0]);
-      } else {
-        dispatch(setReduxError({
-          title: t('error'),
-          message: response?.data?.error?.message,
-          isVisible: true
-        }));
-      }
-    };
-
-    if(localStorageTenant && reserveId){
-      getBankGatewayList(reserveId, +localStorageTenant);
-    }
 
   }, [username, reserveId, localStorageTenant]);
 
@@ -149,8 +129,6 @@ const Payment: NextPage = () => {
   },[]);
 
   useEffect(() => {
-
-    const token = localStorage.getItem('Token') || "";
 
     if (username && reserveId && type === 'HotelDomestic') {
       const fetchDomesticHotelReserve = async () => {
@@ -264,7 +242,7 @@ const Payment: NextPage = () => {
         `https://${ServerAddress.Payment}/fa/Reserves/Payment/PaymentRequest?tokenId=${response.data.result.tokenId}`
       );
     } else {
-      dispatch(setReduxError({
+      dispatch(setAlertModal({
         title: t('error'),
         message: response.data.error.message,
         isVisible: true
@@ -276,21 +254,21 @@ const Payment: NextPage = () => {
 
 
   const tabItems: TabItem[] = [
-    {
-      key: '1',
-      label: ("آنلاین"),
-      children: (
-        <OnlinePayment
-          coordinatorPrice={coordinatorPrice}
-          onSubmit={(bankId) => { goTobank(bankId) }}
-          bankGatewayList={bankGatewayList}
-          expireDate={expireDate}
-          status={status}
-          goToBankLoading={goToBankLoading}
-          type={type}
-        />
-      ),
-    },
+    // {
+    //   key: '1',
+    //   label: ("آنلاین"),
+    //   children: (
+    //     <OnlinePayment
+    //       coordinatorPrice={coordinatorPrice}
+    //       onSubmit={(bankId) => { goTobank(bankId) }}
+    //       bankGatewayList={bankGatewayList}
+    //       expireDate={expireDate}
+    //       status={status}
+    //       goToBankLoading={goToBankLoading}
+    //       type={type}
+    //     />
+    //   ),
+    // },
     // {
     //   key: '2',
     //   label: ("کارت به کارت"),
@@ -299,7 +277,7 @@ const Payment: NextPage = () => {
     {
       key: '3',
       label: ("اعتباری"),
-      children: (<CreditPayment price={coordinatorPrice} />),
+      children: (<CreditPayment price={coordinatorPrice || 0} currencyType='IRR' />),
     }
   ];
 
@@ -441,8 +419,15 @@ const Payment: NextPage = () => {
       <Head>
         <title>{t("bank-gateway")}</title>
       </Head>
+      
+      <div
+        className="border-b flex items-center gap-3 px-4 md:px-6 py-3 bg-white text-lg md:text-xl"
+      >
+        <CreditCard className="w-8 h-8" />
+        پرداخت
+      </div>
 
-      <div className='max-w-container mx-auto px-5 py-4'>
+      <div className="px-4 md:px-6 py-3">
 
         {!!theme1 && <Steps
           className='py-3 mb-2'
@@ -457,11 +442,14 @@ const Payment: NextPage = () => {
 
           <div className={`${theme2?"md:col-span-7":"md:col-span-2"}`}>
             <div className={`mb-4 ${theme1 ? "bg-white rounded-lg border border-neutral-300 p-4" : ""}`}>
-              <h2 className='text-2xl mt-4 mb-8'> چگونه می خواهید پرداخت کنید؟ </h2>
+              <h2 className='text-2xl mt-4 mb-8'> پرداخت از کیف پول </h2>
 
-              <Tab
+              {/* <Tab
                 items={tabItems}
-              />
+              /> */}
+
+              <CreditPayment price={coordinatorPrice || 0} currencyType='IRR' />
+
             </div>
 
           </div>
@@ -469,17 +457,7 @@ const Payment: NextPage = () => {
           <div className={theme2 ? "md:col-span-5" : ""}>
 
             {type === 'HotelDomestic' ? (<>
-              {theme2? (
-                <DomesticHotelAside2 
-                  hotelInformation={domesticHotelInformation} 
-                  reserveInformation={domesticHotelReserveInformation} 
-                  checkinTime={domesticHotelData?.checkinTime}
-                  checkoutTime={domesticHotelData?.checkoutTime}
-                />
-              ):(
-                <DomesticHotelAside hotelInformation={domesticHotelInformation} reserveInformation={domesticHotelReserveInformation} />
-              )}
-
+              <DomesticHotelAside hotelInformation={domesticHotelInformation} reserveInformation={domesticHotelReserveInformation} />
             </>) : type === 'Cip' ? (
               "something"
               // <CipAside

@@ -3,17 +3,23 @@ import Image from "next/image";
 import Navigation from "./Navigation";
 import Button from "../ui/Button";
 import { User3 } from "../ui/icons";
+import { StrapiData } from "../../types/common";
 
-const Header: React.FC = () => {
+type Props = {
+    logo?: string;
+    menuItems: StrapiData['menuItems']
+}
+
+const Header: React.FC<Props> = props => {
     
     return (
         <header className="bg-white z-30 relative">
 
             <div className="max-w-container mx-auto relative clearfix py-5 px-3 md:px-5">
 
-                <Link href="/" className="block md:rtl:float-right md:ltr:float-left md:rtl:ml-5 md:ltr:mr-5" >
-                    <Image src="/assets/images/logo.svg" alt="" width={115} height={48} className="h-12 mx-auto object-contain" />
-                </Link>
+                {!!props.logo && <Link href="/" className="block md:rtl:float-right md:ltr:float-left md:rtl:ml-5 md:ltr:mr-5" >
+                    <Image src={props.logo} alt="" width={115} height={48} className="h-12 mx-auto object-contain" />
+                </Link>}
 
                 <Button 
                     href={"/panel"}
@@ -24,7 +30,9 @@ const Header: React.FC = () => {
                     ورود به پنل کاربری
                 </Button>
 
-                <Navigation />
+                <Navigation
+                    items={props.menuItems}
+                />
 
             </div>
 

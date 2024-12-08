@@ -27,7 +27,8 @@ export const ServerAddress = {
   Crm: process.env.PROJECT_SERVER_CRM,
   Cip: process.env.PROJECT_SERVER_CIP,
   Traveler: process.env.PROJECT_SERVER_TRAVELER,
-  Strapi: process.env.PROJECT_SERVER_STRAPI
+  Strapi: process.env.PROJECT_SERVER_STRAPI,
+  StrapiToken : process.env.PROJECT_SERVER_STRAPI_TOKEN
 };
 
 export const Cms = {
@@ -35,7 +36,8 @@ export const Cms = {
 }
 
 export const Strapi = {
-  Pages: "/api/pages"
+  Pages: "/api/pages",
+  Affiliate: "/api/affiliates"
 }
 
 export const Identity = {

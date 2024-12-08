@@ -12,8 +12,15 @@ import AuthenticationRedirect from "@/modules/authentication/components/Authenti
 import { Loading } from "./ui/icons";
 import PanelLayout from "./panelLayout";
 import AlertModal from "./AlertModal";
+import { StrapiData } from "../types/common";
 
-const Layout: React.FC<PropsWithChildren> = props => {
+type Props = {
+  logo?: string;
+  menuItems: StrapiData['menuItems'];
+  copyright: string;
+}
+
+const Layout: React.FC<PropsWithChildren<Props>> = props => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -167,13 +174,13 @@ const Layout: React.FC<PropsWithChildren> = props => {
       
       <Notification />
 
-      <Header />
+      <Header logo={props.logo} menuItems={props.menuItems} />
       
       <main id="main" className={`min-h-desktop-main relative ${isHeaderUnderMain ? "z-50" : "z-10"}`}>
         {props.children}
       </main>
 
-      <Footer />
+      <Footer copyright={props.copyright} />
 
     </div>
 

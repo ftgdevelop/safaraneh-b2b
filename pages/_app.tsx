@@ -27,25 +27,6 @@ type TProps = Pick<AppProps, "Component" | "pageProps"> & {
 function MyApp({ Component, pageProps, strapiData }: TProps) {
   const router = useRouter();
 
-  const { locale } = router;
-  const dir = locale === 'en' ? 'ltr' : 'rtl';
-
-  useEffect(() => {
-    i18n?.changeLanguage(locale);
-  }, [locale]);
-
-  useEffect(() => {
-    document.documentElement.dir = dir;
-  }, [dir]);
-
-  useEffect(() => {
-    const locale = localStorage.getItem("publicLocale");
-    if (locale) {
-      router.push(router.asPath, router.asPath, { locale: locale });
-    }
-  }, []);
-
-
   let canonicalUrl = "";
   let envSiteName = process.env.SITE_NAME;
   let urlLocalePart = i18n?.language ? `/${i18n?.language}` : "";

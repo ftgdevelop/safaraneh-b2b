@@ -1,9 +1,9 @@
 version: '3'
 services:
-  affiliate_safaraneh_service:
-    image: affiliate_safaraneh_image
+  affiliate_safarlife_service:
+    image: affiliate_safarlife_image
     restart: always
     build: ./
-    command: 'yarn start -p 2088'
+    command: 'yarn start -p 2087'
     ports:
-      - '2088:2088'
+      - '2087:2087'

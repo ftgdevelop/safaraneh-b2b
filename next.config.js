@@ -28,13 +28,15 @@ const nextConfig = {
       'cdn.safaraneh.com',
       'cdn2.safaraneh.com',
       'panel.safaraneh.com',
+      'panel.safarlife.com',
       'blog.iranhotel.ir',
       'trustseal.enamad.ir',
       'logo.samandehi.ir',
       'strapi.safarlife.com',
       'strapi.safaraneh.com',
       'www.facebook.com',
-      'cdn.mehrbooking.net'
+      'cdn.mehrbooking.net',
+      'cdn2.safarlife.com'
     ],
     formats: ['image/avif', 'image/webp'],
   },

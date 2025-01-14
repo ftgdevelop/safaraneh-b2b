@@ -40,11 +40,11 @@ const Deposit: NextPage = () => {
     return (
         <>
             <Head>
-                <title> افزایش موجودی کیف پول سفرانه</title>
+                <title> افزایش موجودی کیف پول</title>
             </Head>
             <div className="border-b flex items-center gap-3 px-4 md:px-6 py-3 bg-white text-lg md:text-xl">
                 <Plus className="w-8 h-8" />
-                افزایش موجودی کیف پول سفرانه
+                افزایش موجودی کیف پول 
             </div>
             <section className="p-4 md:p-6">
 
@@ -54,13 +54,13 @@ const Deposit: NextPage = () => {
                     items={[
                         { label: "پیشخوان", link: "/panel" },
                         { label: "کیف پول", link: "/wallet" },
-                        { label: "افزایش موجودی کیف پول سفرانه" }
+                        { label: "افزایش موجودی کیف پول " }
                     ]}
                 />
 
                 <div className="bg-white rounded-xl border p-5 pb-12">
                     <h3 className="text-lg font-semibold">
-                        افزایش موجودی کیف پول سفرانه
+                        افزایش موجودی کیف پول 
                     </h3>
                     <p className="text-sm text-slate-400 mb-8">
                         شما در این صفحه می‌توانید به دو روش کیف پول خود را شارژ کنید.

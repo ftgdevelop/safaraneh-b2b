@@ -26,7 +26,7 @@ const PanelAside: React.FC = () => {
                         noBorder
                         noBgContent
                         content={<div className="text-sm leading-5 pb-4">
-                            <Link href={"/"} className="block py-2 hover:bg-neutral-100 px-3 rounded">
+                            <Link href={"/panel"} className="block py-2 hover:bg-neutral-100 px-3 rounded">
                                 رزرو
                             </Link>
                             <Link href={"/hotel/reserveList"} className="block py-2 hover:bg-neutral-100 px-3 rounded">

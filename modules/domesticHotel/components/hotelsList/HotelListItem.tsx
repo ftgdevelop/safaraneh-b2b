@@ -30,6 +30,7 @@ const HotelListItem: React.FC<Props> = props => {
     const { t: tHotel } = useTranslation("hotel");
     const { hotel } = props;
 
+    const isSafarLife = process.env.PROJECT === "SAFARLIFE";
     const router = useRouter();
     const { asPath } = router;
 
@@ -160,12 +161,12 @@ const HotelListItem: React.FC<Props> = props => {
     } else {
         button = (
             <Button
-                hasArrow
+                hasArrow ={!isSafarLife}
                 href={hotelDetailUrl}
                 target="_blank"
-                className="rounded-lg h-10 px-5 text-sm w-full md:w-48 max-w-full mt-3"
+                className="h-10 px-5 text-sm w-full md:w-48 max-w-full mt-3"
             >
-                {hotel.priceInfo === "need-to-inquire" ? "درخواست رزرو" : tHotel("see-rooms")}
+                {hotel.priceInfo === "need-to-inquire" ? "درخواست رزرو" : isSafarLife ? "مشاهده و رزرو" : tHotel("see-rooms")}
             </Button>
         )
     }
@@ -266,11 +267,13 @@ const HotelListItem: React.FC<Props> = props => {
                 <div className="md:col-span-7 lg:col-span-5 p-3 max-md:pb-0">
                     <Link target="_blank" href={hotelDetailUrl} className="font-bold text-neutral-700 rtl:ml-2 ltr:mr-2" > {hotel.displayName || hotel.name} </Link>
 
-                    {!!hotel.rating && <Rating number={hotel.rating} inline className="align-middle rtl:ml-2 ltr:mr-2" />}
+                    {!!(hotel.rating && !isSafarLife) && <Rating number={hotel.rating} inline className="align-middle rtl:ml-2 ltr:mr-2" />}
 
                     {!!hotel.typeStr && <span className="bg-blue-50 rounded-xl leading-6 text-2xs px-2 select-none">
                         {hotel.typeStr}
                     </span>}
+
+                    {!!(hotel.rating && isSafarLife) && <Rating number={hotel.rating} />}
 
                     {!!hotel.address && (
                         <p
@@ -278,15 +281,16 @@ const HotelListItem: React.FC<Props> = props => {
                         >
                             <Location className="w-4 h-4 fill-neutral-400 inline-block" />
                             {hotel.address}
-                            <button
+                           {!isSafarLife &&  <button
                                 type="button"
                                 onClick={() => { setOpenMap(true) }}
                                 className="outline-none mx-2 text-blue-700 font-bold"
                             >
                                 نقشه
-                            </button>
+                            </button>}
                         </p>
                     )}
+
 
                     {hotel.promotions?.map(promotion => (
                         <span

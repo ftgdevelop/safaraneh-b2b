@@ -20,12 +20,14 @@ type Props = {
 
 const Button: React.FC<PropsWithChildren<Props>> = props => {
     
+    const isSafarLife = process.env.PROJECT === "SAFARLIFE";
+
     const dispatch = useAppDispatch();
 
     const {color} = props;
 
 
-    let className = `transition-all rounded-lg flex gap-3 items-center justify-center cursor-pointer select-none relative ${props.className}`;
+    let className = `transition-all ${isSafarLife?"rounded-full":"rounded-lg"} flex gap-3 items-center justify-center cursor-pointer select-none relative ${props.className}`;
 
     if(props.disabled){
         className += " text-white bg-neutral-200";

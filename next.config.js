@@ -44,9 +44,9 @@ const nextConfig = {
   swcMinify: true,
   i18n,
   env: {
-    PROJECT: "SAFARANEH",
+    PROJECT: "SAFARLIFE",
     SITE_NAME: 'https://www.safaraneh.com',
-    THEME: "THEME1",
+    THEME: "THEME2",
     LocaleInUrl: "off",
     HOTEL_LIST_LAZY_LOAD: "",
     SAFAR_MARKET_SITE_NAME: "",

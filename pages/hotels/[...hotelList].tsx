@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { availabilityByHotelId, SearchAccomodation, getEntityNameByLocation, getHotelsScore } from '@/modules/domesticHotel/actions';
 import type { GetServerSideProps, NextPage } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -10,7 +10,7 @@ import ProgressBarWithLabel from '@/modules/shared/components/ui/ProgressBarWith
 import { useTranslation } from 'next-i18next';
 import Select from '@/modules/shared/components/ui/Select';
 import Skeleton from '@/modules/shared/components/ui/Skeleton';
-import { CalendarError, ErrorIcon, Hotel } from '@/modules/shared/components/ui/icons';
+import { CalendarError, ErrorIcon, Hotel, Verified } from '@/modules/shared/components/ui/icons';
 import DomesticHotelListSideBar from '@/modules/domesticHotel/components/hotelsList/sidebar';
 import { setTypeFilterOptions, setPriceFilterRange, setPromotionsFilterOptions, setGuestPointFilterOptions } from '@/modules/domesticHotel/store/domesticHotelSlice';
 import { useAppDispatch } from '@/modules/shared/hooks/use-store';
@@ -26,6 +26,8 @@ const HotelList: NextPage = () => {
   const [listLoading, setListLoading] = useState<boolean>(false);
 
   const searchFormWrapperRef = useRef<HTMLDivElement>(null);
+
+  const isSafarLife = process.env.PROJECT === "SAFARLIFE";
 
   type PricesResponseItem = {
     id: number;
@@ -501,6 +503,23 @@ const HotelList: NextPage = () => {
     fallbackLocation = [firstHotelWithLocation.coordinates?.latitude!, firstHotelWithLocation.coordinates?.longitude!];
   }
 
+  let resultText: ReactNode = <Skeleton className='w-52 max-sm:hidden' />;
+  if (hotels.length > 0 && pricesData && cityName) {
+    if (isSafarLife) {
+      resultText = (
+        <div className='text-sm max-sm:hidden'>
+          نتیجه جستجو در <b> {entity?.EntityName || cityName} </b>:  <b> {hotels.length} </b> هتل
+        </div>
+      )
+    } else {
+      resultText = (
+        <div className='text-sm max-sm:hidden'>
+          <b> {hotels.length} </b> هتل در <b> {entity?.EntityName || cityName} </b> پیدا کردیم
+        </div>
+      )
+    }
+  }
+
   return (
 
     <>
@@ -571,118 +590,139 @@ const HotelList: NextPage = () => {
         )}
       </div>
 
-      <div className="px-4 md:px-6 py-3" ref={searchFormWrapperRef}>
+      <div className={isSafarLife ? "grid grid-cols-6" : ""}>
 
-        <div>
-          <SearchForm wrapperClassName="relative z-[2] mb-4" defaultDates={domesticHotelDefaultDates} defaultDestination={defaultDestination} />
+        <div className={`px-4 md:px-6 py-3 ${isSafarLife ? "col-span-5" : ""}`} ref={searchFormWrapperRef}>
 
-          {(fetchPercentage === 100 || (accomodations?.length === 0 && !listLoading)) || <ProgressBarWithLabel
-            className="mt-4 mb-4"
-            label={progressBarLabel}
-            percentage={fetchPercentage}
-          />}
+          <div>
+            <SearchForm wrapperClassName="relative z-[2] mb-4" defaultDates={domesticHotelDefaultDates} defaultDestination={defaultDestination} />
 
-          {!!showOnlyForm && (
-            <div
-              className='fixed bg-black/75 backdrop-blur-sm top-0 bottom-0 right-0 left-0 z-[1]'
-              onClick={() => { setShowOnlyForm(false) }}
-            />
-          )}
+            {(fetchPercentage === 100 || (accomodations?.length === 0 && !listLoading)) || <ProgressBarWithLabel
+              className="mt-4 mb-4"
+              label={progressBarLabel}
+              percentage={fetchPercentage}
+            />}
 
-          <div className="grid gap-4 grid-cols-1 lg:grid-cols-4">
-
-            <div>
-
-              <button type='button' className='relative block w-full lg:mb-5' onClick={() => { setShowMap(true) }}>
-                <Image src="/images/map-cover.svg" alt="showMap" className='block border w-full h-24 rounded-xl object-cover' width={354} height={100} />
-                <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 py-1 border-1 border-blue-600 rounded font-semibold select-none leading-5 text-xs whitespace-nowrap'>
-                  {tHotel('viewHotelsOnMap', { cityName: entity?.EntityName || cityName })}
-                </span>
-              </button>
-
-              <DomesticHotelListSideBar
-                allHotels={hotels.length}
-                filteredHotels={filteredHotels.length}
-                priceIsFetched={!!pricesData}
-                scoreIsFetched={!!scoreData}
+            {!!showOnlyForm && (
+              <div
+                className='fixed bg-black/75 backdrop-blur-sm top-0 bottom-0 right-0 left-0 z-[1]'
+                onClick={() => { setShowOnlyForm(false) }}
               />
+            )}
 
-            </div>
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-4">
 
-            <div className="lg:col-span-3" >
-              {listLoading ? (
-                <div>
-                  <Skeleton className='w-52 max-sm:hidden mb-4' />
-                  <Skeleton className='w-52 max-sm:hidden mb-6' />
-
-                  {[1, 2, 3, 4, 5].map(item => (
-                    <div className="grid md:grid-cols-12 mb-4 border border-neutral-200 bg-white rounded-lg relative" key={item} >
-                      <Skeleton
-                        type="image"
-                        className="min-h-36 md:col-span-12 lg:col-span-4 bg-travel-pattern lg:rtl:rounded-r-lg lg:ltr:rounded-l-lg"
-                      />
-                      <div className="md:col-span-7 lg:col-span-5 p-3 max-md:pb-0">
-                        <Skeleton className="mb-4 w-1/2" />
-                        <Skeleton className="mb-4 w-14" />
-                        <Skeleton className="mb-4 w-2/3" />
-                      </div>
-                      <div className="md:col-span-5 lg:col-span-3 p-3 max-md:pt-0 flex flex-col justify-between sm:items-end">
-                        <Skeleton className="mb-3 w-1/2" />
-                        <Skeleton className="mb-3 w-14" />
-                        <br />
-                        <Skeleton className="w-full h-10 rounded-lg" type="button" />
-                      </div>
+              <div>
+                {isSafarLife ? (
+                  <button type='button' className='block w-full border border-neutral-300 rounded-xl overflow-hidden' onClick={() => { setShowMap(true) }} >
+                    <Image src="/images/staticmapTheme2.jpg" alt="showMap" className='block w-full h-28 object-cover' width={354} height={100} />
+                    <div className='p-2 text-center  bg-white text-blue-600 text-sm'>
+                      مشاهده روی نقشه
                     </div>
-                  ))}
+                  </button>
+                ) : (
+                  <button type='button' className='relative block w-full lg:mb-5' onClick={() => { setShowMap(true) }}>
+                    <Image src="/images/map-cover.svg" alt="showMap" className='block border w-full h-24 rounded-xl object-cover' width={354} height={100} />
+                    <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 py-1 border-1 border-blue-600 rounded font-semibold select-none leading-5 text-xs whitespace-nowrap'>
+                      {tHotel('viewHotelsOnMap', { cityName: entity?.EntityName || cityName })}
+                    </span>
+                  </button>
+                )}
 
+                <DomesticHotelListSideBar
+                  allHotels={hotels.length}
+                  filteredHotels={filteredHotels.length}
+                  priceIsFetched={!!pricesData}
+                  scoreIsFetched={!!scoreData}
+                />
 
-                </div>
-              ) : accomodations?.length ? (
-                <>
-                  <div className='flex justify-between mb-4 items-center'>
+              </div>
 
-                    {hotels.length > 0 && pricesData && cityName ? (
-                      <div className='text-sm max-sm:hidden'>
-                        <b> {hotels.length} </b> هتل در <b> {entity?.EntityName || cityName} </b> پیدا کردیم
+              <div className="lg:col-span-3" >
+                {listLoading ? (
+                  <div>
+                    <Skeleton className='w-52 max-sm:hidden mb-4' />
+                    <Skeleton className='w-52 max-sm:hidden mb-6' />
+
+                    {[1, 2, 3, 4, 5].map(item => (
+                      <div className="grid md:grid-cols-12 mb-4 border border-neutral-200 bg-white rounded-lg relative" key={item} >
+                        <Skeleton
+                          type="image"
+                          className="min-h-36 md:col-span-12 lg:col-span-4 bg-travel-pattern lg:rtl:rounded-r-lg lg:ltr:rounded-l-lg"
+                        />
+                        <div className="md:col-span-7 lg:col-span-5 p-3 max-md:pb-0">
+                          <Skeleton className="mb-4 w-1/2" />
+                          <Skeleton className="mb-4 w-14" />
+                          <Skeleton className="mb-4 w-2/3" />
+                        </div>
+                        <div className="md:col-span-5 lg:col-span-3 p-3 max-md:pt-0 flex flex-col justify-between sm:items-end">
+                          <Skeleton className="mb-3 w-1/2" />
+                          <Skeleton className="mb-3 w-14" />
+                          <br />
+                          <Skeleton className="w-full h-10 rounded-lg" type="button" />
+                        </div>
                       </div>
-                    ) : (
-                      <Skeleton className='w-52 max-sm:hidden' />
+                    ))}
+
+
+                  </div>
+                ) : accomodations?.length ? (
+                  <>
+                    <div className='flex justify-between mb-4 items-center'>
+
+                      {resultText}
+
+                      <Select
+                        items={[
+                          { value: "priority", label: tHotel("priority") },
+                          { value: "price", label: tHotel("lowest-price") },
+                          { value: "starRate", label: tHotel("highest-star-rating") },
+                          { value: "name", label: tHotel("hotel-name") },
+                          { value: "gueatRate", label: tHotel("highest-guest-rating") }
+                        ]}
+                        value={sortFactor}
+                        onChange={type => { setSortFactor(type as SortTypes) }}
+                        label={t('sortBy')}
+                        wrapperClassName='max-sm:grow sm:w-52'
+
+                      />
+                    </div>
+
+                    {!!isSafarLife && (
+                      <div className={`bg-blue-950 text-white mb-6 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row justify-between gap-5 text-xs md:text-md font-semibold items-center max-sm:mx-5`} >
+                        <p className="max-sm:text-center flex gap-3 md:items-center">
+                          <Verified
+                            className="w-10 h-10 fill-current shrink-0 hidden sm:block"
+                          />
+                          وقتی وارد سیستم شوید همیشه بهترین قیمت‌های ما را دریافت خواهید کرد!
+                        </p>
+                      </div>
                     )}
 
-                    <Select
-                      items={[
-                        { value: "priority", label: tHotel("priority") },
-                        { value: "price", label: tHotel("lowest-price") },
-                        { value: "starRate", label: tHotel("highest-star-rating") },
-                        { value: "name", label: tHotel("hotel-name") },
-                        { value: "gueatRate", label: tHotel("highest-guest-rating") }
-                      ]}
-                      value={sortFactor}
-                      onChange={type => { setSortFactor(type as SortTypes) }}
-                      label={t('sortBy')}
-                      wrapperClassName='max-sm:grow sm:w-52'
-
-                    />
+                    {!!accomodations && <HotelsList
+                      hotels={filteredHotels}
+                      isFetching={pricesLoading}
+                    />}
+                  </>
+                ) : (accomodations && accomodations.length === 0) ? (
+                  <div className='flex flex-col items-center justify-center text-red-500 font-semibold'>
+                    <ErrorIcon className='block w-14 h-14 mx-auto mb-2 fill-current' />
+                    متاسفانه برای این مقصد هتلی یافت نشد!
                   </div>
+                ) : null}
 
-                  {!!accomodations && <HotelsList
-                    hotels={filteredHotels}
-                    isFetching={pricesLoading}
-                  />}
-                </>
-              ) : (accomodations && accomodations.length === 0) ? (
-                <div className='flex flex-col items-center justify-center text-red-500 font-semibold'>
-                  <ErrorIcon className='block w-14 h-14 mx-auto mb-2 fill-current' />
-                  متاسفانه برای این مقصد هتلی یافت نشد!
-                </div>
-              ) : null}
 
+              </div>
 
             </div>
 
           </div>
-
         </div>
+
+        {!!isSafarLife && <div className='py-5 pl-10'>
+          <Image src="/images/hotel-list-banner.png" alt="side banner" width={225} height={842} className='w-full border rounded' />
+        </div>}
+
       </div>
 
       {!!showMap && <HotelsOnMap

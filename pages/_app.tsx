@@ -55,6 +55,7 @@ function MyApp({ Component, pageProps, strapiData }: TProps) {
       canonicalUrl = envSiteName + urlLocalePart + path
     }
   }
+  const title =strapiData?.siteTitle || "";
   return (
     <Provider store={store}>
       <Head>
@@ -82,7 +83,7 @@ function MyApp({ Component, pageProps, strapiData }: TProps) {
 
         <link rel="shortcut icon" href="/favicon.ico" />
 
-        <title> {strapiData?.siteTitle} </title>
+        {title && <title>{title}</title>}
 
       </Head>
 

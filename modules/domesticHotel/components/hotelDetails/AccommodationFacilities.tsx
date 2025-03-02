@@ -1,8 +1,9 @@
 import { useTranslation } from 'next-i18next';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { DomesticAccomodationFacilityType } from "@/modules/domesticHotel/types/hotel";
 import { DownCaret } from "@/modules/shared/components/ui/icons";
 import AccommodationFacilityItem from './AccommodationFacilitiyItem';
+import AccommodationFacilityIcon from './AccommodationFacilityIcon';
 
 type Props = {
     facilities?: DomesticAccomodationFacilityType[];
@@ -20,10 +21,33 @@ const AccommodationFacilities: React.FC<Props> = props => {
         return null;
     }
 
+    const theme2 = process.env.THEME === "THEME2";
+
     return (
         <div id='amenities_section' className="px-4 md:px-6 pt-7 md:pt-10" >
 
             <h3 className='text-lg lg:text-3xl font-semibold mb-3 md:mb-7'> {tHotel("hotel-facilities")}   </h3>
+
+            {!!theme2 &&(
+                <>
+                    <strong className='block font-semibold text-md lg:text-lg mb-3'>امکانات محبوب هتل</strong>
+
+                    <div className='mb-5 flex flex-wrap gap-1 sm:gap-3'>
+                        {facilities?.filter(item => item.items.some(s => s.isImportant)).map(facilityItem => (
+                            <Fragment key={facilityItem.keyword} >
+                                {facilityItem.items.filter(i => i.isImportant).map(a => (
+                                    <span key={a.name} className='text-xs sm:text-sm block border border-neutral-200 font-semibold text-neutral-500 px-1 sm:p-2 rounded whitespace-nowrap'>
+                                        <AccommodationFacilityIcon keyword={a.keyword} />
+                                        {a.name}
+                                    </span>
+                                ))}
+                            </Fragment>
+                        ))}
+                    </div>
+
+                    <strong className='block font-semibold text-md lg:text-lg mb-3'>سایر امکانات هتل</strong>
+                </>
+            )}
 
             <div className='p-5 lg:p-7 bg-white rounded-xl leading-5'>
 

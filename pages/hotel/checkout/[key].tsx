@@ -25,6 +25,7 @@ import { UserInformation } from '@/modules/authentication/types/authentication';
 import { getTravelers } from '@/modules/shared/actions';
 import { TravelerItem } from '@/modules/shared/types/common';
 import { setAlertModal } from '@/modules/shared/store/alertSlice';
+import AsideTheme2 from '@/modules/domesticHotel/components/shared/AsideTheme2';
 
 const Checkout: NextPage = () => {
 
@@ -32,6 +33,7 @@ const Checkout: NextPage = () => {
   const { t: tHotel } = useTranslation('hotel');
 
   const theme1 = process.env.THEME === "THEME1";
+  const theme2 = process.env.THEME === "THEME2";
 
   const dispatch = useAppDispatch();
 
@@ -104,8 +106,8 @@ const Checkout: NextPage = () => {
 
   }, [key]);
 
-  let hotelInformation: AsideHotelInfoType;
-  let reserveInformation: AsideReserveInfoType;
+  let hotelInformation: AsideHotelInfoType | undefined = undefined;
+  let reserveInformation: AsideReserveInfoType | undefined = undefined;
 
   if (hotelInfo) {
     hotelInformation = {
@@ -264,7 +266,7 @@ const Checkout: NextPage = () => {
         <title>{t('completing-information')}</title>
       </Head>
 
-      <div className='px-4 md:px-6 pt-3'>
+      <div className={`px-4 md:px-6 pt-3 ${theme2?"max-w-container":""}`}>
 
         {theme1 && <Steps
           className='py-3 mb-2'
@@ -359,6 +361,19 @@ const Checkout: NextPage = () => {
 
                   <div className={`${theme1 ? "md:col-span-5 lg:col-span-1" : "md:col-span-5"}`}>
 
+                    {theme2 ? (
+                      <AsideTheme2
+                        hotelInformation={hotelInformation}
+                        reserveInformation={reserveInformation}
+                        hasSubmit
+                        submitLoading={submitLoading}
+                        roomExtraBed={roomsExtraBed}
+                        discountLoading={discountLoading}
+                        discountResponse={discountData?.isValid ? discountData : undefined}
+                        checkinTime={hotelInfo?.checkinTime}
+                        checkoutTime={hotelInfo?.checkoutTime}
+                      />
+                    ) : (
                       <Aside
                         hotelInformation={hotelInformation}
                         reserveInformation={reserveInformation}
@@ -368,6 +383,7 @@ const Checkout: NextPage = () => {
                         discountLoading={discountLoading}
                         discountResponse={discountData?.isValid ? discountData : undefined}
                       />
+                    )}
        
 
                     {/* 
@@ -442,7 +458,9 @@ const Checkout: NextPage = () => {
             </div>
 
             <div className='md:col-span-5 lg:col-span-1'>
-                <Aside />
+
+              <Aside />
+
             </div>
           </div>
         )}

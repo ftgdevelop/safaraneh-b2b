@@ -66,7 +66,7 @@ const HotelFilters: React.FC<Props> = props => {
 
                 <HotelFacilityFilter />
 
-                {props.scoreIsFetched ? <HotelGuestPointFilter /> : (
+                {theme2? null : props.scoreIsFetched ? <HotelGuestPointFilter /> : (
                     <>
                         <label className="font-semibold text-sm mb-2 mt-4 border-t border-neutral-300 pt-5 block">
                             {tHotel('guest-rating')}

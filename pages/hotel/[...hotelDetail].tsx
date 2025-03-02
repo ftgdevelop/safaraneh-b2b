@@ -23,6 +23,7 @@ import AccommodationFacilities from '@/modules/domesticHotel/components/hotelDet
 import dynamic from 'next/dynamic';
 import Skeleton from '@/modules/shared/components/ui/Skeleton';
 import Comments from '@/modules/domesticHotel/components/hotelDetails/comments';
+import AccomodationPolicy from '@/modules/domesticHotel/components/hotelDetails/AccomodationPolicy';
 
 const SearchForm = dynamic(() => import('@/modules/domesticHotel/components/shared/SearchForm'), {
   ssr: false
@@ -43,6 +44,8 @@ const HotelDetail: NextPage = () => {
   const { t } = useTranslation('common');
   const { t: tHotel } = useTranslation('hotel');
 
+  const isSafarLife = process.env.PROJECT === "SAFARLIFE";
+  
   const router = useRouter();
   const { query } = router;
 
@@ -232,7 +235,7 @@ const HotelDetail: NextPage = () => {
     );
   }
 
-  if (allData?.reviews) {
+  if (allData?.reviews && !isSafarLife) {
     anchorTabsItems.push(
       { id: "reviews_section", title: tHotel('suggestion') }
     );
@@ -433,11 +436,19 @@ const HotelDetail: NextPage = () => {
         null
       }
 
-      <HotelTerms
-        instruction={accommodationData?.instruction}
-        mendatoryFee={accommodationData?.mendatoryFee}
-        policies={hotelData?.Policies}
-      />
+
+      {isSafarLife ? (
+        <AccomodationPolicy
+          policies={accommodationData?.policies}
+          mendatoryFee={accommodationData?.mendatoryFee}
+        />
+      ) : (
+        <HotelTerms
+          instruction={accommodationData?.instruction}
+          mendatoryFee={accommodationData?.mendatoryFee}
+          policies={hotelData?.Policies}
+        />
+      )}
 
       <HotelAbout description={accommodationData?.description} />
 
@@ -450,7 +461,7 @@ const HotelDetail: NextPage = () => {
         </div>
       )}
 
-      {!!allData?.reviews && <Comments hotelReviewData={allData.reviews} />}
+      {!!allData?.reviews  && !isSafarLife && <Comments hotelReviewData={allData.reviews} />}
 
       {!!(accommodationData?.faqs?.length) && <FAQ faqs={accommodationData.faqs} />}
 

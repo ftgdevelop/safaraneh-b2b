@@ -14,6 +14,7 @@ import { TabItem } from '@/modules/shared/types/common';
 import RoomFacilities from './RoomFacilities';
 import Promotions from './Promotions';
 import dynamic from 'next/dynamic';
+import RoomsListTheme2 from './RoomsListTheme2';
 
 const PriceCalendar = dynamic(() => import('./PriceCalendar'), {
     ssr: false
@@ -243,6 +244,15 @@ const Rooms: React.FC<Props> = props => {
                         <h2 className="text-lg lg:text-3xl font-semibold mb-3 md:mb-7"> {tHotel('choose-room')}  </h2>
 
                         {!!theme1 && <RoomsListTheme1
+                            availabilites={availabilites}
+                            selectRoomHandle={selectRoomHandle}
+                            selectedRoomToken={selectedRoomToken}
+                            roomsHasImage={roomsHasImage || false}
+                            nights={nights}
+                            onOpenRoom={setOpenedRoom}
+                        />}
+
+                        {!!theme2 && <RoomsListTheme2
                             availabilites={availabilites}
                             selectRoomHandle={selectRoomHandle}
                             selectedRoomToken={selectedRoomToken}

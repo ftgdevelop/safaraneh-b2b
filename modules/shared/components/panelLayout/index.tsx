@@ -8,8 +8,11 @@ type Props ={
 }
 
 const PanelLayout : React.FC<PropsWithChildren<Props>> = props => {
+
+    const theme2 = process.env.THEME === "THEME2";
+
     return (
-        <div className="grid grid-cols-6 bg-neutral-100">
+        <div className={`grid grid-cols-6 ${theme2?"bg-white":"bg-neutral-100"}`}>
             
             <PanelAside />
 

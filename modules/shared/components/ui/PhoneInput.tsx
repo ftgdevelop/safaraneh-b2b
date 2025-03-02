@@ -23,12 +23,13 @@ type Props = {
     labelIsSimple?: boolean;
     showRequiredStar?: boolean;
     showNotConfirmedBadge?: boolean;
+    isOptional?: boolean;
 }
 
 type CountryObject = {
     countryCode: string;
     dialCode: string;
-    format?: string
+    format?: string;
 }
 
 
@@ -246,7 +247,7 @@ const PhoneInput: React.FC<Props> = props => {
                         validate={(value: string) => validateMobileNumberId({
                             expectedLength: expectedTotalLength,
                             invalidMessage: t('invalid-phone-number'),
-                            reqiredMessage: t('please-enter-phone-number'),
+                            reqiredMessage: props.isOptional ? "" : t('please-enter-phone-number'),
                             value: value
                         })}
                         type='hidden'

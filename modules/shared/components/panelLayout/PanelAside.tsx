@@ -32,12 +32,6 @@ const PanelAside: React.FC = () => {
                             <Link href={"/hotel/reserveList"} className="block py-2 hover:bg-neutral-100 px-3 rounded">
                                 لیست رزرو ها
                             </Link>
-                            <Link href={"/"} className="block py-2 hover:bg-neutral-100 px-3 rounded">
-                                قیمت گذاری
-                            </Link>
-                            <Link href={"/"} className="block py-2 hover:bg-neutral-100 px-3 rounded">
-                                جادهی
-                            </Link>
                         </div>}
                         title={(<div className="flex items-center gap-4">
                             <span className="bg-slate-100 rounded-lg p-1.5">

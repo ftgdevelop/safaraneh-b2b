@@ -12,6 +12,7 @@ type Props = {
     isTouched?: boolean;
     label?: string;
     name?: string;
+    autofillName?: string;
     className?: string;
     onChange: (v: string) => void;
     defaultCountry: {
@@ -241,6 +242,7 @@ const PhoneInput: React.FC<Props> = props => {
                         value={phoneNumberValue}
                         maxLength={expectedLength || 15}
                         className={inputClassNames2.join(" ")}
+                        name={props.autofillName || "unknown"}
                     />
 
                     <Field

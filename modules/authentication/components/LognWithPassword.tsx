@@ -49,12 +49,12 @@ const LognWithPassword: React.FC = () => {
     }
 
     const submitHandler = async (values: {
-        username: string;
+        phoneNumber: string;
         password: string;
         tenantName?: string;
     }) => {
 
-        if (!values.username) return;
+        if (!values.phoneNumber) return;
         
         setLoding(true);
         
@@ -85,7 +85,7 @@ const LognWithPassword: React.FC = () => {
 
         const response: any = await loginWithPassword({
             password: values.password,
-            emailOrPhoneNumber: (values.username) as string,
+            emailOrPhoneNumber: (values.phoneNumber) as string,
             tenantId: tenantId
         });
         setLoding(false);
@@ -120,7 +120,7 @@ const LognWithPassword: React.FC = () => {
             <h3 className="text-2xl font-semibold leading-none tracking-tight mt-3">ورود با کلمه عبور</h3>
             <Formik
                 validate={() => { return {} }}
-                initialValues={{ password: "", username: "", tenantName: "" }}
+                initialValues={{ password: "", phoneNumber: "", tenantName: "" }}
                 onSubmit={submitHandler}
             >
                 {({ errors, touched, setFieldValue, values }) => {
@@ -143,6 +143,7 @@ const LognWithPassword: React.FC = () => {
                             />}
 
                             <PhoneInput
+                                autofillName='username'
                                 labelIsSimple
                                 showRequiredStar
                                 defaultCountry={
@@ -153,12 +154,12 @@ const LognWithPassword: React.FC = () => {
                                     }
                                 }
                                 onChange={(v: string) => {
-                                    setFieldValue('username', v)
+                                    setFieldValue('phoneNumber', v)
                                 }}
-                                name='username'
-                                isTouched={touched.username}
+                                name='phoneNumber'
+                                isTouched={touched.phoneNumber}
                                 label={"شماره موبایل"}
-                                errorText={errors.username}
+                                errorText={errors.phoneNumber}
                                 className="mb-5"
                             />
 

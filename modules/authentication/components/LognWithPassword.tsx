@@ -49,17 +49,17 @@ const LognWithPassword: React.FC = () => {
     }
 
     const submitHandler = async (values: {
-        phoneNumber: string;
+        username: string;
         password: string;
-        username?: string;
+        tenantName?: string;
     }) => {
 
-        if (!values.phoneNumber) return;
+        if (!values.username) return;
         
         setLoding(true);
         
         localStorage.removeItem('S-TenantId');
-        const getTenantResponse: any = await getTenant(tenantName || values.username!);
+        const getTenantResponse: any = await getTenant(tenantName || values.tenantName!);
         if (!(getTenantResponse?.data?.result?.id)){
             
             dispatch(setReduxNotification({
@@ -85,7 +85,7 @@ const LognWithPassword: React.FC = () => {
 
         const response: any = await loginWithPassword({
             password: values.password,
-            emailOrPhoneNumber: (values.phoneNumber) as string,
+            emailOrPhoneNumber: (values.username) as string,
             tenantId: tenantId
         });
         setLoding(false);
@@ -120,7 +120,7 @@ const LognWithPassword: React.FC = () => {
             <h3 className="text-2xl font-semibold leading-none tracking-tight mt-3">ورود با کلمه عبور</h3>
             <Formik
                 validate={() => { return {} }}
-                initialValues={{ password: "", phoneNumber: "", username: "" }}
+                initialValues={{ password: "", username: "", tenantName: "" }}
                 onSubmit={submitHandler}
             >
                 {({ errors, touched, setFieldValue, values }) => {
@@ -133,13 +133,13 @@ const LognWithPassword: React.FC = () => {
                                 labelIsSimple
                                 showRequiredStar
                                 setFieldValue={setFieldValue}
-                                errorText={errors.username}
-                                id='username'
-                                name='username'
-                                isTouched={touched.username}
+                                errorText={errors.tenantName}
+                                id='tenantName'
+                                name='tenantName'
+                                isTouched={touched.tenantName}
                                 label="شناسه کاربری"
                                 validateFunction={(value: string) => validateRequied(value, ' شناسه کاربری را وارد نمایید!')}
-                                value={values.username}                                
+                                value={values.tenantName}                                
                             />}
 
                             <PhoneInput
@@ -153,12 +153,12 @@ const LognWithPassword: React.FC = () => {
                                     }
                                 }
                                 onChange={(v: string) => {
-                                    setFieldValue('phoneNumber', v)
+                                    setFieldValue('username', v)
                                 }}
-                                name='phoneNumber'
-                                isTouched={touched.phoneNumber}
+                                name='username'
+                                isTouched={touched.username}
                                 label={"شماره موبایل"}
-                                errorText={errors.phoneNumber}
+                                errorText={errors.username}
                                 className="mb-5"
                             />
 

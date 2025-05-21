@@ -1,5 +1,6 @@
 import HotelSearchForm from "@/modules/domesticHotel/components/shared/SearchForm";
 import SearchForm from "@/modules/flights/components/shared/searchForm";
+import CIP_SearchForm from "@/modules/cip/components/searchForm";
 import DashboardBanners from "@/modules/panel/home/components/DashboardBanners";
 import Tab from "@/modules/shared/components/ui/Tab";
 import { Bus, Cip2, Dashboard, Flight2, Hotel } from "@/modules/shared/components/ui/icons";
@@ -15,7 +16,7 @@ const Panel: NextPage = () => {
     let checkin = today;
     let checkout = tomorrow;
 
-
+    const hasCIP = process.env.PROJECT_MODULES?.includes("CIP");
     const hasFlight = process.env.PROJECT_MODULES?.includes("DomesticFlight");
     const tabItems: TabItem[] = [
         {
@@ -75,7 +76,12 @@ const Panel: NextPage = () => {
                 <Cip2 className="w-6 h-6" />
                 تشریفات فرودگاهی
             </div>),
-            children: (
+            children: hasCIP ? (
+                <>
+                    <h3 className="text-lg md:text-2xl font-semibold mt-6 mb-10"> جستجوی تشریفات فرودگاهی </h3>
+                    <CIP_SearchForm wrapperClassName="pb-5" />
+                </>
+            ) : (
                 <div className="p-10">
                     در حال توسعه ...
                 </div>

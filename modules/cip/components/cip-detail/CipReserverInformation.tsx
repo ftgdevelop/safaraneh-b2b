@@ -84,9 +84,9 @@ const CipReserverInformation: React.FC<Props> = props => {
 
     return (
         <div className='py-2 md:py-5'>
-            <div className={`grid md:grid-cols-2 gap-4 ${theme2?"my-5 lg:grid-cols-3":"lg:grid-cols-5 bg-white rounded-lg p-5 border border-neutral-300"}`}>
+            <div className={`grid md:grid-cols-2 gap-4 lg:grid-cols-3 ${theme2?"my-5":"bg-white rounded-lg p-5 border border-neutral-300"}`}>
 
-                <strong className={`font-semibold text-lg block sm:col-span-2 md:col-span-5 ${theme2?"lg:col-span-3":"lg:col-span-5"}`}> {t('reserver-information')} </strong>
+                <strong className={`font-semibold text-lg block sm:col-span-2 lg:col-span-3`}> {t('reserver-information')} </strong>
 
                 <div role="group" className="md:col-span-2 lg:col-span-1 leading-4" >
                     <label className='block text-xs mb-1' > جنسیت </label>

@@ -601,9 +601,10 @@ const CipDetails: NextPage = ({ airportData, availabilities, moduleDisabled }: {
                                                 type="submit"
                                                 className="h-12 px-5 md:w-60"
                                                 loading={preReserveLoading}
-                                                disabled={preReserveLoading}
+                                                disabled={preReserveLoading || 1+1===2}
                                             >
-                                                ادامه فرایند خرید
+                                                {/* ادامه فرایند خرید */}
+                                                در حال توسعه
                                             </Button>
 
                                         </div>

@@ -67,7 +67,7 @@ const CipCompanionItem: React.FC<Props> = props => {
                     <Close className="w-5 h-5 fill-red-600" />
                 </button>}
             </div>
-            <div className="p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div className="p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 
 
                 <div className="leading-4" >
@@ -125,7 +125,7 @@ const CipCompanionItem: React.FC<Props> = props => {
                 />
 
                 {!!services?.length && (
-                    <div className="bg-neutral-100 rounded-lg md:col-span-2 xl:col-span-4 flex items-center gap-5 px-5 py-1.5">
+                    <div className="bg-neutral-100 rounded-lg md:col-span-2 xl:col-span-3 flex items-center gap-5 px-5 py-1.5">
                         <span className="text-sm">
                             سرویس هایی بیشتر :
                         </span>

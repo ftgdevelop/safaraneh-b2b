@@ -85,7 +85,6 @@ const CipPriceDetails: React.FC<Props> = props => {
             <div className='bg-white inserted-content rounded-lg border border-neutral-300 p-3 sm:p-5 md:p-7 text-base leading-8 pb-2 sm:pb-5'>
 
                 <Accordion
-                    type={2}
                     updateContent={passengersArray.length.toString()}
                     initiallyOpen
                     WrapperClassName="mb-4"
@@ -121,7 +120,6 @@ const CipPriceDetails: React.FC<Props> = props => {
                     <Accordion
                         updateContent={accompanyingArray.length.toString()}
                         initiallyOpen
-                        type={2}
                         WrapperClassName="mb-4"
                         title={(
                             <div className="flex justify-between font-semibold text-sm ">
@@ -154,7 +152,6 @@ const CipPriceDetails: React.FC<Props> = props => {
                     <Accordion
                         updateContent={transports.length.toString()}
                         initiallyOpen
-                        type = {2}
                         WrapperClassName="mb-4"
                         title={(
                             <div className="flex justify-between font-semibold text-sm">
@@ -177,7 +174,6 @@ const CipPriceDetails: React.FC<Props> = props => {
                     <Accordion
                         updateContent={extraServices.length.toString()}
                         initiallyOpen
-                        type={2}
                         WrapperClassName="mb-4"
                         title={(
                             <div className="flex justify-between font-semibold text-sm">

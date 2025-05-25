@@ -4,7 +4,7 @@ import CipAside from "@/modules/cip/components/shared/CipAside";
 import { CipGetReserveByIdResponse } from "@/modules/cip/types/cip";
 import Steps from "@/modules/shared/components/ui/Steps";
 import { useAppDispatch } from "@/modules/shared/hooks/use-store";
-import { setReduxError } from "@/modules/shared/store/errorSlice";
+import { setAlertModal } from "@/modules/shared/store/alertSlice";
 import { WebSiteDataType } from "@/modules/shared/types/common";
 import { GetServerSideProps, NextPage } from "next";
 import { useTranslation } from "next-i18next";
@@ -71,7 +71,8 @@ const Booking: NextPage = ({ portalData }: { portalData?: WebSiteDataType }) => 
             } else {
                 setConfirmLoading(false);
 
-                dispatch(setReduxError({
+                dispatch(setAlertModal({
+                    status: 'error',
                     title: t('error'),
                     message: response.data?.error?.message || "متاسفانه مشکلی پیش آمده!",
                     isVisible: true

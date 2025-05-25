@@ -114,10 +114,10 @@ const CipPassengerItem: React.FC<Props> = props => {
 
         const minBirthDate = dateFormat(goBackYears(new Date(), 2));
         if( traveler.birthDate && checkDateIsAfterDate(new Date(traveler.birthDate) ,new Date(minBirthDate) )){
-            setFieldValue(`passengers.${passengerIndex}.passengerType`, "Child" || "", true);
+            setFieldValue(`passengers.${passengerIndex}.passengerType`, "Child", true);
             updatePassenger("type", "Child");
         }else{
-            setFieldValue(`passengers.${passengerIndex}.passengerType`, "Adult" || "", true);
+            setFieldValue(`passengers.${passengerIndex}.passengerType`, "Adult", true);
             updatePassenger("type", "Adult");
         }
 
@@ -146,7 +146,7 @@ const CipPassengerItem: React.FC<Props> = props => {
                 </div>
 
             </div>
-            <div className="p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div className="p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 
 
                 <div className="leading-4" >
@@ -299,7 +299,7 @@ const CipPassengerItem: React.FC<Props> = props => {
                 </div>
 
                 {!!services?.length && (
-                    <div className="bg-neutral-100 rounded-lg md:col-span-2 xl:col-span-4 flex items-center gap-5 px-5 py-1.5">
+                    <div className="bg-neutral-100 rounded-lg md:col-span-2 xl:col-span-3 flex items-center gap-5 px-5 py-1.5">
                         <span className="text-sm">
                             سرویس هایی بیشتر :
                         </span>

@@ -20,7 +20,9 @@ const CipName: React.FC<Props> = props => {
         <div className="md:grid md:grid-cols-3 gap-5 p-5 bg-white">
             <div className="md:col-span-2">
                 <BreadCrumpt
+                    hideHome
                     items={[
+                        {label:"پیشخوان", link:"/panel"},
                         { label: "تشریفات فرودگاهی", link: "/cip-home" },
                         { label: "خدمات CIP" + name || "" }
                     ]}

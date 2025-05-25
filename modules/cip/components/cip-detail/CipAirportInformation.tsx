@@ -47,8 +47,8 @@ const CipAirportInformation: React.FC<Props> = props => {
 
     return (
         <div id="about-travel-section" className="py-2 sm:py-5">
-            <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${theme2?"md:grid-cols-3":"md:grid-cols-4 border border-neutral-300 bg-white rounded-lg p-5"}`}>
-                <strong className={`font-semibold text-lg block sm:col-span-2 ${theme2?"md:col-span-3":"md:col-span-4"}`}> اطلاعات سفر </strong>
+            <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-3 ${theme2?"":"border border-neutral-300 bg-white rounded-lg p-5"}`}>
+                <strong className={`font-semibold text-lg block sm:col-span-2 md:col-span-3`}> اطلاعات سفر </strong>
 
                 <FormikField
                     setFieldValue={setFieldValue}

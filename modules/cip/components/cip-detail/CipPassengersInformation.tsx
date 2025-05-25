@@ -138,8 +138,9 @@ const CipPassengersInformation: React.FC<Props> = props => {
 
     const fetchTravelers = async () => {
         setFetchingTravelersLoading(true);
-        const token = localStorage.getItem('Token') || "";
-        const response: any = await getTravelers(token, "fa-IR");
+        const localStorageToken = localStorage.getItem('Token') || "";
+        const localStorageTenant = localStorage?.getItem('S-TenantId') || "";
+        const response: any = await getTravelers(localStorageToken, +localStorageTenant, "fa-IR");
         if (response.data?.result?.items) {
           setTravelers(response.data?.result?.items);
           setFetchingTravelersLoading(false);

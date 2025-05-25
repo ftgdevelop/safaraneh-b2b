@@ -20,6 +20,8 @@ type Props = {
 
 const TimePickerMobiscroll: React.FC<Props> = props => {
 
+    const theme2 = process.env.THEME === "THEME2";
+
     const [val, setVal] = useState<string>("");
 
     const [labelUp, setLabelUp] = useState<boolean>(false);
@@ -59,7 +61,7 @@ const TimePickerMobiscroll: React.FC<Props> = props => {
     
     return (
         <div
-            className={`moboscroll-time-picker-wrapper  ${props.errorText && props.isTouched ? "hasError" : ""} ${props.wrapperClassName || ""}`}
+            className={`moboscroll-time-picker-wrapper ${theme2?"moboscroll-timepicker-wrapper-theme2":""} ${props.errorText && props.isTouched ? "hasError" : ""} ${props.wrapperClassName || ""}`}
         >
             <div className="relative">
                 {!!props.label && (

@@ -10,8 +10,9 @@ import { AirportDetailType, CipAvailibilityItem } from "@/modules/cip/types/cip"
 import CipGallery from "@/modules/cip/components/cip-home/CipGallery";
 import Head from "next/head";
 import NotFound from "@/modules/shared/components/ui/NotFound";
+import { Cip2 } from "@/modules/shared/components/ui/icons";
 
-const CipHome: NextPage<any> = ({ content, airports, priceData, moduleDisabled }: { content: any, airports: AirportDetailType[]; priceData: CipAvailibilityItem[], moduleDisabled?:boolean }) => {
+const CipHome: NextPage<any> = ({ content, airports, priceData, moduleDisabled }: { content: any, airports: AirportDetailType[]; priceData: CipAvailibilityItem[], moduleDisabled?: boolean }) => {
 
     if (moduleDisabled) {
         return (
@@ -43,10 +44,16 @@ const CipHome: NextPage<any> = ({ content, airports, priceData, moduleDisabled }
                 <title> تشریفات فرودگاهی cip||رزرو آنلاین هتل و بلیط هواپیما </title>
             </Head>
 
+            <div className="border-b flex items-center gap-3 px-4 md:px-6 py-3 bg-white text-lg md:text-xl" >
+                <Cip2 className="w-8 h-8" />
+
+                تشریفات فرودگاهی
+
+            </div>
+
             <CipGallery />
 
-            <div className="max-w-container m-auto p-5 max-md:p-3">
-
+            <div className="px-5">
                 {!!content && <CipDescription content={content} />}
 
                 <CipAirportsList airports={airportslist} />
@@ -57,13 +64,14 @@ const CipHome: NextPage<any> = ({ content, airports, priceData, moduleDisabled }
 
                 <CipFaq />
             </div>
+
         </>
     )
 }
 
 export async function getStaticProps(context: any) {
 
-    if (!process.env.PROJECT_MODULES?.includes("CIP")){
+    if (!process.env.PROJECT_MODULES?.includes("CIP")) {
         return (
             {
                 props: {

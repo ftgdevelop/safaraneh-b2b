@@ -6,7 +6,7 @@ import { CipAvailabilityItemType, CipFormCompanionItemType, CipFormPassengerItem
 import AnchorTabs from "@/modules/shared/components/ui/AnchorTabs";
 import Button from "@/modules/shared/components/ui/Button";
 import Steps from "@/modules/shared/components/ui/Steps";
-import { ArrowRight, ErrorCircle, RightCaret } from "@/modules/shared/components/ui/icons";
+import { ArrowRight, Cip2, ErrorCircle, RightCaret } from "@/modules/shared/components/ui/icons";
 //import DatePicker from "@hassanmojab/react-modern-calendar-datepicker";
 import { Form, Formik } from "formik";
 import { GetServerSideProps, NextPage } from "next";
@@ -422,7 +422,16 @@ const CipDetails: NextPage = ({ airportData, availabilities, moduleDisabled }: {
                     <title>تشریفات فرودگاهی cip || رزرو آنلاین هتل و بلیط هواپیما</title>
                 }
             </Head>
-            <div className="max-w-container m-auto">
+
+                  <div
+                    className="border-b flex items-center gap-3 px-4 md:px-6 py-3 bg-white text-lg md:text-xl"
+                  >
+                    <Cip2 className="w-8 h-8" />
+            
+                    تشریفات فرودگاهی {airportData?.name}
+
+                  </div>
+
                 <div className="pt-5 px-5 max-md:px-3" id="pictures_section">
                     <div className="p-3 bg-white flex justify-between items-center">
                         <Link
@@ -627,9 +636,6 @@ const CipDetails: NextPage = ({ airportData, availabilities, moduleDisabled }: {
                     </div>
                 )}
 
-
-
-            </div>
         </>
     )
 }

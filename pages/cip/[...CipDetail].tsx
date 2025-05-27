@@ -22,7 +22,6 @@ import CipExtraServices from '@/modules/cip/components/cip-detail/CipExtraServic
 import CipTransport from '@/modules/cip/components/cip-detail/CipTransport';
 import Head from 'next/head';
 import CipAboutAirport from '@/modules/cip/components/cip-detail/CipAboutAirport';
-import { WebSiteDataType } from '@/modules/shared/types/common';
 import CipTerms from '@/modules/cip/components/cip-detail/CipTerms';
 import CipFacilities from '@/modules/cip/components/cip-detail/CipFacilities';
 import { useRouter } from 'next/router';
@@ -32,7 +31,6 @@ import CipDiscountForm from '@/modules/cip/components/cip-detail/CipDiscountForm
 import { registerDiscountCode, validateDiscountCode } from '@/modules/payment/actions';
 import CipAvailibilityItem from '@/modules/cip/components/cip-detail/CipAvailibilityItem';
 import NotFound from '@/modules/shared/components/ui/NotFound';
-import { openLoginForm, setLoginToContinueReserve } from '@/modules/authentication/store/authenticationSlice';
 import { setAlertModal } from '@/modules/shared/store/alertSlice';
 
 type FormValues = {
@@ -93,12 +91,6 @@ const CipDetails: NextPage = ({ airportData, availabilities, moduleDisabled }: {
         }
     ]);
 
-    
-    useEffect(()=>{
-        return(()=>{
-            dispatch(setLoginToContinueReserve(false));
-          })
-    },[]);
 
     const [companions, setCompanions] = useState<CipFormCompanionItemType[]>([]);
 
@@ -106,8 +98,6 @@ const CipDetails: NextPage = ({ airportData, availabilities, moduleDisabled }: {
     const [selectedServicesArray, setSelectedServicesArray] = useState<CipValidateResponseType['optionalServices']>();
 
     const [activeServices, setActiveServices] = useState<number[]>([]);
-
-    const [submitedValues, setSubmitedValues] = useState<FormValues>();
 
     const updateActiveService = (id: number) => {
         setActiveServices(prevArr => ([
@@ -162,12 +152,6 @@ const CipDetails: NextPage = ({ airportData, availabilities, moduleDisabled }: {
 
         }
     }, [selectedAvailability, airportData?.code]);
-
-    useEffect(() => {
-        if (user && submitedValues) {
-            preReserve(submitedValues);
-        }
-    }, [user, submitedValues]);
     
     const updateSelectedServices = (id: number, property: string, change: "inc" | "dec") => {
         setSelectedServicesArray((prevState: any) => {
@@ -258,8 +242,6 @@ const CipDetails: NextPage = ({ airportData, availabilities, moduleDisabled }: {
             console.log("no preReserveKey!");
             return;
         }
-
-        dispatch(setLoginToContinueReserve(false));
         
         setPreReserveLoading(true);
 
@@ -346,17 +328,6 @@ const CipDetails: NextPage = ({ airportData, availabilities, moduleDisabled }: {
         }
 
     }
-
-    const submitHandler = async (values: FormValues) => {
-        if (user) {
-            preReserve(values);
-        } else {
-            setSubmitedValues(values);
-            dispatch(openLoginForm());
-            dispatch(setLoginToContinueReserve(true));
-        }
-    }
-
 
     const urlSegments: string[] = router.query.CipDetail as string[] || [];
 
@@ -511,7 +482,7 @@ const CipDetails: NextPage = ({ airportData, availabilities, moduleDisabled }: {
                         <Formik
                             validate={() => { return {} }}
                             initialValues={formInitialValue}
-                            onSubmit={submitHandler}
+                            onSubmit={preReserve}
                         >
                             {({ errors, touched, setFieldValue, values, isValid, isSubmitting }) => {
 
@@ -570,7 +541,7 @@ const CipDetails: NextPage = ({ airportData, availabilities, moduleDisabled }: {
 
                                         />
 
-                                        {!!selectedServicesArray && <CipExtraServices
+                                        {!!selectedServicesArray?.length && <CipExtraServices
                                             selectedServicesArray={selectedServicesArray}
                                             updateSelectedServices={updateSelectedServices}
                                             activeServices={activeServices}
@@ -610,10 +581,9 @@ const CipDetails: NextPage = ({ airportData, availabilities, moduleDisabled }: {
                                                 type="submit"
                                                 className="h-12 px-5 md:w-60"
                                                 loading={preReserveLoading}
-                                                disabled={preReserveLoading || 1+1===2}
+                                                disabled={preReserveLoading}
                                             >
-                                                {/* ادامه فرایند خرید */}
-                                                در حال توسعه
+                                                ادامه فرایند خرید
                                             </Button>
 
                                         </div>

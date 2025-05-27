@@ -20,6 +20,9 @@ import { ServerAddress } from '@/enum/url';
 import { emptyReduxSafarmarket, setReduxSafarmarketPixel } from '@/modules/shared/store/safarmarketSlice';
 import { bankGatewayItem } from '@/modules/payment/types';
 import { CreditCard } from '@/modules/shared/components/ui/icons';
+import { CipGetReserveById } from '@/modules/cip/actions';
+import { CipGetReserveByIdResponse } from '@/modules/cip/types/cip';
+import CipAside from '@/modules/cip/components/shared/CipAside';
 
 
 const Payment: NextPage = () => {
@@ -44,8 +47,8 @@ const Payment: NextPage = () => {
   const [domesticHotelData, setDomesticHotelData] = useState<DomesticHotelSummaryDetail>();
   const [bankGatewayList, setBankGatewayList] = useState<bankGatewayItem[]>([]);
 
-  // const [cipReserveInfo, setCipReserveInfo] = useState<CipGetReserveByIdResponse>();
-  // const [cipReserveInfoLoading, setCipReserveInfoLoading] = useState<boolean>(true);
+  const [cipReserveInfo, setCipReserveInfo] = useState<CipGetReserveByIdResponse>();
+  const [cipReserveInfoLoading, setCipReserveInfoLoading] = useState<boolean>(true);
 
   // const [domesticFlightReserveInfo, setDomesticFlightReserveInfo] = useState<DomesticFlightGetReserveByIdType>();
   // const [domesticFlightReserveInfoLoading, setDomesticFlightReserveInfoLoading] = useState<boolean>(true);
@@ -176,23 +179,23 @@ const Payment: NextPage = () => {
       fetchDomesticHotelReserve();
     }
 
-    // if (username && reserveId && type === 'Cip') {
+    if (username && reserveId && type === 'Cip') {
 
-    //   const fetchCipData = async (reserveId: string, userName: string) => {
+      const fetchCipData = async (reserveId: string, userName: string) => {
 
-    //     setCipReserveInfoLoading(true);
+        setCipReserveInfoLoading(true);
 
-    //     const respone: any = await CipGetReserveById({ reserveId: reserveId, userName: userName });
+        const respone: any = await CipGetReserveById({ reserveId: reserveId, userName: userName });
 
-    //     setCipReserveInfoLoading(false);
+        setCipReserveInfoLoading(false);
 
-    //     if (respone?.data?.result) {
-    //       setCipReserveInfo(respone.data.result);
-    //     }
-    //   };
+        if (respone?.data?.result) {
+          setCipReserveInfo(respone.data.result);
+        }
+      };
 
-    //   fetchCipData(reserveId, username);
-    // }
+      fetchCipData(reserveId, username);
+    }
 
     // if (username && reserveId && type === 'FlightDomestic') {
 
@@ -459,11 +462,10 @@ const Payment: NextPage = () => {
             {type === 'HotelDomestic' ? (<>
               <DomesticHotelAside hotelInformation={domesticHotelInformation} reserveInformation={domesticHotelReserveInformation} />
             </>) : type === 'Cip' ? (
-              "something"
-              // <CipAside
-              //   loading={cipReserveInfoLoading}
-              //   reserveInfo={cipReserveInfo}
-              // />
+              <CipAside
+                loading={cipReserveInfoLoading}
+                reserveInfo={cipReserveInfo}
+              />
             ) : type === 'FlightDomestic' ? (
               "something"
               // <Aside

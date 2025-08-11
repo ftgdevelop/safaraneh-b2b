@@ -22,7 +22,7 @@ const Panel: NextPage = () => {
         {
             key: 1,
             label: (<div className="flex gap-2 items-center justify-center">
-                <Hotel className="w-6 h-6" />
+                <Hotel className="hidden md:block w-6 h-6" />
                 هتل
             </div>),
             children: (
@@ -35,7 +35,7 @@ const Panel: NextPage = () => {
         }, {
             key: 2,
             label: (<div className="flex gap-2 items-center justify-center">
-                <Flight2 className="w-6 h-6" />
+                <Flight2 className="hidden md:block w-6 h-6" />
                 پرواز داخلی
             </div>),
             children: hasFlight ? (
@@ -51,7 +51,7 @@ const Panel: NextPage = () => {
         }, {
             key: 3,
             label: (<div className="flex gap-2 items-center justify-center">
-                <Flight2 className="w-6 h-6" />
+                <Flight2 className="hidden md:block w-6 h-6" />
                 پرواز خارجی
             </div>),
             children: (
@@ -62,7 +62,7 @@ const Panel: NextPage = () => {
         }, {
             key: 4,
             label: (<div className="flex gap-2 items-center justify-center">
-                <Bus className="w-6 h-6" />
+                <Bus className="hidden md:block w-6 h-6" />
                 اتوبوس
             </div>),
             children: (
@@ -73,7 +73,7 @@ const Panel: NextPage = () => {
         }, {
             key: 5,
             label: (<div className="flex gap-2 items-center justify-center">
-                <Cip2 className="w-6 h-6" />
+                <Cip2 className="hidden md:block w-6 h-6" />
                 تشریفات فرودگاهی
             </div>),
             children: hasCIP ? (

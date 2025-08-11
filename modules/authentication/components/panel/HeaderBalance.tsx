@@ -47,7 +47,7 @@ const HeaderBalance = () => {
     return (
         <div className="group relative">
             <Link
-                className="text-2xs flex gap-1 justify-between items-center transition-all hover:bg-gray-100 py-1 px-2 rounded-lg border min-w-44"
+                className="text-2xs flex gap-1 justify-between items-center transition-all hover:bg-gray-100 py-1 px-2 rounded-lg border md:min-w-44"
                 href="/wallet"
             >
                 {balanceLoading ? (
@@ -57,7 +57,9 @@ const HeaderBalance = () => {
                         <span className="p-1 rounded bg-neutral-100 block transition-all group-hover:bg-neutral-200">
                             <Wallet2 className="w-4.5 h-4.5" />
                         </span>
-                        {numberWithCommas(balances?.[0]?.amount || 0)} {returnCurrency(balances?.[0]?.currencyType)}
+                        <span className="hidden md:block">
+                            {numberWithCommas(balances?.[0]?.amount || 0)} {returnCurrency(balances?.[0]?.currencyType)}
+                        </span>
                     </div>
                 )}
 

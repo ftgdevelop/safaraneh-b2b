@@ -12,11 +12,11 @@ const PanelLayout : React.FC<PropsWithChildren<Props>> = props => {
     const theme2 = process.env.THEME === "THEME2";
 
     return (
-        <div className={`grid grid-cols-6 ${theme2?"bg-white":"bg-neutral-100"}`}>
+        <div className={`xl:grid xl:grid-cols-6 ${theme2?"bg-white":"bg-neutral-100"}`}>
             
-            <PanelAside />
+            <PanelAside className="hidden xl:block" />
 
-            <main id="main" className="relative col-span-5">
+            <main id="main" className="relative lg:col-span-5">
                 
                 <PanelHeader />
 

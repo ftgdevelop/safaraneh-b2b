@@ -157,14 +157,16 @@ label.mbsc-form-control-wrapper .mbsc-textfield {
     border: 1px solid #d4d4d4;
     border-radius: 6px;
     height: 40px;
-    body.theme-2 &{
-    border: 1px solid #a3a3a3;
-    height: 3.25rem;
-    }
   }
   .mbsc-form-control-wrapper{
     &:after, &:before{
       display: none;
+    }
+  }
+  &.moboscroll-timepicker-wrapper-theme2{
+    .mbsc-textfield-inner .mbsc-textfield{
+    border: 1px solid #a3a3a3;
+    height: 3.25rem;
     }
   }
 }

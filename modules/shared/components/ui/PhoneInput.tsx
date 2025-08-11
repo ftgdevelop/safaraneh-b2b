@@ -7,12 +7,12 @@ import { useTranslation } from 'next-i18next';
 import { persianNumbersToEnglish } from '../../helpers';
 
 type Props = {
-    disabled?: boolean;
+    disabled?:boolean;
     errorText?: string;
     isTouched?: boolean;
-    isOptional?: boolean;
     label?: string;
     name?: string;
+    autofillName?: string;
     className?: string;
     onChange: (v: string) => void;
     defaultCountry: {
@@ -24,12 +24,13 @@ type Props = {
     labelIsSimple?: boolean;
     showRequiredStar?: boolean;
     showNotConfirmedBadge?: boolean;
+    isOptional?: boolean;
 }
 
 type CountryObject = {
     countryCode: string;
     dialCode: string;
-    format?: string
+    format?: string;
 }
 
 
@@ -38,6 +39,10 @@ const PhoneInput: React.FC<Props> = props => {
     const { errorText, isTouched, defaultCountry, initialValue } = props;
 
     const { t } = useTranslation('common');
+
+    const theme1 = process.env.THEME === "THEME1";
+    const theme2 = process.env.THEME === "THEME2";
+    const theme3 = process.env.THEME === "THEME3";
 
     const codeRef = useRef<HTMLDivElement>(null);
 
@@ -60,8 +65,8 @@ const PhoneInput: React.FC<Props> = props => {
         }
     }
 
-    useEffect(() => {
-        if (initialValue) {
+    useEffect(()=>{
+        if(initialValue){
             let userCountry: CountryObject | undefined = undefined;
 
             const userCountryArray = CountryCodes.find(item => initialValue.replace("+", "").startsWith(item[3].toString()));
@@ -71,14 +76,14 @@ const PhoneInput: React.FC<Props> = props => {
                     dialCode: userCountryArray[3] as string,
                     format: userCountryArray[4] as string
                 }
-                const code = userCountryArray[3] as string;
+                const code = userCountryArray[3] as string;                
                 setCountry(userCountry);
                 setPhoneNumberValue(initialValue.replace("+", "").substring(code?.length || 0))
             }
             setLabelUp(true);
 
         }
-    }, [initialValue]);
+    },[initialValue]);
 
     const [typedCode, setTypedCode] = useState<string>("");
     const [openCodes, setOpenCodes] = useState<boolean>(false);
@@ -155,37 +160,37 @@ const PhoneInput: React.FC<Props> = props => {
     );
 
     const expectedLength = country?.format?.replaceAll(" ", '')?.replaceAll('+', "")?.replaceAll("(", "")?.replaceAll(")", "")?.replaceAll('-', "")?.length;
-    const expectedTotalLength = expectedLength || undefined;
+    const expectedTotalLength = expectedLength ? expectedLength + country.dialCode.length : undefined;
 
-    const labelClassNames: string[] = [`select-none pointer-events-none block leading-4`];
-
-    if (props.labelIsSimple) {
-        labelClassNames.push("mb-3 text-sm");
-    } else {
+    const labelClassNames:string[] = [`select-none pointer-events-none block leading-4`];
+    
+    if (props.labelIsSimple){
+        labelClassNames.push("mb-3 text-base");
+    }else{
         labelClassNames.push("z-10 absolute px-2 bg-white transition-all duration-300 -translate-y-1/2 right-1");
 
-        if (labelUp) {
-            labelClassNames.push(`top-0 text-xs`);
-        } else {
+        if (labelUp){
+            labelClassNames.push(`${theme2?"top-3.5 text-2xs":"top-0 text-xs"}`);
+        }else{
             labelClassNames.push("top-1/2 text-sm");
         }
     }
 
 
-    const inputClassNames: string[] = [`bg-caret border h-10 px-22 rounded-l-md col-span-4 px-2 outline-none`];
+    const inputClassNames : string[] = [`bg-caret border ${theme1?"h-10":theme2?"h-13":theme3?"h-12":""} px-22 rounded-l-md ${(theme2 || theme3)?"min-w-0 basis-40 grow-0":"col-span-4"} px-2 outline-none`];
 
-    if (errorText && isTouched) {
-        inputClassNames.push(`border-red-500`);
-    } else {
-        inputClassNames.push(`border-slate-300 focus:border-slate-500`);
+    if(errorText && isTouched){
+        inputClassNames.push(`border-red-500 ${theme2?"border-2":""}`);
+    }else{
+        inputClassNames.push(`${theme2?"border-neutral-400 focus:border-2":"border-neutral-300"} focus:border-blue-500`);
     }
 
-    const inputClassNames2: string[] = [`border h-10 px-2 col-span-5 border-l-0 rounded-r-md outline-none`];
+    const inputClassNames2 : string[] = [`border ${theme1?"h-10":theme2?"h-13":theme3?"h-12":""} ${!props.labelIsSimple && theme2 ? "pt-4 leading-4" : ""} px-2 ${(theme2 || theme3)?"basis-60 w-full grow":"col-span-5"} border-l-0 rounded-r-md outline-none`];
 
-    if (errorText && isTouched) {
-        inputClassNames2.push(`border-red-500`);
-    } else {
-        inputClassNames2.push(`border-slate-300 focus:border-slate-500`);
+    if(errorText && isTouched){
+        inputClassNames2.push(`border-red-500 ${theme2?"border-2":""}`);
+    }else{
+        inputClassNames2.push(`${theme2?"border-neutral-400 focus:border-2":"border-neutral-300"} focus:border-blue-500`);
     }
     return (
         <div className={props.className || ""}>
@@ -205,7 +210,7 @@ const PhoneInput: React.FC<Props> = props => {
                         </div>
                     )}
                 </div>
-                <div className={`relative text-sm grid grid-cols-9`} dir='ltr' ref={codeRef}>
+                <div className={`relative text-sm ${(theme2 || theme3) ?"flex":"grid grid-cols-9"}`} dir='ltr' ref={codeRef}>
 
                     {!typedCode && <div className='absolute left-3 top-1/2 -translate-y-1/2 flex gap-2 items-center pointer-events-none'>
                         <Image
@@ -237,6 +242,7 @@ const PhoneInput: React.FC<Props> = props => {
                         value={phoneNumberValue}
                         maxLength={expectedLength || 15}
                         className={inputClassNames2.join(" ")}
+                        name={props.autofillName || "unknown"}
                     />
 
                     <Field
@@ -244,8 +250,7 @@ const PhoneInput: React.FC<Props> = props => {
                             expectedLength: expectedTotalLength,
                             invalidMessage: t('invalid-phone-number'),
                             reqiredMessage: props.isOptional ? "" : t('please-enter-phone-number'),
-                            value: value,
-                            codeValue: country.dialCode
+                            value: value
                         })}
                         type='hidden'
                         name={props.name}

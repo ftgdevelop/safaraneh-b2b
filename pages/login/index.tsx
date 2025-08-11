@@ -48,8 +48,8 @@ const Login : NextPage = () => {
       
 
     return(
-    <section className="grid grid-cols-2 min-h-screen">
-        <div className=" p-5 flex flex-col items-center justify-center relative">
+    <section className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
+        <div className=" p-5 flex flex-col items-center justify-center relative order-2 lg:order-1">
             
             <Tab items={tabItems} wrapperClassName="w-96" />
 
@@ -61,7 +61,7 @@ const Login : NextPage = () => {
             )}
 
         </div>
-        <div className="bg-violet-950 text-white relative py-10 flex flex-col justify-center items-center gap-10">
+        <div className="bg-violet-950 text-white relative py-10 flex flex-col justify-center items-center gap-10 order-1 lg:order-2">
             <div className="absolute top-5 left-5">
                 <Link
                     href="/"

@@ -45,13 +45,22 @@ const ReserveListSearchForm: React.FC<Props> = props => {
         status: []
     }
     
-    const optionItems = ['Pending', 'Issued', 'Canceled', 'PaymentSuccessful', 'Refunded', 'Voided', 'Priced', 'WebServiceCancel', 'Failed', 'UnConfirmed'];
+    const statusOptions :{
+        label: string;
+        value: string
+    }[] = [
+        {value: "Pending" , label: "آماده پرداخت"},
+        {value: "Issued" , label: "صادر شده"},
+        {value: "Canceled" , label: "لغو شده"},
+        {value: "PaymentSuccessful" , label: "پرداخت موفق"},
+        {value: "Refunded" , label: "بازپرداخت شده"},
+        {value: "Voided" , label: "باطل شده"},
+        {value: "Priced" , label: "تغییر قیمت"},
+        {value: "WebServiceCancel" , label: "خطا در صدور"},
+        {value: "Failed" , label: "ناموفق"},
+        {value: "UnConfirmed" , label: "تأیید نشده"}
+    ];
     
-    const statusOptions =  optionItems.map(item => ({
-        label: item,
-        value: item
-    }))
-
     return (
 
         <Formik
@@ -82,7 +91,7 @@ const ReserveListSearchForm: React.FC<Props> = props => {
                             id='reserveId'
                             name='reserveId'
                             isTouched={touched.reserveId}
-                            label={t('شماره سفارش')}
+                            label="شماره رزرو"
                             value={values.reserveId}
                         />
 
@@ -149,7 +158,7 @@ const ReserveListSearchForm: React.FC<Props> = props => {
                             id='lasName'
                             name='lasName'
                             isTouched={touched.lasName}
-                            label="نام"
+                            label="نام مهمان"
                             value={values.lasName}
                         />
 

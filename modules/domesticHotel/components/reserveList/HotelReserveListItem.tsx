@@ -101,7 +101,7 @@ const HotelReserveListItem: React.FC<Props> = props => {
 
         <div
             key={reserve.id}
-            className="grid grid-cols-1 lg: grid-cols-3 gap-4 bg-white border rounded-xl p-4 mb-5 relative"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-4 bg-white border rounded-xl p-4 mb-5 relative"
         >
             <div className="col-span-3 flex gap-3 items-center">
                 <span className="bg-orange-100 rounded-full p-2">

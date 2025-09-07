@@ -25,6 +25,7 @@ type FilterFormValues = {
 
 type Props = {
     submitHandle: (values: FilterFormValues) => void;
+    toggleModal?: () => void;
 }
 
 const ReserveListSearchForm: React.FC<Props> = props => {
@@ -42,7 +43,7 @@ const ReserveListSearchForm: React.FC<Props> = props => {
         email: "",
         lasName: "",
         phoneNumber: "",
-        status: []
+        status: [],
     }
     
     const statusOptions :{
@@ -66,7 +67,15 @@ const ReserveListSearchForm: React.FC<Props> = props => {
         <Formik
             validate={() => { return {} }}
             initialValues={initialValues}
-            onSubmit={props.submitHandle}
+            onSubmit={(values, { setSubmitting }) => {
+                props.submitHandle(values);
+
+                if (props.toggleModal) {
+                    props.toggleModal();
+                }
+
+                setSubmitting(false);
+            }}
         >
             {({ errors, touched, isValid, isSubmitting, setFieldValue, values }) => {
                 if (isSubmitting && !isValid) {

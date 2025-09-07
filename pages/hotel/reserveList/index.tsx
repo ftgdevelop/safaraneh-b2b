@@ -292,7 +292,7 @@ const ReserveList: NextPage = () => {
           </div>
 
           <div
-            className={`fixed top-0 right-0 bottom-0 z-50 w-5/6 bg-white border p-5 transition-transform duration-300
+            className={`fixed lg:z-10 top-0 right-0 bottom-0 z-50 w-5/6 bg-white border p-5 transition-transform duration-300
                 lg:sticky lg:top-20 lg:w-auto lg:rounded-xl lg:translate-x-0
                 ${
                   filterOpen
@@ -314,7 +314,7 @@ const ReserveList: NextPage = () => {
               </button>
             </div>
 
-            <div className="overflow-y-auto max-h-[calc(100vh-4rem)] lg:max-h-full lg:overflow-visible pb-8">
+            <div className="overflow-y-auto max-h-[calc(100vh-4rem)] lg:max-h-full lg:overflow-visible  pb-8">
               <ReserveListSearchForm
                 submitHandle={setFilterParams}
                 toggleModal={toggleModal}

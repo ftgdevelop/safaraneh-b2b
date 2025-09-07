@@ -277,7 +277,7 @@ const ReserveList: NextPage = () => {
             { label: "پیشخوان", link: "/panel" },
             { label: "لیست رزرو هتل ها" },
           ]}
-              />
+          />
         <div className="w-full lg:hidden block lg:col-span-3 xl:col-span-4 col-span-1">
             <div id="sidebar_filter_portal" className="w-full lg:hidden">
             <Button   
@@ -298,7 +298,7 @@ const ReserveList: NextPage = () => {
                 }`}
                 onClick={toggleModal}
             />
-            <div className="absolute top-0 z-50 bg-white border p-5  right-0 w-5/6">
+            <div className="absolute top-0 z-50 bg-white border p-5 h-full right-0 w-5/6">
                 <div className="flex w-full justify-end" onClick={toggleModal}>
                 <Close className="h-8 w-8 fill-current" />
                 </div>

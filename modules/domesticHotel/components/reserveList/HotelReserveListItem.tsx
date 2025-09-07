@@ -199,75 +199,93 @@ const HotelReserveListItem: React.FC<Props> = (props) => {
       </div>
 
       <div className="text-sm grid grid-cols-2 lg:col-span-2 col-span-1 gap-x-4">
-        <div className="col-span-1">
-          <ConfirmationNumber className={iconClassName} />
-          <label className="ml-2 text-neutral-400"> شماره رزرو: </label>
-          <br className="sm:hidden" />
+        <div className="col-span-2 md:col-span-1 space-y-2">
+          <div className="flex items-center md:justify-start justify-between w-full">
+            <div className="flex items-center">
+              <ConfirmationNumber className={iconClassName} />
+              <span className="ml-2 text-neutral-400">شماره رزرو:</span>
+            </div>
+            <span className="text-left md:text-right md:w-auto">
+              {reserve.id}
+            </span>
+          </div>
 
-          {reserve.id}
+          <div className="flex items-center md:justify-start justify-between w-full">
+            <div className="flex items-center">
+              <Calendar className={iconClassName} />
+              <span className="ml-2 text-neutral-400">تاریخ رزرو:</span>
+            </div>
+            <span className="text-left md:text-right md:w-auto">
+              {dateDiplayFormat({
+                date: reserve.creationTime,
+                format: "dd mm yyyy",
+                locale: "fa",
+              })}
+            </span>
+          </div>
 
-          <br />
+          <div className="flex items-center md:justify-start justify-between w-full">
+            <div className="flex items-center">
+              <Calendar className={iconClassName} />
+              <span className="ml-2 text-neutral-400">تاریخ ورود:</span>
+            </div>
+            <span className="text-left md:text-right md:w-auto">
+              {dateDiplayFormat({
+                date: reserve.checkin,
+                format: "dd mm yyyy",
+                locale: "fa",
+              })}
+            </span>
+          </div>
 
-          <Calendar className={iconClassName} />
-          <label className="ml-2 text-neutral-400"> تاریخ رزرو: </label>
-          <br className="sm:hidden" />
-
-          {dateDiplayFormat({
-            date: reserve.creationTime,
-            format: "dd mm yyyy",
-            locale: "fa",
-          })}
-
-          <br />
-
-          <Calendar className={iconClassName} />
-          <label className="ml-2 text-neutral-400"> تاریخ ورود: </label>
-          <br className="sm:hidden" />
-
-          {dateDiplayFormat({
-            date: reserve.checkin,
-            format: "dd mm yyyy",
-            locale: "fa",
-          })}
-
-          <br />
-
-          <Calendar className={iconClassName} />
-          <label className="ml-2 text-neutral-400"> تاریخ خروج: </label>
-          <br className="sm:hidden" />
-
-          {dateDiplayFormat({
-            date: reserve.checkout,
-            format: "dd mm yyyy",
-            locale: "fa",
-          })}
-
-          <br />
+          <div className="flex items-center md:justify-start justify-between w-full">
+            <div className="flex items-center">
+              <Calendar className={iconClassName} />
+              <span className="ml-2 text-neutral-400">تاریخ خروج:</span>
+            </div>
+            <span className="text-left md:text-right md:w-auto">
+              {dateDiplayFormat({
+                date: reserve.checkout,
+                format: "dd mm yyyy",
+                locale: "fa",
+              })}
+            </span>
+          </div>
         </div>
 
-        <div className="col-span-1">
-          <User3 className={iconClassName} />
-          <label className="ml-2 text-neutral-400"> نام و نام خانوادگی: </label>
-          <br className="sm:hidden" />
-          {reserve.reserver.firstName} {reserve.reserver.lastName}
-          <br />
-          {reserve.reserver.phoneNumber && (
-            <>
-              <Phone className={iconClassName} />
-              <label className="ml-2 text-neutral-400"> تلفن: </label>
-              <br className="sm:hidden" />
-              <span dir="ltr">{reserve.reserver.phoneNumber}</span>
-            </>
-          )}
-          <br />
-          {reserve.reserver.email && (
-            <>
-              <Email className={iconClassName} />
-              <label className="ml-2 text-neutral-400"> ایمیل: </label>
-              <br className="sm:hidden" />
+        <div className="col-span-2 md:col-span-1 space-y-2">
+          <div className="flex items-center md:justify-start justify-between w-full">
+            <div className="flex items-center">
+              <User3 className={iconClassName} />
+              <span className="ml-2 text-neutral-400">نام و نام خانوادگی:</span>
+            </div>
+            <span className="text-left md:text-right md:w-auto">
+              {reserve.reserver.firstName} {reserve.reserver.lastName}
+            </span>
+          </div>
 
-              {reserve.reserver.email}
-            </>
+          {reserve.reserver.phoneNumber && (
+            <div className="flex items-center md:justify-start justify-between w-full">
+              <div className="flex items-center">
+                <Phone className={iconClassName} />
+                <span className="ml-2 text-neutral-400">تلفن:</span>
+              </div>
+              <span dir="ltr" className="text-left md:text-right md:w-auto">
+                {reserve.reserver.phoneNumber}
+              </span>
+            </div>
+          )}
+
+          {reserve.reserver.email && (
+            <div className="flex items-center md:justify-start justify-between w-full">
+              <div className="flex items-center">
+                <Email className={iconClassName} />
+                <span className="ml-2 text-neutral-400">ایمیل:</span>
+              </div>
+              <span className="text-left md:text-right md:w-auto">
+                {reserve.reserver.email}
+              </span>
+            </div>
           )}
         </div>
       </div>

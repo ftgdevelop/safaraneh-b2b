@@ -277,39 +277,58 @@ const ReserveList: NextPage = () => {
             { label: "پیشخوان", link: "/panel" },
             { label: "لیست رزرو هتل ها" },
           ]}
-          />
-        <div className="w-full lg:hidden block lg:col-span-3 xl:col-span-4 col-span-1">
-            <div id="sidebar_filter_portal" className="w-full lg:hidden">
-            <Button   
-                className="flex w-full justify-between items-center p-4 "
-                color="white"
-                type="button"
-                onClick={toggleModal}
+        />
+        <div className="w-full col-span-1">
+          <div className="w-full lg:hidden">
+            <Button
+              className="flex w-full justify-between items-center p-4"
+              color="white"
+              type="button"
+              onClick={toggleModal}
             >
-                <Filter className="w-8 h-8 fill-current" />
-                <span>فیلتر</span>
-            </Button>  
-        </div>
-        <ModalPortal show={filterOpen} selector="sidebar_filter_portal">
-            <>
-            <div
-                className={`bg-black/75 fixed top-0 left-0 w-full h-screen transition-all z-40 ${
-                delayedOpen ? "opacity-100" : "opacity-0"
-                }`}
-                onClick={toggleModal}
-            />
-            <div className="absolute top-0 z-50 bg-white border p-5 h-full right-0 w-5/6">
-                <div className="flex w-full justify-end" onClick={toggleModal}>
-                <Close className="h-8 w-8 fill-current" />
-                </div>
-                <ReserveListSearchForm submitHandle={setFilterParams} toggleModal={toggleModal} />
-            </div>
-            </>
-        </ModalPortal>
-        </div>
+              <Filter className="w-8 h-8 fill-current" />
+              <span>فیلتر</span>
+            </Button>
+          </div>
 
-        <div className="bg-white rounded-xl col-span-1  border p-5 sticky top-20 hidden lg:block">
-          <ReserveListSearchForm submitHandle={setFilterParams} />
+          <div
+            className={`fixed top-0 right-0 bottom-0 z-50 w-5/6 bg-white border p-5 transition-transform duration-300
+                lg:sticky lg:top-20 lg:w-auto lg:rounded-xl lg:translate-x-0
+                ${
+                  filterOpen
+                    ? "max-lg:translate-x-0"
+                    : "max-lg:translate-x-full"
+                }`}
+            style={{ WebkitOverflowScrolling: "touch" }}
+            role="dialog"
+            aria-modal={filterOpen ? "true" : "false"}
+          >
+            <div className="lg:hidden sticky top-0 bg-white z-50 flex w-full justify-end">
+              <button
+                className="p-2"
+                type="button"
+                aria-label="Close filters"
+                onClick={toggleModal}
+              >
+                <Close className="h-8 w-8 fill-current" />
+              </button>
+            </div>
+
+            <div className="overflow-y-auto max-h-[calc(100vh-4rem)] lg:max-h-full lg:overflow-visible pb-8">
+              <ReserveListSearchForm
+                submitHandle={setFilterParams}
+                toggleModal={toggleModal}
+              />
+            </div>
+          </div>
+
+          {filterOpen && (
+            <div
+              className="fixed inset-0 z-40 lg:hidden bg-black/60"
+              onClick={toggleModal}
+              aria-hidden="true"
+            />
+          )}
         </div>
 
         <div className="lg:col-span-3 xl:col-span-4 col-span-1">

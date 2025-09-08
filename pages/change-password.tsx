@@ -9,7 +9,7 @@ const ChangePassword: NextPage = () => {
 
     return (
 
-        <div className="grid grid-cols-6 bg-neutral-100 min-h-s">
+        <div className="grid grid-cols-6 bg-neutral-100 min-h-screen">
 
             <UserNavigation />
 

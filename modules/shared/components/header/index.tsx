@@ -86,7 +86,11 @@ const Header: React.FC<Props> = (props) => {
           </button>
         </div>
         <div className="p-4">
-          <Navigation items={props.menuItems} mobile />
+          <Navigation
+            items={props.menuItems}
+            mobile
+            toggleModal={() => setIsOpen(false)}
+          />
         </div>
       </div>
     </header>

@@ -178,14 +178,17 @@ const Users: NextPage = () => {
             ]}
           />
 
-          <div className="bg-white border rounded-xl p-5 lg:flex flex-col justify-between gap-5 mb-5 items-end">
-            <UserFilterForm
-              submitHandler={filterUsers}
-              resetHandler={resetFilter}
-            />
+          <div className="bg-white border rounded-xl p-5 lg:grid lg:grid-cols-4 lg:items-end  flex-col  justify-between gap-5 mb-5 ">
+            <div className="lg:col-span-3 max-lg:w-full">
+              <UserFilterForm
+                submitHandler={filterUsers}
+                resetHandler={resetFilter}
+              />
+            </div>
+
             <Link
               href="/users/create"
-              className="bg-blue-600 hover:bg-blue-500 py-2 px-4 text-center lg:mt-0 mt-4 rounded text-sm text-white block"
+              className="bg-blue-600 hover:bg-blue-500 py-2 px-4 lg:col-span-1 h-fit text-center  lg:mt-0 mt-4 rounded text-sm text-white block"
             >
               <Plus className="inline-block fill-current w-7 h-7" /> ایجاد کاربر
               جدید

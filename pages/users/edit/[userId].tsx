@@ -75,10 +75,10 @@ const EditUser: NextPage = () => {
 
             <UserNavigation />
 
-            <div className="relative col-span-5">
+            <div className=" col-span-5">
 
                 <div
-                    className="border-b flex items-center gap-3 px-4 md:px-6 py-3 bg-white text-lg md:text-xl"
+                    className="border-b flex items-center gap-3 px-4 md:px-6 py-3 bg-white text-lg md:text-xl w-full"
                 >
                     <UsersX className="w-8 h-8" />
                     ویرایش اطلاعات کاربر

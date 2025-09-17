@@ -7,7 +7,7 @@ type Props = {
   noBorder?: boolean;
   noGrowTabs?: boolean;
   wrapperClassName?: string;
-  wrapperItemsClassName?: string;
+  itemsClassName?: string;
   style?: "2";
 };
 
@@ -43,7 +43,7 @@ const Tab: React.FC<Props> = (props) => {
         <div
           className={`rounded-xl flex mb-2 ${
             style2 ? "gap-6" : "p-1 bg-slate-100"
-          } ${props.wrapperItemsClassName}`}
+          } ${props.itemsClassName || ""}`}
         >
           {items.map((item) => (
             <button

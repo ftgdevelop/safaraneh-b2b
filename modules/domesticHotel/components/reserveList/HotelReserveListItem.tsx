@@ -35,7 +35,6 @@ const HotelReserveListItem: React.FC<Props> = (props) => {
       );
       statusText = (
         <span className="inline-block align-middle text-[#1dac08]">
-          {" "}
           آماده پرداخت ({status})
         </span>
       );
@@ -46,7 +45,6 @@ const HotelReserveListItem: React.FC<Props> = (props) => {
       );
       statusText = (
         <span className="inline-block align-middle text-[#1dac08]">
-          {" "}
           نهایی شده ({status})
         </span>
       );
@@ -57,7 +55,6 @@ const HotelReserveListItem: React.FC<Props> = (props) => {
       );
       statusText = (
         <span className="inline-block align-middle text-red-500">
-          {" "}
           کنسل ({status})
         </span>
       );
@@ -68,7 +65,6 @@ const HotelReserveListItem: React.FC<Props> = (props) => {
       );
       statusText = (
         <span className="inline-block align-middle text-[#52c41a]">
-          {" "}
           در حال بررسی ({status})
         </span>
       );
@@ -80,7 +76,6 @@ const HotelReserveListItem: React.FC<Props> = (props) => {
       );
       statusText = (
         <span className="inline-block align-middle text-red-500">
-          {" "}
           جا نمی دهد ({status})
         </span>
       );
@@ -91,7 +86,6 @@ const HotelReserveListItem: React.FC<Props> = (props) => {
       );
       statusText = (
         <span className="inline-block align-middle text-red-500">
-          {" "}
           تماس با پشتیبانی ({status})
         </span>
       );
@@ -103,7 +97,6 @@ const HotelReserveListItem: React.FC<Props> = (props) => {
       );
       statusText = (
         <span className="inline-block align-middle text-red-500">
-          {" "}
           خطا در صدور بلیط ({status})
         </span>
       );
@@ -114,7 +107,6 @@ const HotelReserveListItem: React.FC<Props> = (props) => {
       );
       statusText = (
         <span className="inline-block align-middle text-[#52c41a]">
-          {" "}
           در حال صدور ({status})
         </span>
       );
@@ -125,7 +117,6 @@ const HotelReserveListItem: React.FC<Props> = (props) => {
       );
       statusText = (
         <span className="inline-block align-middle text-[#52c41a]">
-          {" "}
           علی الحساب ({status})
         </span>
       );
@@ -193,8 +184,7 @@ const HotelReserveListItem: React.FC<Props> = (props) => {
           <Bed className="w-6 h-6 fill-amber-500" />
         </span>
         <h3 className="font-semibold">
-          {" "}
-          هتل {reserve.accommodation.name} {reserve.accommodation.city.name}{" "}
+          هتل {reserve.accommodation.name} {reserve.accommodation.city.name}
         </h3>
       </div>
 

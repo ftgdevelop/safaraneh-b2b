@@ -183,19 +183,6 @@ const ProfileEditForm: React.FC<Props> = props => {
     const maximumBirthDate = dateFormat(goBackYears(new Date(), 12));
     const minimumBirthDate = dateFormat(goBackYears(new Date(), 100));
 
-    if (!countries?.length) {
-        return (
-            <div className="sm:w-520" >
-                {[1, 2, 3, 4, 5, 6, 7].map(item => (
-                    <div className="mb-7" key={item}>
-                        <Skeleton className="mb-4 w-32" />
-                        <Skeleton />
-                    </div>
-                ))}
-            </div>
-        )
-    }
-
     return (
 
         <>
@@ -305,19 +292,23 @@ const ProfileEditForm: React.FC<Props> = props => {
                                     />
                                 </div>
 
-                                {!!countries && <SelectWithSearch
-                                    labelIsSimple
-                                    className="mb-5"
-                                    setFieldValue={setFieldValue}
-                                    isTouched={touched.nationalityId}
-                                    errorText={errors.nationalityId as string}
-                                    name="nationalityId"
-                                    id="nationalityId"
-                                    items={countries.map(item => ({ label: item.name || item.nationality || "", value: item.code || "" }))}
-                                    value={values.nationalityId || ""}
-                                    label="ملیت"
-                                    onTouch={() => { setIsTouched(true) }}
-                                />}
+                                {countries?.length ? (
+                                    <SelectWithSearch
+                                        labelIsSimple
+                                        className="mb-5"
+                                        setFieldValue={setFieldValue}
+                                        isTouched={touched.nationalityId}
+                                        errorText={errors.nationalityId as string}
+                                        name="nationalityId"
+                                        id="nationalityId"
+                                        items={countries.map(item => ({ label: item.name || item.nationality || "", value: item.code || "" }))}
+                                        value={values.nationalityId || ""}
+                                        label="ملیت"
+                                        onTouch={() => { setIsTouched(true) }}
+                                    />
+                                ) : (
+                                    null
+                                )}
 
                                 <Checkbox
                                     label="عضویت در خبرنامه"

@@ -142,7 +142,7 @@ const Wallet: NextPage = () => {
                 <div className="flex justify-between mb-3 text-sm">
                   <span>موجودی کیف پول:</span>
                   <span className="font-semibold">
-                    {numberWithCommas(bookingBalance)}{" "}
+                    {numberWithCommas(bookingBalance)}
                     {bookingCurrency === "IRR" ? "ریال" : bookingCurrency}
                   </span>
                 </div>
@@ -150,7 +150,7 @@ const Wallet: NextPage = () => {
                 <div className="flex justify-between mb-4 text-sm">
                   <span>مبلغ مورد نیاز برای ادامه خرید:</span>
                   <span className="font-semibold">
-                    {numberWithCommas(bookingPrice)}{" "}
+                    {numberWithCommas(bookingPrice)}
                     {bookingCurrency === "IRR" ? "ریال" : bookingCurrency}
                   </span>
                 </div>
@@ -158,24 +158,22 @@ const Wallet: NextPage = () => {
                 {bookingPrice > bookingBalance ? (
                   <>
                     <p className="text-red-500 text-sm mb-5">
-                      {" "}
                       موجودی کیف پول شما هنوز کمتر از مبلغ پرداخت است. لطفا
-                      اعتبار کیف پول خود را افزایش دهید.{" "}
+                      اعتبار کیف پول خود را افزایش دهید.
                     </p>
 
                     <Button
                       href={`/wallet/deposit?reserveId=${reserveId}&username=${username}`}
                       className="h-10 w-40 mx-auto"
                     >
-                      <Plus className="w-7 h-7 fill-current inline-block" />{" "}
+                      <Plus className="w-7 h-7 fill-current inline-block" />
                       افزایش اعتبار
                     </Button>
                   </>
                 ) : (
                   <>
                     <p className="text-red-500 text-sm mb-5">
-                      {" "}
-                      موجودی کیف پول شما بیشتر از مبلغ مورد نیاز پرداخت است.{" "}
+                      موجودی کیف پول شما بیشتر از مبلغ مورد نیاز پرداخت است.
                     </p>
 
                     <Button
@@ -219,9 +217,8 @@ const Wallet: NextPage = () => {
                     .filter((b) => b.amount)
                     ?.map((b) => (
                       <>
-                        {" "}
-                        {numberWithCommas(b.amount)}{" "}
-                        {returnCurrency(b.currencyType)} <br />{" "}
+                        {numberWithCommas(b.amount)}
+                        {returnCurrency(b.currencyType)} <br />
                       </>
                     ))}
                 </div>

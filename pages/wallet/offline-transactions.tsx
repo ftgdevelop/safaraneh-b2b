@@ -238,18 +238,11 @@ const OfflineTransactions: NextPage = () => {
             <thead>
               <tr className="text-muted-foreground">
                 <th className={`${tableCellClass} w-10 xl:w-24`}> # </th>
-                <th className={`${tableCellClass} w-12 xl:w-32`}>
-                  {" "}
-                  شماره رزرو{" "}
-                </th>
-                <th className={`${tableCellClass} w-10 xl:w-32`}>
-                  {" "}
-                  نوع تراکنش{" "}
-                </th>
+                <th className={`${tableCellClass} w-12 xl:w-32`}>شماره رزرو</th>
+                <th className={`${tableCellClass} w-10 xl:w-32`}>نوع تراکنش</th>
                 <th className={`${tableCellClass} w-14 xl:w-40`}> مبلغ </th>
                 <th className={`${tableCellClass} w-16 xl:w-40 `}>
-                  {" "}
-                  تاریخ تراکنش{" "}
+                  تاریخ تراکنش
                 </th>
                 <th className={`${tableCellClass} w-1/3 xl:w-80`}> جزییات </th>
               </tr>

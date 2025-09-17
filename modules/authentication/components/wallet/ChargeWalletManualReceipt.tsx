@@ -235,8 +235,7 @@ const ChargeWalletManualReceipt: React.FC = () => {
 
                   {activeCurrency === "IRR" && +values.amount > 9 ? (
                     <p className="text-sm">
-                      {" "}
-                      {rialsToLettersToman(+values.amount)}{" "}
+                      {rialsToLettersToman(+values.amount)}
                     </p>
                   ) : null}
                 </div>

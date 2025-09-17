@@ -154,16 +154,15 @@ const ChargeWallet: React.FC = () => {
               </div>
 
               {activeCurrency === "IRR" && +values.amount > 9 ? (
-                <p className="text-sm">
-                  {" "}
-                  {rialsToLettersToman(+values.amount)}{" "}
-                </p>
+                <p className="text-sm">{rialsToLettersToman(+values.amount)}</p>
               ) : null}
             </div>
 
             {bankList?.gateways?.length ? (
               <div>
-                <h5 className="text-base md:text-xl mb-3 md:mb-5">درگاه پرداخت</h5>
+                <h5 className="text-base md:text-xl mb-3 md:mb-5">
+                  درگاه پرداخت
+                </h5>
                 <div
                   className={`p-2 rounded flex items-center text-xs gap-2 sm:p-4 bg-neutral-50`}
                 >
@@ -231,7 +230,7 @@ const ChargeWallet: React.FC = () => {
 
             {!!(router.query && router.query.status === "0") && (
               <div className="border border-neutral-300 rtl:border-r-2 rtl:border-r-red-600 p-4 text-sm text-red-600">
-                <ErrorCircle className="w-6 h-6 fill-current inline-block " />{" "}
+                <ErrorCircle className="w-6 h-6 fill-current inline-block " />
                 شارژ کیف پول با مشکل مواجه شد
               </div>
             )}

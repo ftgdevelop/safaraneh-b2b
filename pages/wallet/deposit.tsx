@@ -69,7 +69,7 @@ const Deposit: NextPage = () => {
               style="2"
               noBorder
               items={tabItems}
-              wrapperItemsClassName="max-sm:gap-2"
+              itemsClassName="max-sm:gap-2"
             />
           </div>
         </div>

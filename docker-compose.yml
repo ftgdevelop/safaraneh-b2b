@@ -1,9 +1,9 @@
 version: '3'
 services:
-  affiliate_safaraneh_service:
-    image: affiliate_safaraneh_image
+  b2b_hotelban_service:
+    image: b2b_hotelban_image
     restart: always
     build: ./
-    command: 'yarn start -p 2088'
+    command: 'yarn start -p 2092'
     ports:
-      - '2088:2088'
+      - '2092:2092'

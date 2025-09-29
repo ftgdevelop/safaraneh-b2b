@@ -1,7 +1,7 @@
 version: '3'
 services:
-  affiliate_safaraneh_service:
-    image: affiliate_safaraneh_image
+  b2b_safaraneh_service:
+    image: b2b_safaraneh_image
     restart: always
     build: ./
     command: 'yarn start -p 2088'

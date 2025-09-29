@@ -123,9 +123,11 @@ MyApp.getInitialProps = async (
 ): Promise<any> => {
   const ctx = await App.getInitialProps(context);
   
+  const strapiTenant = process.env.PROJECT_SERVER_STRAPI_TENANTID;
+
   const [HeaderRes, generalRes] = await Promise.all<any>([
-    getStrapiData('populate[Header][populate]=*'),
-    getStrapiData('populate=*')
+    getStrapiData(`filters[Tenant][name][$eq]=${strapiTenant}&populate[Header][populate]=*`),
+    getStrapiData(`filters[Tenant][name][$eq]=${strapiTenant}&populate=*`)
   ]);
 
   

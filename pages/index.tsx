@@ -43,7 +43,9 @@ const Home: NextPage<{ sections?: StrapiHomeSectionData[] }> = ({ sections }) =>
 
 export const getStaticProps = async (context: any) => {
 
-  const itemsRes = await getStrapiData('populate[Sections][populate][Items][populate]=*')
+  const strapiTenant = process.env.PROJECT_SERVER_STRAPI_TENANTID;
+  
+  const itemsRes = await getStrapiData(`filters[Tenant][name][$eq]=${strapiTenant}&populate[Sections][populate][Items][populate]=*`)
   const sections = itemsRes?.data?.data?.[0]?.attributes?.Sections;
 
   return ({

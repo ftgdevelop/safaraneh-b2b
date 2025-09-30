@@ -66,7 +66,7 @@ const nextConfig = {
     PROJECT_SERVER_BLOG :"panel.safaraneh.com",
     PROJECT_SERVER_CRM:"crm.safaraneh.com",
     PROJECT_SERVER_PAYMENT: "payline.safaraneh.com",
-    PROJECT_SERVER_IDENTITY:"identity.safaraneh.com",
+    PROJECT_SERVER_IDENTITY:"identity.hotelban.com",
     PROJECT_SERVER_TRAVELER:"traveller.safaraneh.com",
     PROJECT_SERVER_CIP:"cip.safaraneh.com",
     PROJECT_SERVER_FLIGHT: "flightdomestic.hotelban.com",

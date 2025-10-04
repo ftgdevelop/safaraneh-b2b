@@ -4,7 +4,7 @@ import PanelHeader from "./PanelHeader";
 import PanelFooter from "./PanelFooter";
 
 type Props ={
-
+    logo?: string;
 }
 
 const PanelLayout : React.FC<PropsWithChildren<Props>> = props => {
@@ -14,7 +14,7 @@ const PanelLayout : React.FC<PropsWithChildren<Props>> = props => {
     return (
         <div className={`xl:grid xl:grid-cols-6 ${theme2?"bg-white":"bg-neutral-100"}`}>
             
-            <PanelAside className="hidden xl:block" />
+            <PanelAside className="hidden xl:block" logo={props.logo} />
 
             <main id="main" className="relative lg:col-span-5">
                 

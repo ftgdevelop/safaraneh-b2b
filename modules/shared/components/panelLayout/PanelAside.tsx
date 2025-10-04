@@ -5,6 +5,7 @@ import PanelAsideLinks from "./PanelAsideLinks";
 
 type Props = {
     className?: string;
+    logo?: string;
 }
 const PanelAside: React.FC<Props> = props => {
     return (
@@ -28,7 +29,7 @@ const PanelAside: React.FC<Props> = props => {
                         className="p-4 text-center block border-t mt-2"
                     >
                         <Image
-                            src="/assets/images/logo.svg"
+                            src={props.logo || "/assets/images/logo.svg"}
                             alt="logo"
                             className="w-28 mx-auto"
                             width={112}

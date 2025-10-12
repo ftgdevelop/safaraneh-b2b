@@ -18,6 +18,7 @@ import Layout from '@/modules/shared/components/layout';
 import { getStrapiData } from '@/modules/shared/actions/strapiActions';
 import { StrapiData } from '@/modules/shared/types/common';
 import { ServerAddress } from '@/enum/url';
+import { StrapiContext } from '@/modules/shared/actions/context/StrapiContext';
 
 type TProps = Pick<AppProps, "Component" | "pageProps"> & {
   strapiData?: StrapiData;
@@ -106,13 +107,17 @@ function MyApp({ Component, pageProps, strapiData }: TProps) {
 
       </Head>
 
-      <Layout
-        logo={strapiData?.logo?.url ? `${ServerAddress.Type}${ServerAddress.Strapi}${strapiData.logo.url}`:undefined}
-        menuItems={strapiData?.menuItems || []}
-        copyright={strapiData?.copyright || ""}
-      >
-        <Component {...pageProps} />
-      </Layout>
+      <StrapiContext.Provider value={{strapiData: strapiData || null }}>
+
+        <Layout
+          logo={strapiData?.logo?.url ? `${ServerAddress.Type}${ServerAddress.Strapi}${strapiData.logo.url}`:undefined}
+          menuItems={strapiData?.menuItems || []}
+          copyright={strapiData?.copyright || ""}
+        >
+          <Component {...pageProps} />
+        </Layout>
+
+      </StrapiContext.Provider>
 
     </Provider>
   )

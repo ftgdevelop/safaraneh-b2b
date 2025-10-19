@@ -28,6 +28,7 @@ const nextConfig = {
       'cdn.safaraneh.com',
       'cdn2.safaraneh.com',
       'panel.safaraneh.com',
+      'cdn.hotelban.com',
       'blog.iranhotel.ir',
       'trustseal.enamad.ir',
       'logo.samandehi.ir',

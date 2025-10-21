@@ -1,8 +1,9 @@
 export type TabItem = {
-    key: string | number;
+    key: string;
     label: React.ReactNode;
     children: React.ReactNode;
     href?:string;
+    disabled?: boolean;
 };
 
 export interface GetPageByUrlDataType {

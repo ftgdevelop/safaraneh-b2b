@@ -9,6 +9,7 @@ type Props = {
     updateContent?:string;
     noBgContent?: boolean;
     noBorder?: boolean;
+    disabled?: boolean;
 }
 
 const Accordion: React.FC<Props> = props => {
@@ -19,7 +20,11 @@ const Accordion: React.FC<Props> = props => {
 
     const {content, title, WrapperClassName, type2, noBgContent, noBorder} = props;
 
-    const toggle = () => { setOpen(prevState => !prevState) }
+    const toggle = () => { 
+        if(!props.disabled){
+            setOpen(prevState => !prevState) 
+        }
+    }
 
     useEffect(() => {
         if (open) {
@@ -30,7 +35,7 @@ const Accordion: React.FC<Props> = props => {
     }, [open, props.updateContent]);
 
     return (
-        <div className={`${(type2 || noBorder) ? "":"border border-neutral-200 rounded-lg"} text-sm sm:text-base text-neutral-700 ${WrapperClassName || ""}`}>
+        <div className={`${(type2 || noBorder) ? "":"border border-neutral-200 rounded-lg"} text-sm sm:text-base text-neutral-700 ${WrapperClassName || ""} ${props.disabled?"pointer-events-none":""}`}>
             {type2 ? (
                 <div onClick={toggle} className={`py-1 relative select-none cursor-pointer after:block after:w-2 after:h-2 after:border-b-2 after:border-l-2 after:top-1/2 after:-mt-1 after:border-neutral-400 after:self-center after:transition-all after:absolute after:rtl:right-0 after:ltr:left-0 rtl:pr-4 ltr:pl-4 ${open?"after:rotate-135":"after:-rotate-45"}`}>
                 {title}

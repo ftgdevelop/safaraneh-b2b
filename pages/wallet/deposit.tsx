@@ -15,7 +15,7 @@ const Deposit: NextPage = () => {
 
   const tabItems: TabItem[] = [
     {
-      key: 1,
+      key: '1',
       label: (
         <div className="flex gap-1 sm:gap-2 flex-col items-center justify-center p-0 sm:p-3 md:p-4 md:py-6">
           <Plus className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 fill-current" />
@@ -27,7 +27,7 @@ const Deposit: NextPage = () => {
       children: <ChargeWallet />,
     },
     {
-      key: 2,
+      key: '2',
       label: (
         <div className="flex gap-1 sm:gap-2 flex-col items-center justify-center p-0 sm:p-3 md:p-4 md:py-6">
           <CreditCard className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 fill-current" />

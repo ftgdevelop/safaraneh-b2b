@@ -26,6 +26,10 @@ const PanelAsideLinks = (props: PanelAsideLinksProps) => {
     }
   };
 
+  const hasCIP = process.env.PROJECT_MODULES?.includes("CIP");
+  const hasFlight = process.env.PROJECT_MODULES?.includes("DomesticFlight");
+  const hasHotel = process.env.PROJECT_MODULES?.includes("DomesticHotel");
+
   return (
     <nav>
       <Link
@@ -44,13 +48,14 @@ const PanelAsideLinks = (props: PanelAsideLinksProps) => {
       </Link>
 
       <Accordion
+        disabled={!hasHotel}
         WrapperClassName="border-b"
         noBorder
         noBgContent
         content={
           <div className="text-sm leading-5 pb-4">
             <Link
-              href="/"
+              href="/panel?mode=domestichotel"
               onClick={handleClick}
               className="block py-2 hover:bg-neutral-100 px-3 rounded"
             >
@@ -66,7 +71,7 @@ const PanelAsideLinks = (props: PanelAsideLinksProps) => {
           </div>
         }
         title={
-          <div className="flex items-center gap-4">
+          <div className={`flex items-center gap-4 ${hasHotel?"":"text-slate-400"}`}>
             <span className="bg-slate-100 rounded-lg p-1.5">
               <Hotel className="w-8 h-8" />
             </span>
@@ -78,16 +83,41 @@ const PanelAsideLinks = (props: PanelAsideLinksProps) => {
         }
       />
 
-      <div className="flex items-center text-slate-400 gap-4 py-2 px-5 border-b">
-        <span className="bg-slate-100 rounded-lg p-1.5">
-          <Flight2 className="w-8 h-8" />
-        </span>
-        <div className="text-sm">
-          پرواز
-          <br />
-          Flight
-        </div>
-      </div>
+      <Accordion
+        disabled={!hasFlight}
+        WrapperClassName="border-b"
+        noBorder
+        noBgContent
+        content={
+          <div className="text-sm leading-5 pb-4">
+            <Link
+              href="/panel?mode=domesticflight"
+              onClick={handleClick}
+              className="block py-2 hover:bg-neutral-100 px-3 rounded"
+            >
+              رزرو
+            </Link>
+            <Link
+              href="/flight/reserveList"
+              onClick={handleClick}
+              className="block py-2 hover:bg-neutral-100 px-3 rounded"
+            >
+              لیست رزرو ها
+            </Link>
+          </div>
+        }
+        title={
+          <div className={`flex items-center gap-4 ${hasFlight?"":"text-slate-400"}`}>
+            <span className="bg-slate-100 rounded-lg p-1.5">
+              <Flight2 className="w-8 h-8" />
+            </span>
+            <div className="text-sm">
+              <div className="mb-3"> پرواز </div>
+              Flight
+            </div>
+          </div>
+        }
+      />
 
       <div className="flex items-center text-slate-400 gap-4 py-2 px-5 border-b">
         <span className="bg-slate-100 rounded-lg p-1.5">
@@ -100,16 +130,41 @@ const PanelAsideLinks = (props: PanelAsideLinksProps) => {
         </div>
       </div>
 
-      <div className="flex items-center text-slate-400 gap-4 py-2 px-5 border-b">
-        <span className="bg-slate-100 rounded-lg p-1.5">
-          <Cip2 className="w-8 h-8" />
-        </span>
-        <div className="text-sm">
-          تشریفات
-          <br />
-          Cip
-        </div>
-      </div>
+      <Accordion
+        disabled={!hasCIP}
+        WrapperClassName="border-b"
+        noBorder
+        noBgContent
+        content={
+          <div className="text-sm leading-5 pb-4">
+            <Link
+              href="/panel?mode=cip"
+              onClick={handleClick}
+              className="block py-2 hover:bg-neutral-100 px-3 rounded"
+            >
+              رزرو
+            </Link>
+            <Link
+              href="/cip/reserveList"
+              onClick={handleClick}
+              className="block py-2 hover:bg-neutral-100 px-3 rounded"
+            >
+              لیست رزرو ها
+            </Link>
+          </div>
+        }
+        title={
+          <div className={`flex items-center gap-4 ${hasCIP?"":"text-slate-400"}`}>
+            <span className="bg-slate-100 rounded-lg p-1.5">
+              <Cip2 className="w-8 h-8" />
+            </span>
+            <div className="text-sm">
+              <div className="mb-3"> تشریفات </div>
+              Cip
+            </div>
+          </div>
+        }
+      />
 
       <Accordion
         WrapperClassName="border-b"

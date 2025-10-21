@@ -1,5 +1,5 @@
 import { TabItem } from "@/modules/shared/types/common";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 type Props = {
@@ -9,14 +9,24 @@ type Props = {
   wrapperClassName?: string;
   itemsClassName?: string;
   style?: "2";
+  urlQueryName?: string;
 };
 
 const Tab: React.FC<Props> = (props) => {
   const { items } = props;
 
   const router = useRouter();
+  const { query, pathname } = router;
 
   const [activetabKey, setActiveTabKey] = useState(items[0]?.key);
+
+  const urlActiveKey = props.urlQueryName ? query[props.urlQueryName] as string: undefined;
+
+  useEffect(()=>{
+    if(urlActiveKey){
+      setActiveTabKey(urlActiveKey)
+    }
+  },[urlActiveKey]);
 
   const style2 = props.style && props.style === "2";
 
@@ -48,10 +58,22 @@ const Tab: React.FC<Props> = (props) => {
           {items.map((item) => (
             <button
               type="button"
+              disabled={item.disabled}
               key={item.key}
               onClick={() => {
-                if (item.href) {
+                if(item.disabled){
+                  return
+                } else if (item.href) {
                   router.push(item.href);
+                } else if (props.urlQueryName){                  
+                    router.push(
+                        {
+                            pathname,
+                            query: { ...query, [props.urlQueryName] : item.key },
+                        },
+                        undefined,
+                        { shallow: true }
+                    );
                 } else {
                   setActiveTabKey(item.key);
                 }

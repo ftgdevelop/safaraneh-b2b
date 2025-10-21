@@ -20,7 +20,7 @@ const Panel: NextPage = () => {
     const hasFlight = process.env.PROJECT_MODULES?.includes("DomesticFlight");
     const tabItems: TabItem[] = [
         {
-            key: 1,
+            key: "domestichotel",
             label: (<div className="flex gap-2 items-center justify-center">
                 <Hotel className="hidden md:block w-6 h-6" />
                 هتل
@@ -33,7 +33,7 @@ const Panel: NextPage = () => {
             )
 
         }, {
-            key: 2,
+            key: "domesticflight",
             label: (<div className="flex gap-2 items-center justify-center">
                 <Flight2 className="hidden md:block w-6 h-6" />
                 پرواز داخلی
@@ -49,8 +49,8 @@ const Panel: NextPage = () => {
                 </div>
             )
         }, {
-            key: 3,
-            label: (<div className="flex gap-2 items-center justify-center">
+            key: "foreignflight",
+            label: (<div className="flex gap-2 items-center justify-center opacity-40">
                 <Flight2 className="hidden md:block w-6 h-6" />
                 پرواز خارجی
             </div>),
@@ -58,10 +58,11 @@ const Panel: NextPage = () => {
                 <div className="p-10">
                     در حال توسعه ...
                 </div>
-            )
+            ),
+            disabled:true
         }, {
-            key: 4,
-            label: (<div className="flex gap-2 items-center justify-center">
+            key: "bus",
+            label: (<div className="flex gap-2 items-center justify-center opacity-40">
                 <Bus className="hidden md:block w-6 h-6" />
                 اتوبوس
             </div>),
@@ -69,9 +70,10 @@ const Panel: NextPage = () => {
                 <div className="p-10">
                     در حال توسعه ...
                 </div>
-            )
+            ),
+            disabled:true
         }, {
-            key: 5,
+            key: "cip",
             label: (<div className="flex gap-2 items-center justify-center">
                 <Cip2 className="hidden md:block w-6 h-6" />
                 تشریفات فرودگاهی
@@ -96,7 +98,7 @@ const Panel: NextPage = () => {
             </div>
             <section className="p-4 md:p-6">
                 <div className="bg-white rounded-xl border p-5">
-                    <Tab items={tabItems} noBorder />
+                    <Tab items={tabItems} noBorder urlQueryName="mode" />
                 </div>
             </section>
 

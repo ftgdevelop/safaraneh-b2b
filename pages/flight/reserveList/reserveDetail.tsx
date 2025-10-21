@@ -18,6 +18,7 @@ import DownloadPdfVoucher from '@/modules/domesticHotel/components/booking/Downl
 import Rating from '@/modules/shared/components/ui/Rating';
 import HotelMap from '@/modules/domesticHotel/components/hotelDetails/HotelMap';
 import Head from 'next/head';
+import { flightGetTenantReserveById } from '@/modules/flights/actions';
 
 const DomesticHotelReserveDetail: NextPage = () => {
 
@@ -42,18 +43,25 @@ const DomesticHotelReserveDetail: NextPage = () => {
     useEffect(() => {
 
         if (username && reserveId) {
+            
+            const localStorageToken = localStorage.getItem('Token');
+            
             const fetchDomesticHotelReserve = async () => {
-                const response: any = await domesticHotelGetReserveById({ reserveId: reserveId, userName: username });
-                if (response.data.result) {
-                    setReserveData(response.data.result)
+                
+                const response: any = await flightGetTenantReserveById({ userName:username, reserveId: reserveId, token:localStorageToken || "" });
+                
+                debugger;
 
-                    const hotelDataResponse: { data?: { result?: DomesticHotelSummaryDetail } } = await getDomesticHotelSummaryDetailById(response.data.result.accommodationId || response.data.result.accommodation?.id);
-                    if (hotelDataResponse.data?.result) {
-                        setHotelData(hotelDataResponse.data.result);
-                    }
-                } else {
-                    setReserveNotFound(true);
-                }
+                // if (response.data.result) {
+                //     setReserveData(response.data.result)
+
+                //     const hotelDataResponse: { data?: { result?: DomesticHotelSummaryDetail } } = await getDomesticHotelSummaryDetailById(response.data.result.accommodationId || response.data.result.accommodation?.id);
+                //     if (hotelDataResponse.data?.result) {
+                //         setHotelData(hotelDataResponse.data.result);
+                //     }
+                // } else {
+                //     setReserveNotFound(true);
+                // }
             }
 
             fetchDomesticHotelReserve();

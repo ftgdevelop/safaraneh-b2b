@@ -5,6 +5,7 @@ import PanelFooter from "./PanelFooter";
 
 type Props ={
     logo?: string;
+    copyrightText: string;
 }
 
 const PanelLayout : React.FC<PropsWithChildren<Props>> = props => {
@@ -22,7 +23,7 @@ const PanelLayout : React.FC<PropsWithChildren<Props>> = props => {
 
                 {props.children}
 
-                <PanelFooter />
+                {props.copyrightText && <PanelFooter copyrightText={props.copyrightText} />}
                 
             </main>
 

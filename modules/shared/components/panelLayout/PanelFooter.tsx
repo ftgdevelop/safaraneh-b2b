@@ -1,7 +1,11 @@
-const PanelFooter : React.FC = () => {
+type Props ={
+    copyrightText: string;
+}
+
+const PanelFooter : React.FC<Props> = props => {
     return (
         <footer className="flex justify-end text-xs p-5">
-            © ۱۴۰۳ سفرانه. تمام حقوق محفوظ است.
+            {props.copyrightText}
         </footer>
     )
 }

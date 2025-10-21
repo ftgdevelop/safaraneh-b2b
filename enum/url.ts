@@ -60,7 +60,6 @@ export const Identity = {
   ChangePassword: "/api/services/app/Account/ChangePassword",
   SendEmailActivation: "/api/services/app/Account/SendEmailActivation",
   ActivateEmail: "/api/services/app/Account/ActivateEmail",
-  GetSiteAllSettings: "/api/services/app/TenantSettings/GetAllSettings",
   GetPermissions: "/api/services/app/Profile/GetPermissions",
   getAllUsers: "/api/services/app/User/GetAll",
   ResetUsersPassword: "/api/services/app/User/ResetPassword",
@@ -83,7 +82,9 @@ export const Flight = {
   searchFlights: 'flightdomestic.safaraneh.com/api/services/app/Airport/Search',
   Confirm: "/api/services/app/BookingFlight/Confirm",
   GetVoucherPdf: "/api/services/app/Reserve/GetVoucherPdf",
-  AirportSearch: "/api/services/app/Airport/Search"
+  AirportSearch: "/api/services/app/Airport/Search",
+  GetFlightTenantAllReserves:"/api/services/app/TenantReserve/GetAll",
+  GetFlightReserveById:"/api/services/app/TenantReserve/Get"
 };
 
 export const Blog = {

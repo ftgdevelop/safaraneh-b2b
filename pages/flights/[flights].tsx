@@ -26,15 +26,14 @@ import ChangeDay from "@/modules/flights/components/flightList/ChangeDay";
 import FlightItem from "@/modules/flights/components/flightItem/FlightItem";
 import SearchData from "@/modules/flights/components/flightList/SearchData";
 import SortFlights from "@/modules/flights/components/flightList/SortFlights";
-import { WebSiteDataType } from "@/modules/shared/types/common";
 import NotFound from "@/modules/shared/components/ui/NotFound";
 import AvailabilityTimeout from "@/modules/shared/components/AvailabilityTimeout";
 import Skeleton from "@/modules/shared/components/ui/Skeleton";
 import FlightItemTheme2 from "@/modules/flights/components/flightList/FlightItemTheme2";
 import FlightDetailsTheme2 from "@/modules/flights/components/flightList/FlightDetailsTheme2";
 import Button from "@/modules/shared/components/ui/Button";
-import BannerInSearchList from "@/modules/domesticHotel/components/shared/BannerInSearchList";
 import { setAlertModal } from "@/modules/shared/store/alertSlice";
+import { useStrapiData } from "@/modules/shared/actions/context/StrapiContext";
 
 
 type Airport = {
@@ -53,11 +52,15 @@ type Airport = {
     airportType: "Main" | "Subsidiary" | "City";
 }
 
-const Flights: NextPage = ({ airports, routeCodes, portalData, moduleDisabled }: { airports?: Airport[], routeCodes?: string, portalData?: WebSiteDataType; moduleDisabled?: boolean; }) => {
+const Flights: NextPage = ({ airports, routeCodes, moduleDisabled }: { airports?: Airport[], routeCodes?: string, moduleDisabled?: boolean; }) => {
 
     const dispatch = useDispatch()
     const { t } = useTranslation("common");
     const { t: tFlight } = useTranslation("flight");
+
+    const { strapiData } = useStrapiData();
+
+    const siteTitle = strapiData?.siteTitle;
 
     const SidebarFilter = useSelector((state: RootState) => state.flightFilters.filterOption)
     let [flightsInFilter, setFlightsInFilter] = useState<FlightItemType[]>()
@@ -346,8 +349,6 @@ const Flights: NextPage = ({ airports, routeCodes, portalData, moduleDisabled }:
 
     }
 
-    const siteName = portalData?.billing.name || "";
-
     const research = () => {
         fetchKey(routeCodes);
     }
@@ -408,8 +409,8 @@ const Flights: NextPage = ({ airports, routeCodes, portalData, moduleDisabled }:
             <Head>
                 {!!(destination && origin) && (
                     <>
-                        <title>{tFlight("flight-list-title", { origin: origin, destination: destination, siteName: siteName })}</title>
-                        <meta name="description" content={tFlight("flight-list-description", { origin: origin, destination: destination, siteName: siteName })} />
+                        <title>{tFlight("flight-list-title", { origin: origin, destination: destination, siteName: siteTitle })}</title>
+                        <meta name="description" content={tFlight("flight-list-description", { origin: origin, destination: destination, siteName: siteTitle })} />
                     </>
                 )}
             </Head>

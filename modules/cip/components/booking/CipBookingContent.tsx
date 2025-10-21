@@ -2,7 +2,6 @@ import { useTranslation } from "next-i18next";
 import { useEffect, useState } from 'react';
 import { Close, ErrorIcon, Tik } from "@/modules/shared/components/ui/icons";
 import Loading from "@/modules/shared/components/ui/Loading";
-import Skeleton from "@/modules/shared/components/ui/Skeleton";
 import { CipGetReserveByIdResponse } from "../../types/cip";
 import DownloadPdfVoucher from "./DownloadPdfVoucher";
 
@@ -10,9 +9,6 @@ type Props = {
     confirmStatus?: "Undefined" | "Registered" | "Pending" | "Issued" | "Canceled" | "WebServiceCancel" | "PaymentSuccessful" | "WebServiceUnsuccessful" | "PriceChange" | "Unavailable" | "Refunded" | "Voided" | "InProgress" | "PaidBack" | "RefundInProgress" | "Changed" | "OnCredit" | "ContactProvider" | "UnConfirmed" | "ReceivedAdvance" | "ExtraReceiving";
     reserveInfo?: CipGetReserveByIdResponse;
     confirmLoading: boolean;
-    portalEmail?: string;
-    portalPhoneLink?: string;
-    portalPhoneNumber?: string;
 }
 
 const CipBookingContent: React.FC<Props> = props => {
@@ -124,12 +120,6 @@ const CipBookingContent: React.FC<Props> = props => {
                                 <span> {confirmLoading ? <Loading /> : reserveInfo?.id} </span>
                             </div>
 
-                            <p className="text-sm text-center">
-                                برای تماس با پشتیبانی با شماره
-                                <a href={`tel:${props.portalPhoneLink}`}> {props.portalPhoneNumber} </a>
-                                تماس بگیرید.
-                            </p>
-
                         </div>
 
                     </>
@@ -144,44 +134,6 @@ const CipBookingContent: React.FC<Props> = props => {
                     className="bg-primary-700 hover:bg-primary-800 text-white px-5 flex gap-2 items-center justify-center rounded-lg transition-all mb-4 w-full h-12 disabled:bg-neutral-500 disabled:cursor-not-allowed"
                 />
             )}
-
-
-            <div className="border border-neutral-300 rounded-lg bg-white mb-4 p-4">
-                {reserveInfo ? (
-                    <>
-                        <div className="mb-3 font-semibold text-lg">
-                            {t("reserve-details")}
-                        </div>
-                        <p className="text-sm mb-3">
-                            جزئیات رزرو شما صادر شد
-                        </p>
-
-                        <hr className="my-4" />
-
-                        <p className="mb-3 text-justify">
-                            برای شفافیت یا تاخیر در ارسال ووچر هتل، لطفا از طریق ایمیل
-                            <a className="mx-1 text-blue-800 hover:text-blue-700 font-sans font-semibold" href={`mailto:${props.portalEmail}`}> {props.portalEmail} </a>
-                            یا با شماره تلفن
-                            <a className="mx-1 text-blue-800 hover:text-blue-700 font-semibold" href={`tel:${props.portalPhoneLink}`}> {props.portalPhoneNumber} </a>
-                            تماس بگیرید.
-                        </p>
-
-                        <p>
-                            تیم پشتیبانی از ساعت ۹:۰۰ الی ۲۲:۰۰
-                        </p>
-
-                    </>
-                ) : (
-                    <>
-                        <Skeleton className="mb-4 w-20" />
-                        <Skeleton className="w-1/4" />
-                        <hr className="my-4" />
-                        <Skeleton className="mb-4" />
-                        <Skeleton className=" w-1/4 mb-4" />
-                    </>
-
-                )}
-            </div>
 
         </div>
     )

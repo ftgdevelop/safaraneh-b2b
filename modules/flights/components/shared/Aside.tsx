@@ -1,6 +1,6 @@
 import Skeleton from "@/modules/shared/components/ui/Skeleton";
 import { TakeOff, Airpalne2, Close, ArrowRight } from "@/modules/shared/components/ui/icons";
-import { dateDiplayFormat, numberWithCommas } from "@/modules/shared/helpers";
+import { dateDiplayFormat, numberWithCommas, toPersianDigits } from "@/modules/shared/helpers";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { FlightGetValidateDataType } from "../../types/flights";
@@ -133,10 +133,10 @@ const Aside: React.FC<Props> = props => {
 
                         {!!returnFlight && <span> پرواز رفت:  </span>}
 
-                        {dateDiplayFormat({ date: departureFlight.departureTime, format: "ddd dd mm", locale: "fa" })}
+                        {toPersianDigits(dateDiplayFormat({ date: departureFlight.departureTime, format: "ddd dd mm", locale: "fa" }))}
 
                         <span className="text-neutal-500 font-sans" dir="ltr">
-                            ({dateDiplayFormat({ date: departureFlight.departureTime, format: "dd mm", locale: "en" })})
+                            ({toPersianDigits(dateDiplayFormat({ date: departureFlight.departureTime, format: "dd mm", locale: "en" }))})
                         </span>
 
                     </div>
@@ -160,7 +160,7 @@ const Aside: React.FC<Props> = props => {
                             <b className="font-semibold block">
                                 {departureFlight.departureAirport.city.name}
                             </b>
-                            {dateDiplayFormat({ date: departureFlight.departureTime, format: "HH:mm", locale: 'fa' })}
+                            {toPersianDigits(dateDiplayFormat({ date: departureFlight.departureTime, format: "HH:mm", locale: 'fa' }))}
                         </div>
 
                         <div className="grow font-sans text-xs text-center text-neutral-500">
@@ -182,7 +182,7 @@ const Aside: React.FC<Props> = props => {
                             <b className="font-semibold block">
                                 {departureFlight.arrivalAirport.city.name}
                             </b>
-                            {departureFlight.arrivalTime ? dateDiplayFormat({ date: departureFlight.arrivalTime, format: "HH:mm", locale: 'fa' }) : "--"}
+                            {departureFlight.arrivalTime ? toPersianDigits(dateDiplayFormat({ date: departureFlight.arrivalTime, format: "HH:mm", locale: 'fa' })) : "--"}
                         </div>
 
                     </div>
@@ -195,10 +195,10 @@ const Aside: React.FC<Props> = props => {
 
                                 <span> پرواز برگشت:  </span>
 
-                                {dateDiplayFormat({ date: returnFlight.departureTime, format: "ddd dd mm", locale: "fa" })}
+                                {toPersianDigits(dateDiplayFormat({ date: returnFlight.departureTime, format: "ddd dd mm", locale: "fa" }))}
 
                                 <span className="text-neutal-500 font-sans" dir="ltr">
-                                    ({dateDiplayFormat({ date: returnFlight.departureTime, format: "dd mm", locale: "en" })})
+                                    ({toPersianDigits(dateDiplayFormat({ date: returnFlight.departureTime, format: "dd mm", locale: "en" }))})
                                 </span>
 
                             </div>
@@ -222,7 +222,7 @@ const Aside: React.FC<Props> = props => {
                                     <b className="font-semibold block">
                                         {returnFlight.departureAirport.city.name}
                                     </b>
-                                    {dateDiplayFormat({ date: returnFlight.departureTime, format: "HH:mm", locale: 'fa' })}
+                                    {toPersianDigits(dateDiplayFormat({ date: returnFlight.departureTime, format: "HH:mm", locale: 'fa' }))}
                                 </div>
 
                                 <div className="grow font-sans text-xs text-center text-neutral-500">
@@ -244,7 +244,7 @@ const Aside: React.FC<Props> = props => {
                                     <b className="font-semibold block">
                                         {returnFlight.arrivalAirport.city.name}
                                     </b>
-                                    {returnFlight.arrivalTime ? dateDiplayFormat({ date: returnFlight.arrivalTime, format: "HH:mm", locale: 'fa' }) : "--"}
+                                    {returnFlight.arrivalTime ? toPersianDigits(dateDiplayFormat({ date: returnFlight.arrivalTime, format: "HH:mm", locale: 'fa' })) : "--"}
                                 </div>
 
                             </div>
@@ -394,11 +394,11 @@ const Aside: React.FC<Props> = props => {
                                         {departureFlight.departureAirport.city.name}
                                     </b>
                                     <span className="text-base font-semibold">
-                                        {dateDiplayFormat({ date: departureFlight.departureTime, format: "HH:mm", locale: 'fa' })}
+                                        {toPersianDigits(dateDiplayFormat({ date: departureFlight.departureTime, format: "HH:mm", locale: 'fa' }))}
                                     </span>
 
                                     <div className="text-xs sm:text-sm">
-                                        {dateDiplayFormat({ date: departureFlight.departureTime, format: "ddd dd mm", locale: "fa" })}
+                                        {toPersianDigits(dateDiplayFormat({ date: departureFlight.departureTime, format: "ddd dd mm", locale: "fa" }))}
                                     </div>
                                 </div>
 
@@ -407,11 +407,11 @@ const Aside: React.FC<Props> = props => {
                                         {departureFlight.arrivalAirport.city.name}
                                     </b>
                                     <span className="text-base font-semibold">
-                                        {dateDiplayFormat({ date: departureFlight.arrivalTime, format: "HH:mm", locale: 'fa' })}
+                                        {toPersianDigits(dateDiplayFormat({ date: departureFlight.arrivalTime, format: "HH:mm", locale: 'fa' }))}
                                     </span>
 
                                     <div className="text-xs sm:text-sm">
-                                        {dateDiplayFormat({ date: departureFlight.arrivalTime, format: "ddd dd mm", locale: "fa" })}
+                                        {toPersianDigits(dateDiplayFormat({ date: departureFlight.arrivalTime, format: "ddd dd mm", locale: "fa" }))}
                                     </div>
                                 </div>}
 
@@ -470,11 +470,11 @@ const Aside: React.FC<Props> = props => {
                                                 {returnFlight.departureAirport.city.name}
                                             </b>
                                             <span className="text-base font-semibold">
-                                                {dateDiplayFormat({ date: returnFlight.departureTime, format: "HH:mm", locale: 'fa' })}
+                                                {toPersianDigits(dateDiplayFormat({ date: returnFlight.departureTime, format: "HH:mm", locale: 'fa' }))}
                                             </span>
 
                                             <div className="text-xs sm:text-sm">
-                                                {dateDiplayFormat({ date: returnFlight.departureTime, format: "ddd dd mm", locale: "fa" })}
+                                                {toPersianDigits(dateDiplayFormat({ date: returnFlight.departureTime, format: "ddd dd mm", locale: "fa" }))}
                                             </div>
                                         </div>
 
@@ -483,11 +483,11 @@ const Aside: React.FC<Props> = props => {
                                                 {returnFlight.arrivalAirport.city.name}
                                             </b>
                                             <span className="text-base font-semibold">
-                                                {dateDiplayFormat({ date: returnFlight.arrivalTime, format: "HH:mm", locale: 'fa' })}
+                                                {toPersianDigits(dateDiplayFormat({ date: returnFlight.arrivalTime, format: "HH:mm", locale: 'fa' }))}
                                             </span>
 
                                             <div className="text-xs sm:text-sm">
-                                                {dateDiplayFormat({ date: returnFlight.arrivalTime, format: "ddd dd mm", locale: "fa" })}
+                                                {toPersianDigits(dateDiplayFormat({ date: returnFlight.arrivalTime, format: "ddd dd mm", locale: "fa" }))}
                                             </div>
                                         </div>}
 

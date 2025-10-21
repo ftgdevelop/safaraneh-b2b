@@ -23,6 +23,9 @@ import { CreditCard } from '@/modules/shared/components/ui/icons';
 import { CipGetReserveById } from '@/modules/cip/actions';
 import { CipGetReserveByIdResponse } from '@/modules/cip/types/cip';
 import CipAside from '@/modules/cip/components/shared/CipAside';
+import DomesticFlightAside from '@/modules/flights/components/shared/Aside';
+import { DomesticFlightGetReserveByIdType } from '@/modules/flights/types/flights';
+import { flightGetReserveById } from '@/modules/flights/actions';
 
 
 const Payment: NextPage = () => {
@@ -50,8 +53,8 @@ const Payment: NextPage = () => {
   const [cipReserveInfo, setCipReserveInfo] = useState<CipGetReserveByIdResponse>();
   const [cipReserveInfoLoading, setCipReserveInfoLoading] = useState<boolean>(true);
 
-  // const [domesticFlightReserveInfo, setDomesticFlightReserveInfo] = useState<DomesticFlightGetReserveByIdType>();
-  // const [domesticFlightReserveInfoLoading, setDomesticFlightReserveInfoLoading] = useState<boolean>(true);
+  const [domesticFlightReserveInfo, setDomesticFlightReserveInfo] = useState<DomesticFlightGetReserveByIdType>();
+  const [domesticFlightReserveInfoLoading, setDomesticFlightReserveInfoLoading] = useState<boolean>(true);
 
 
 
@@ -77,8 +80,6 @@ const Payment: NextPage = () => {
     if(localStorageTenant){
       fetchType(+localStorageTenant);
     }
-
-
 
   }, [username, reserveId, localStorageTenant]);
 
@@ -197,24 +198,29 @@ const Payment: NextPage = () => {
       fetchCipData(reserveId, username);
     }
 
-    // if (username && reserveId && type === 'FlightDomestic') {
+    if (username && reserveId && type === 'FlightDomestic') {
 
-    //   const fetchDomesticFlightData = async (reserveId: string, userName: string) => {
+      const localStorageToken = localStorage?.getItem('Token');
 
-    //     setDomesticFlightReserveInfoLoading(true);
+      const fetchDomesticFlightData = async (reserveId: string, userName: string, token: string) => {
 
-    //     const respone: any = await flightGetReserveById({ reserveId: reserveId, userName: userName, token: token });
+        setDomesticFlightReserveInfoLoading(true);
 
-    //     setDomesticFlightReserveInfoLoading(false);
+        const respone: any = await flightGetReserveById({ reserveId: reserveId, userName: userName, token: token });
 
-    //     if (respone?.data?.result) {
-    //       setDomesticFlightReserveInfo(respone.data.result);
-    //     }
-    //   };
+        setDomesticFlightReserveInfoLoading(false);
 
-    //   fetchDomesticFlightData(reserveId, username);
+        if (respone?.data?.result) {
+          setDomesticFlightReserveInfo(respone.data.result);
+        }
+      };
 
-    // }
+      if(localStorageToken){
+        fetchDomesticFlightData(reserveId, username,localStorageToken );
+      }
+
+
+    }
 
   }, [type, username, reserveId]);
 
@@ -384,37 +390,37 @@ const Payment: NextPage = () => {
     departurePrice: number;
     returnPrice?: number;
   }[] = [];
-  // if (domesticFlightReserveInfo) {
-  //   if (domesticFlightReserveInfo?.adultCount) {
-  //     domesticFlightPassengers.push({
-  //       type: "ADT",
-  //       label: t('adult'),
-  //       count: domesticFlightReserveInfo.adultCount,
-  //       departurePrice: domesticFlightReserveInfo.departureFlight.adultPrice,
-  //       returnPrice: domesticFlightReserveInfo.returnFlight?.adultPrice
-  //     });
-  //   }
-  //   if (domesticFlightReserveInfo?.childCount) {
-  //     domesticFlightPassengers.push({
-  //       type: "CHD",
-  //       label: t('child'),
-  //       count: domesticFlightReserveInfo.childCount,
-  //       departurePrice: domesticFlightReserveInfo.departureFlight.childPrice,
-  //       returnPrice: domesticFlightReserveInfo.returnFlight?.childPrice
-  //     });
-  //   }
-  //   if (domesticFlightReserveInfo?.infantCount) {
-  //     domesticFlightPassengers.push({
-  //       type: "INF",
-  //       label: t('infant'),
-  //       count: domesticFlightReserveInfo.infantCount,
-  //       departurePrice: domesticFlightReserveInfo.departureFlight.infantPrice,
-  //       returnPrice: domesticFlightReserveInfo.returnFlight?.infantPrice
-  //     });
-  //   }
+  if (domesticFlightReserveInfo) {
+    if (domesticFlightReserveInfo?.adultCount) {
+      domesticFlightPassengers.push({
+        type: "ADT",
+        label: t('adult'),
+        count: domesticFlightReserveInfo.adultCount,
+        departurePrice: domesticFlightReserveInfo.departureFlight.adultPrice,
+        returnPrice: domesticFlightReserveInfo.returnFlight?.adultPrice
+      });
+    }
+    if (domesticFlightReserveInfo?.childCount) {
+      domesticFlightPassengers.push({
+        type: "CHD",
+        label: t('child'),
+        count: domesticFlightReserveInfo.childCount,
+        departurePrice: domesticFlightReserveInfo.departureFlight.childPrice,
+        returnPrice: domesticFlightReserveInfo.returnFlight?.childPrice
+      });
+    }
+    if (domesticFlightReserveInfo?.infantCount) {
+      domesticFlightPassengers.push({
+        type: "INF",
+        label: t('infant'),
+        count: domesticFlightReserveInfo.infantCount,
+        departurePrice: domesticFlightReserveInfo.departureFlight.infantPrice,
+        returnPrice: domesticFlightReserveInfo.returnFlight?.infantPrice
+      });
+    }
 
 
-  // }
+  }
 
   return (
     <>
@@ -467,13 +473,12 @@ const Payment: NextPage = () => {
                 reserveInfo={cipReserveInfo}
               />
             ) : type === 'FlightDomestic' ? (
-              "something"
-              // <Aside
-              //   loading={domesticFlightReserveInfoLoading}
-              //   departureFlight={domesticFlightReserveInfo?.departureFlight}
-              //   passengers={domesticFlightPassengers}
-              //   returnFlight={domesticFlightReserveInfo?.returnFlight}
-              // />
+              <DomesticFlightAside
+                loading={domesticFlightReserveInfoLoading}
+                departureFlight={domesticFlightReserveInfo?.departureFlight}
+                passengers={domesticFlightPassengers}
+                returnFlight={domesticFlightReserveInfo?.returnFlight}
+              />
             ) : null}
 
             {!!theme1 && (

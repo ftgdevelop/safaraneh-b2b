@@ -140,7 +140,7 @@ const Layout: React.FC<PropsWithChildren<Props>> = props => {
       
       <Notification />
 
-      <PanelLayout logo={props.logo} >
+      <PanelLayout logo={props.logo} copyrightText={props.copyright} >
         {props.children}
       </PanelLayout>
  

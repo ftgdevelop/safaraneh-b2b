@@ -1,6 +1,7 @@
 import { Flight, ServerAddress } from "@/enum/url"
 import axios from "axios"
 import { AvailibilityParams, FlightPrereserveFormValue } from "../types/flights";
+import { CurrencyType } from "@/modules/payment/types";
 
 export const GetAirportsByCode = async (codes: string[], acceptLanguage: string = 'fa-IR') => {
     try {
@@ -214,8 +215,6 @@ export const validateFlight = async (params: {
 }
 
 
-
-
 export const flightGetReserveById = async (params:{userName:string, reserveId: string, token:string},acceptLanguage: string = 'fa-IR') => {
     try {   
         
@@ -310,3 +309,60 @@ export const flightGetVoucherPdf = async (params:{userName:string, reserveId: st
         return error
     }
 }
+
+
+export const getTenantReservesDomesticFlight = async (queryParams:string, headerParams:{token:string, tenant:number , acceptLanguage: string , currencyType : CurrencyType}) => {
+    try {
+      const response = await axios.get(
+        `${ServerAddress.Type}${ServerAddress.Flight}${Flight.GetFlightTenantAllReserves}?${queryParams}`,
+        {
+          headers: {
+            "Accept-Language": headerParams.acceptLanguage,
+            Accept: 'application/json;charset=UTF-8',
+            apikey: process.env.PROJECT_SERVER_APIKEY,
+            Authorization: `Bearer ${headerParams.token}`,
+            Tenantid: headerParams.tenant,
+            Currency: headerParams.currencyType
+          },
+        },
+      )
+      return response
+    } catch (error) {
+      return error
+    }
+  
+  }
+
+
+export const flightGetTenantReserveById = async (params:{userName:string, reserveId: string, token:string},acceptLanguage: string = 'fa-IR') => {
+    try {   
+        
+        let Headers;
+        if (params.token){
+            Headers = {
+                'Content-Type': 'application/json',
+                apikey: process.env.PROJECT_SERVER_APIKEY,
+                'Accept-Language': acceptLanguage,
+                Tenantid: process.env.PROJECT_SERVER_TENANTID,
+                Authorization: `Bearer ${params.token}`
+            }
+        }else{
+            Headers = {
+                'Content-Type': 'application/json',
+                apikey: process.env.PROJECT_SERVER_APIKEY,
+                'Accept-Language': acceptLanguage,
+                Tenantid: process.env.PROJECT_SERVER_TENANTID
+            } 
+        }
+
+        let response = await axios.get(
+            `${ServerAddress.Type}${ServerAddress.Flight}${Flight.GetFlightReserveById}?reserveId=${params.reserveId}&username=${params.userName}`,
+            {headers:Headers}
+        )
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+  

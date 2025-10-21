@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 
 import { Close, ErrorIcon, Tik, User } from "@/modules/shared/components/ui/icons";
 import Loading from "@/modules/shared/components/ui/Loading";
-import Skeleton from "@/modules/shared/components/ui/Skeleton";
 import { FlightConfirmStatus } from "../../types/flights";
 import DownloadPdfVoucher from "./DownloadPdfVoucher";
 
@@ -18,9 +17,6 @@ type Props = {
     }
     confirmLoading: boolean;
     reserveDataLoading: boolean;
-    portalEmail?: string;
-    portalPhoneLink?: string;
-    portalPhoneNumber?: string;
 }
 
 const BookingContent: React.FC<Props> = props => {
@@ -28,7 +24,7 @@ const BookingContent: React.FC<Props> = props => {
     const { t } = useTranslation('common');
     const { t: tPayment } = useTranslation('payment');
 
-    const { confirmStatus, confirmLoading, reserveDataLoading, reserveId, username, reserver, portalEmail, portalPhoneLink, portalPhoneNumber, summary } = props;
+    const { confirmStatus, confirmLoading, reserveDataLoading, reserveId, username, reserver,summary } = props;
 
     const [progress, setProgress] = useState<number>(0);
 
@@ -79,7 +75,7 @@ const BookingContent: React.FC<Props> = props => {
                             <div >
                                 {reserver && <h4 className="font-semibold text-lg text-center mb-1"> {`${t("hello")} ${reserver.firstName} ${reserver.lastName}`} </h4>}
                                 <p className="text-center mb-1">{tPayment("wait-a-second")}</p>
-                                <p className="text-center text-sm">{tPayment("an-email-will-sent")}</p>
+                                <p className="text-center text-sm">{tPayment("an-email-will-sent-flight")}</p>
                             </div>
                         </div>
                     </div>
@@ -129,13 +125,6 @@ const BookingContent: React.FC<Props> = props => {
                             <span > {t("tracking-code")} : </span>
                             <span> {confirmLoading ? <Loading /> : reserveId} </span>
                         </div>
-
-                        <p className="text-sm text-center">
-                            برای تماس با پشتیبانی با شماره
-                            <a href={`tel:${props.portalPhoneLink}`}> {props.portalPhoneNumber} </a>
-                            تماس بگیرید.
-                        </p>
-
                     </div>
 
                 )}
@@ -163,43 +152,6 @@ const BookingContent: React.FC<Props> = props => {
                     </div>
                 )}
 
-            </div>
-
-
-            <div className="border border-neutral-300 rounded-lg bg-white mb-4 p-4">
-                {reserveDataLoading ? (
-                    <>
-                        <Skeleton className="mb-4 w-20" />
-                        <Skeleton className="w-1/4" />
-                        <hr className="my-4" />
-                        <Skeleton className="mb-4" />
-                        <Skeleton className=" w-1/4 mb-4" />
-                    </>
-                ) : (
-                    <>
-                        <div className="mb-3 font-semibold text-lg">
-                            {t("reserve-details")}
-                        </div>
-                        <p className="text-sm mb-3">
-                            جزئیات رزرو شما صادر شد
-                        </p>
-
-                        <hr className="my-4" />
-
-                        <p className="mb-3 text-justify max-sm:text-sm max-sm:leading-6">
-                            برای شفافیت یا تاخیر در ارسال ووچر هتل، لطفا از طریق ایمیل
-                            <a className="mx-1 text-blue-800 hover:text-blue-700 font-sans font-semibold" href={`mailto:${portalEmail}`}> {portalEmail} </a>
-                            یا با شماره تلفن
-                            <a className="mx-1 text-blue-800 hover:text-blue-700 font-semibold" href={`tel:${portalPhoneLink}`}> {portalPhoneNumber} </a>
-                            تماس بگیرید.
-                        </p>
-
-                        <p className="max-sm:text-sm max-sm:leading-6">
-                            تیم پشتیبانی از ساعت ۹:۰۰ الی ۲۲:۰۰
-                        </p>
-
-                    </>
-                )}
             </div>
 
         </div>

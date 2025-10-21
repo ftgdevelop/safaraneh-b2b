@@ -6,7 +6,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 
 import { DomesticHotelConfirm, domesticHotelGetReserveById, getDomesticHotelSummaryDetailById } from '@/modules/domesticHotel/actions';
-import { WebSiteDataType } from '@/modules/shared/types/common';
 import { AsideHotelInfoType, AsideReserveInfoType, DomesticHotelConfirmType, DomesticHotelGetReserveByIdData, DomesticHotelSummaryDetail } from '@/modules/domesticHotel/types/hotel';
 import { setAlertModal } from '@/modules/shared/store/alertSlice';
 import { useAppDispatch } from '@/modules/shared/hooks/use-store';
@@ -14,15 +13,13 @@ import { getDatesDiff } from '@/modules/shared/helpers';
 
 import Aside from '@/modules/domesticHotel/components/shared/Aside';
 import Steps from '@/modules/shared/components/ui/Steps';
-import Skeleton from '@/modules/shared/components/ui/Skeleton';
 import BookingContent from '@/modules/domesticHotel/components/booking/BookingContent';
 import { Hotel } from '@/modules/shared/components/ui/icons';
 
-const Booking: NextPage = ({ portalData }: { portalData?: WebSiteDataType }) => {
+const Booking: NextPage = () => {
 
     const { t } = useTranslation('common');
     const { t: tHotel } = useTranslation('hotel');
-    const { t: tPayment } = useTranslation('payment');
 
     const router = useRouter();
 
@@ -34,10 +31,6 @@ const Booking: NextPage = ({ portalData }: { portalData?: WebSiteDataType }) => 
 
     const [domesticHotelReserveData, setDomesticHotelReserveData] = useState<DomesticHotelGetReserveByIdData>();
     const [domesticHotelData, setDomesticHotelData] = useState<DomesticHotelSummaryDetail>();
-
-    const phoneLink = portalData?.billing.telNumber || portalData?.billing.phoneNumber || "";
-    const phoneNumber = phoneLink?.replace("+98", "0");
-    const email = portalData?.billing.email || "";
 
     const [confirmData, setConfirmData] = useState<DomesticHotelConfirmType>();
     const [confirmLoading, setConfirmLoading] = useState<boolean>(true);
@@ -210,9 +203,6 @@ const Booking: NextPage = ({ portalData }: { portalData?: WebSiteDataType }) => 
                             reserveId={reserveId}
                             username={username}
                             reserveInfo={domesticHotelReserveData}
-                            portalEmail={email}
-                            portalPhoneLink={phoneLink}
-                            portalPhoneNumber={phoneNumber}
                         />
                     </div>
                     <div>
@@ -222,15 +212,13 @@ const Booking: NextPage = ({ portalData }: { portalData?: WebSiteDataType }) => 
                             reserveInformation={domesticHotelReserveInformation}
                         />
 
-                        <div className='bg-white border border-neutral-300 rounded-md mb-4 p-4'>
+                        {/* <div className='bg-white border border-neutral-300 rounded-md mb-4 p-4'>
                             {domesticHotelInformation ? (
                                 <>
                                     <h5 className='font-semibold leading-6 mb-3 border-b text-sm'>
                                         {tPayment('need-help')}
                                     </h5>
                                     <p className='block mb-3'>{tPayment('24hours-backup')}</p>
-                                    <a href={`tel:${phoneLink}`} className='block mb-1 text-base text-blue-800 rtl:text-right font-semibold underline-offset-2 underline' dir="ltr"> {phoneNumber} </a>
-                                    <a href={`mailto:${email}`} className='block text-base text-blue-800 rtl:text-right font-sans font-semibold underline-offset-2 underline' dir="ltr"> {email} </a>
                                 </>
                             ) : (
                                 <>
@@ -238,7 +226,7 @@ const Booking: NextPage = ({ portalData }: { portalData?: WebSiteDataType }) => 
                                     <Skeleton className='mb- w-2/3' />
                                 </>
                             )}
-                        </div>
+                        </div> */}
 
                         {/* <div className='bg-white p-4 border border-neutral-300 rounded-md mb-4 border-t-2 border-t-orange-400'>
                             {domesticHotelInformation ? (

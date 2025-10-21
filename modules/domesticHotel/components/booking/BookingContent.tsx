@@ -13,9 +13,6 @@ type Props = {
     username?: string;
     reserveInfo?: DomesticHotelGetReserveByIdData;
     confirmLoading: boolean;
-    portalEmail?: string;
-    portalPhoneLink?: string;
-    portalPhoneNumber?: string;
 }
 
 const BookingContent: React.FC<Props> = props => {
@@ -145,12 +142,6 @@ const BookingContent: React.FC<Props> = props => {
                                 <span> {confirmLoading ? <Loading /> : reserveInfo?.id} </span>
                             </div>
 
-                            <p className="text-sm text-center">
-                                برای تماس با پشتیبانی با شماره
-                                <a href={`tel:${props.portalPhoneLink}`}> {props.portalPhoneNumber} </a>
-                                تماس بگیرید.
-                            </p>
-
                         </div>
                     }
                 </>
@@ -241,43 +232,6 @@ const BookingContent: React.FC<Props> = props => {
                     )}
                 </div>
 
-            </div>
-
-            <div className="border border-neutral-300 rounded-lg bg-white mb-4 p-4">
-                {reserveInfo ? (
-                    <>
-                        <div className="mb-3 font-semibold text-lg">
-                            {t("reserve-details")}
-                        </div>
-                        <p className="text-sm mb-3">
-                            جزئیات رزرو شما صادر شد
-                        </p>
-
-                        <hr className="my-4" />
-
-                        <p className="mb-3 text-justify">
-                            برای شفافیت یا تاخیر در ارسال ووچر هتل، لطفا از طریق ایمیل
-                            <a className="mx-1 text-blue-800 hover:text-blue-700 font-sans font-semibold" href={`mailto:${props.portalEmail}`}> {props.portalEmail} </a>
-                            یا با شماره تلفن
-                            <a className="mx-1 text-blue-800 hover:text-blue-700 font-semibold" href={`tel:${props.portalPhoneLink}`}> {props.portalPhoneNumber} </a>
-                            تماس بگیرید.
-                        </p>
-
-                        <p>
-                            تیم پشتیبانی از ساعت ۹:۰۰ الی ۲۲:۰۰
-                        </p>
-
-                    </>
-                ) : (
-                    <>
-                        <Skeleton className="mb-4 w-20" />
-                        <Skeleton className="w-1/4" />
-                        <hr className="my-4" />
-                        <Skeleton className="mb-4" />
-                        <Skeleton className=" w-1/4 mb-4" />
-                    </>
-
-                )}
             </div>
 
         </div>

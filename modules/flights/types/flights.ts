@@ -290,3 +290,108 @@ export type FlightRecentSearchItem = {
 
 
 export type FlightSortFactorType =  "LowestPrice" | "HighestPrice" | "Time";
+
+type Airport = {
+    name?: string;
+    code?: string;
+    terminalId?: string;
+    city: {
+      name?: string;
+      code?: string;
+    };
+    country: {
+      name?: string;
+      code?: string;
+    },
+    latitude?: string;
+    longitude?: string;
+}
+
+type FlightRouteItemType = {
+  flightType: "System" | "Charter";
+  flightNumber?: string;
+  departureTime: string;
+  arrivalTime?: string;
+  adultPrice:number;
+  childPrice:number;
+  infantPrice:number;
+  maxAllowedBaggage:number;
+  capacity:number;
+  isForeign: boolean;
+  manufacturer?: string;
+  description?: string;
+  cabinClass?: {
+    code?: string;
+    type?: string;
+    name?: string;
+  },
+  departureAirport: Airport;
+  arrivalAirport?: Airport;
+  airCraft?: {
+    code?: string;
+    name?: string;
+    manufacturer?: string;
+  };
+  airline?: {
+    code?: string;
+    name?: string;
+    picture?: {
+      path?: string;
+      altAttribute?: string;
+      titleAttribute?: string;
+    };
+  };
+  //refundRule: null,
+  pnrCode?: string;
+  id: number;
+
+}
+export interface FlightReserveItemType {
+  username?: string;
+  tripType: "OneWay" | "Return" | "MultiCity";
+  departureTime: string;
+  arrivalTime?: string;
+  adultCount: number;
+  childCount: number;
+  infantCount: number;
+  reference?: string;
+  creationTime: string;
+  adultTotalPrice: number;
+  childTotalPrice: number;
+  infantTotalPrice: number;
+  supplierType: "Charter724" | "HiHoliday" | "Itours";
+  status: "Undefined" | "Registered" | "Pending" | "Issued" | "Canceled" | "WebServiceCancel" | "PaymentSuccessful" | "WebServiceUnsuccessful" | "PriceChange" | "Unavailable" | "Refunded" | "Voided" | "InProgress" | "PaidBack" | "RefundInProgress" | "Changed" | "OnCredit" | "ContactProvider" | "UnConfirmed";
+  // "terminal": {
+  //     "name": null,
+  //     "id": "00000000-0000-0000-0000-000000000000"
+  // },
+  reserver: {
+    firstName?: string;
+    lastName?: string;
+    phoneNumber?: string;
+    email?: string;
+    userName?: string;
+    gender: boolean;
+    userId?: number;
+  },
+  departureFlight: FlightRouteItemType;
+  returnFlight?: FlightRouteItemType;
+  passengers: {
+    irstName?: string;
+    lastName?: string;
+    persianFirstName?: string;
+    persianLastName?: string;
+    gender:boolean;
+    passengerType:"ADT" | "CHD" | "INF";
+    nationalId?: string;
+    birthDate?: string;
+    nationality?: string;
+    passportNumber?: string;
+    passportExpireDate?: string;
+    departureTicketNumber?: string;
+    returnTicketNumber?: string;
+    id: number;
+  }[];
+id: number;
+
+}
